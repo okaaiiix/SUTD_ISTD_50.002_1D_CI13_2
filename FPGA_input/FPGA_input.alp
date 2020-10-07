@@ -4,7 +4,7 @@
     <src top="true">au_top.luc</src>
     <component>reset_conditioner.luc</component>
     <src>full_adder.luc</src>
-    <constraint>custom.xdc</constraint>
     <constraint>custom.acf</constraint>
+    <constraint>custom.xdc</constraint>
   </files>
 </project>
