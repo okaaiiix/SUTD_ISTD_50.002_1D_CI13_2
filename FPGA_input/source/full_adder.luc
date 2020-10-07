@@ -8,13 +8,14 @@ module full_adder (
 	output cout,
  output checker,
   ) {
-sig i, j, k, cout_connector, s_connector; // connector
+sig and1, and2, and3, xor_connector, cout_connector, s_connector; // connector
 always {
-	s_connector = x ^ y ^ cin;
-	i = x & y;
-	j = x & cin;
-	k = y & cin;
-	cout_connector = i | j | k;
+	xor_connector = x ^ y ;
+ s_connector = xor_connector ^ cin;
+	and1 = x & y;
+	and2 = x & cin;
+	and3 = y & cin;
+	cout_connector = and1 | and2 | and3;
  cout = cout_connector;
  s = s_connector;
     if (cout_connector==cout_check && s_connector==s_check) {
