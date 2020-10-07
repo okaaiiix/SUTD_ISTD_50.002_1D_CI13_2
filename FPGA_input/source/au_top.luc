@@ -38,12 +38,13 @@ module au_top (
     fulladder.y = io_dip[0][1];
     fulladder.cin = io_dip[0][2];
     
-    customout[0] = io_dip[0][0];
-    customout[1] = io_dip[0][1];
-    customout[2] = io_dip[0][2];
+    customout[0] = io_dip[0][0]; // C2 == x
+    customout[1] = io_dip[0][1]; // C3 == y
+    customout[2] = io_dip[0][2]; // C4 == cin
     
-    fulladder.s_check = customin[0];
-    fulladder.cout_check = customin[1];
+    
+    fulladder.s_check = customin[0]; // s_check == C49
+    fulladder.cout_check = customin[1]; // cout_check == C48
     
     io_led[2][2] = fulladder.checker;
     io_led[2][1] = fulladder.s;
