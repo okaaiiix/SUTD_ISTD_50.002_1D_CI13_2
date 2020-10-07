@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/Users/thekn/OneDrive/Documents/alchitry/FPGA_input/work/vivado/FPGA_input/FPGA_input.runs/impl_1'
+HD_PWD='C:/root/SUTD/Term 4/50.002/SUTD_ISTD_50.002_1D_CI13_2/FPGA_input/work/vivado/FPGA_input/FPGA_input.runs/impl_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

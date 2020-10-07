@@ -5,24 +5,38 @@
 */
 
 module full_adder_1 (
+    input s_check,
+    input cout_check,
     input x,
     input y,
     input cin,
     output reg s,
-    output reg cout
+    output reg cout,
+    output reg checker
   );
   
   
   
-  reg i;
-  reg j;
-  reg k;
+  reg and1;
+  reg and2;
+  reg and3;
+  reg xor_connector;
+  reg cout_connector;
+  reg s_connector;
   
   always @* begin
-    s = x ^ y ^ cin;
-    i = x & y;
-    j = x & cin;
-    k = y & cin;
-    cout = i | j | k;
+    xor_connector = x ^ y;
+    s_connector = xor_connector ^ cin;
+    and1 = x & y;
+    and2 = x & cin;
+    and3 = y & cin;
+    cout_connector = and1 | and2 | and3;
+    cout = cout_connector;
+    s = s_connector;
+    if (cout_connector == cout_check && s_connector == s_check) begin
+      checker = 1'h1;
+    end else begin
+      checker = 1'h0;
+    end
   end
 endmodule

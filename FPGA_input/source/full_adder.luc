@@ -6,7 +6,7 @@ module full_adder (
 	input cin,
 	output s,
 	output cout,
- output checker,
+ output checker
   ) {
 sig and1, and2, and3, xor_connector, cout_connector, s_connector; // connector
 always {
