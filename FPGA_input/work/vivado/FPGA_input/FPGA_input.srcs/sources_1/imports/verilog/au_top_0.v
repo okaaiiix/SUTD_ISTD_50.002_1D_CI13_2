@@ -42,6 +42,8 @@ module au_top_0 (
     .value(M_slowclock_value)
   );
   
+  reg [7:0] M_register_1_d, M_register_1_q = 1'h0;
+  
   
   localparam STATE0_state = 3'd0;
   localparam STATE1_state = 3'd1;
@@ -78,6 +80,9 @@ module au_top_0 (
         customout[0+0-:1] = x;
         customout[1+0-:1] = y;
         customout[2+0-:1] = cin;
+        io_led[0+2+0-:1] = x;
+        io_led[0+3+0-:1] = y;
+        io_led[0+4+0-:1] = cin;
         io_led[8+1+0-:1] = s_check;
         io_led[8+0+0-:1] = cout_check;
         io_led[16+1+0-:1] = 1'h0;
@@ -96,6 +101,9 @@ module au_top_0 (
         customout[0+0-:1] = x;
         customout[1+0-:1] = y;
         customout[2+0-:1] = cin;
+        io_led[0+2+0-:1] = x;
+        io_led[0+3+0-:1] = y;
+        io_led[0+4+0-:1] = cin;
         io_led[8+1+0-:1] = s_check;
         io_led[8+0+0-:1] = cout_check;
         io_led[16+1+0-:1] = 1'h1;
@@ -111,6 +119,9 @@ module au_top_0 (
         x = 1'h0;
         y = 1'h1;
         cin = 1'h0;
+        io_led[0+2+0-:1] = x;
+        io_led[0+3+0-:1] = y;
+        io_led[0+4+0-:1] = cin;
         customout[0+0-:1] = x;
         customout[1+0-:1] = y;
         customout[2+0-:1] = cin;
@@ -129,6 +140,9 @@ module au_top_0 (
         x = 1'h0;
         y = 1'h1;
         cin = 1'h1;
+        io_led[0+2+0-:1] = x;
+        io_led[0+3+0-:1] = y;
+        io_led[0+4+0-:1] = cin;
         customout[0+0-:1] = x;
         customout[1+0-:1] = y;
         customout[2+0-:1] = cin;
@@ -147,6 +161,9 @@ module au_top_0 (
         x = 1'h1;
         y = 1'h0;
         cin = 1'h0;
+        io_led[0+2+0-:1] = x;
+        io_led[0+3+0-:1] = y;
+        io_led[0+4+0-:1] = cin;
         customout[0+0-:1] = x;
         customout[1+0-:1] = y;
         customout[2+0-:1] = cin;
@@ -165,6 +182,9 @@ module au_top_0 (
         x = 1'h1;
         y = 1'h0;
         cin = 1'h1;
+        io_led[0+2+0-:1] = x;
+        io_led[0+3+0-:1] = y;
+        io_led[0+4+0-:1] = cin;
         customout[0+0-:1] = x;
         customout[1+0-:1] = y;
         customout[2+0-:1] = cin;
@@ -181,8 +201,11 @@ module au_top_0 (
       end
       STATE6_state: begin
         x = 1'h1;
-        y = 1'h0;
-        cin = 1'h1;
+        y = 1'h1;
+        cin = 1'h0;
+        io_led[0+2+0-:1] = x;
+        io_led[0+3+0-:1] = y;
+        io_led[0+4+0-:1] = cin;
         customout[0+0-:1] = x;
         customout[1+0-:1] = y;
         customout[2+0-:1] = cin;
@@ -197,11 +220,45 @@ module au_top_0 (
         end
         M_state_d = STATE7_state;
       end
+      STATE7_state: begin
+        x = 1'h1;
+        y = 1'h1;
+        cin = 1'h1;
+        io_led[0+2+0-:1] = x;
+        io_led[0+3+0-:1] = y;
+        io_led[0+4+0-:1] = cin;
+        customout[0+0-:1] = x;
+        customout[1+0-:1] = y;
+        customout[2+0-:1] = cin;
+        io_led[8+1+0-:1] = s_check;
+        io_led[8+0+0-:1] = cout_check;
+        io_led[16+1+0-:1] = 1'h1;
+        io_led[16+0+0-:1] = 1'h1;
+        if (s_check == 1'h1 && cout_check == 1'h1) begin
+          io_led[0+0+0-:1] = 1'h1;
+        end else begin
+          io_led[0+0+0-:1] = 1'h0;
+        end
+        M_state_d = STATE0_state;
+      end
     endcase
   end
   
   always @(posedge M_slowclock_value) begin
-    M_state_q <= M_state_d;
+    if (rst == 1'b1) begin
+      M_state_q <= 1'h0;
+    end else begin
+      M_state_q <= M_state_d;
+    end
+  end
+  
+  
+  always @(posedge clk) begin
+    if (rst == 1'b1) begin
+      M_register_1_q <= 1'h0;
+    end else begin
+      M_register_1_q <= M_register_1_d;
+    end
   end
   
 endmodule

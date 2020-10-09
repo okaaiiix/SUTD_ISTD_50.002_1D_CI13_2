@@ -21,8 +21,8 @@ module au_top (
   }
   
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  
-  fsm state(.clk(slowclock.value)) = {STATE0, STATE1, STATE2, STATE3, STATE4, STATE5, STATE6, STATE7};
+  dff register_1[8](#INIT(0), .clk(clk), .rst(rst));
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0, STATE1, STATE2, STATE3, STATE4, STATE5, STATE6, STATE7};
   
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
@@ -60,6 +60,9 @@ module au_top (
     customout[0] = 0;
     customout[1] = 0;
     customout[2] = 0;
+    
+
+    
     case (state.q) {
       state.STATE0:
         x = 0;
@@ -69,6 +72,10 @@ module au_top (
         customout[0] = x;
         customout[1] = y;
         customout[2] = cin;
+        
+        io_led[0][2] = x;
+        io_led[0][3] = y;
+        io_led[0][4] = cin;
         
         io_led[1][1] = s_check;
         io_led[1][0] = cout_check;
@@ -91,6 +98,10 @@ module au_top (
         customout[1] = y;
         customout[2] = cin;
         
+        io_led[0][2] = x;
+        io_led[0][3] = y;
+        io_led[0][4] = cin;
+        
         io_led[1][1] = s_check;
         io_led[1][0] = cout_check;
         
@@ -107,6 +118,10 @@ module au_top (
         x = 0;
         y = 1;
         cin = 0;
+        
+        io_led[0][2] = x;
+        io_led[0][3] = y;
+        io_led[0][4] = cin; 
         
         customout[0] = x;
         customout[1] = y;
@@ -129,6 +144,10 @@ module au_top (
         y = 1;
         cin = 1;
         
+        io_led[0][2] = x;
+        io_led[0][3] = y;
+        io_led[0][4] = cin;
+        
         customout[0] = x;
         customout[1] = y;
         customout[2] = cin;
@@ -149,6 +168,10 @@ module au_top (
         x = 1;
         y = 0;
         cin = 0;
+        
+        io_led[0][2] = x;
+        io_led[0][3] = y;
+        io_led[0][4] = cin;
         
         customout[0] = x;
         customout[1] = y;
@@ -171,6 +194,10 @@ module au_top (
         y = 0;
         cin = 1;
         
+        io_led[0][2] = x;
+        io_led[0][3] = y;
+        io_led[0][4] = cin;
+        
         customout[0] = x;
         customout[1] = y;
         customout[2] = cin;
@@ -189,8 +216,12 @@ module au_top (
         
       state.STATE6:
         x = 1;
-        y = 0;
-        cin = 1;
+        y = 1;
+        cin = 0;
+        
+        io_led[0][2] = x;
+        io_led[0][3] = y;
+        io_led[0][4] = cin;
         
         customout[0] = x;
         customout[1] = y;
@@ -207,6 +238,31 @@ module au_top (
         }
         else {io_led[0][0] = 0;}
         state.d = state.STATE7;
+        
+      state.STATE7:
+        x = 1;
+        y = 1;
+        cin = 1;
+        
+        io_led[0][2] = x;
+        io_led[0][3] = y;
+        io_led[0][4] = cin;
+        
+        customout[0] = x;
+        customout[1] = y;
+        customout[2] = cin;
+        
+        io_led[1][1] = s_check;
+        io_led[1][0] = cout_check;
+        
+        io_led[2][1] = 1;
+        io_led[2][0] = 1;
+        
+        if (s_check == 1 && cout_check == 1) {
+          io_led[0][0] = 1;
+        }
+        else {io_led[0][0] = 0;}
+        state.d = state.STATE0;
     }
   }
 }
