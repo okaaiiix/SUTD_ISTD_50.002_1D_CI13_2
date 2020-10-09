@@ -13,7 +13,6 @@ module au_top_0 (
     output reg [23:0] io_led,
     output reg [7:0] io_seg,
     output reg [3:0] io_sel,
-    input [4:0] io_button,
     input [23:0] io_dip,
     input [1:0] customin,
     output reg [2:0] customout
@@ -22,35 +21,42 @@ module au_top_0 (
   
   
   reg rst;
-  
-  wire [1-1:0] M_fulladder_s;
-  wire [1-1:0] M_fulladder_cout;
-  wire [1-1:0] M_fulladder_checker;
-  reg [1-1:0] M_fulladder_s_check;
-  reg [1-1:0] M_fulladder_cout_check;
-  reg [1-1:0] M_fulladder_x;
-  reg [1-1:0] M_fulladder_y;
-  reg [1-1:0] M_fulladder_cin;
-  full_adder_1 fulladder (
-    .s_check(M_fulladder_s_check),
-    .cout_check(M_fulladder_cout_check),
-    .x(M_fulladder_x),
-    .y(M_fulladder_y),
-    .cin(M_fulladder_cin),
-    .s(M_fulladder_s),
-    .cout(M_fulladder_cout),
-    .checker(M_fulladder_checker)
-  );
+  reg x;
+  reg y;
+  reg cin;
+  reg s_check;
+  reg cout_check;
   
   wire [1-1:0] M_reset_cond_out;
   reg [1-1:0] M_reset_cond_in;
-  reset_conditioner_2 reset_cond (
+  reset_conditioner_1 reset_cond (
     .clk(clk),
     .in(M_reset_cond_in),
     .out(M_reset_cond_out)
   );
   
+  wire [1-1:0] M_slowclock_value;
+  counter_2 slowclock (
+    .clk(clk),
+    .rst(rst),
+    .value(M_slowclock_value)
+  );
+  
+  
+  localparam STATE0_state = 3'd0;
+  localparam STATE1_state = 3'd1;
+  localparam STATE2_state = 3'd2;
+  localparam STATE3_state = 3'd3;
+  localparam STATE4_state = 3'd4;
+  localparam STATE5_state = 3'd5;
+  localparam STATE6_state = 3'd6;
+  localparam STATE7_state = 3'd7;
+  
+  reg [2:0] M_state_d, M_state_q = STATE0_state;
+  
   always @* begin
+    M_state_d = M_state_q;
+    
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out;
     usb_tx = usb_rx;
@@ -58,18 +64,144 @@ module au_top_0 (
     io_led = 24'h000000;
     io_seg = 8'hff;
     io_sel = 4'hf;
-    M_fulladder_x = io_dip[0+0+0-:1];
-    M_fulladder_y = io_dip[0+1+0-:1];
-    M_fulladder_cin = io_dip[0+2+0-:1];
-    customout[0+0-:1] = io_dip[0+0+0-:1];
-    customout[1+0-:1] = io_dip[0+1+0-:1];
-    customout[2+0-:1] = io_dip[0+2+0-:1];
-    M_fulladder_s_check = customin[0+0-:1];
-    M_fulladder_cout_check = customin[1+0-:1];
-    io_led[0+0+0-:1] = M_fulladder_checker;
-    io_led[8+1+0-:1] = customin[0+0-:1];
-    io_led[8+0+0-:1] = customin[1+0-:1];
-    io_led[16+1+0-:1] = M_fulladder_s;
-    io_led[16+0+0-:1] = M_fulladder_cout;
+    s_check = customin[0+0-:1];
+    cout_check = customin[1+0-:1];
+    customout[0+0-:1] = 1'h0;
+    customout[1+0-:1] = 1'h0;
+    customout[2+0-:1] = 1'h0;
+    
+    case (M_state_q)
+      STATE0_state: begin
+        x = 1'h0;
+        y = 1'h0;
+        cin = 1'h0;
+        customout[0+0-:1] = x;
+        customout[1+0-:1] = y;
+        customout[2+0-:1] = cin;
+        io_led[8+1+0-:1] = s_check;
+        io_led[8+0+0-:1] = cout_check;
+        io_led[16+1+0-:1] = 1'h0;
+        io_led[16+0+0-:1] = 1'h0;
+        if (s_check == 1'h0 && cout_check == 1'h0) begin
+          io_led[0+0+0-:1] = 1'h1;
+        end else begin
+          io_led[0+0+0-:1] = 1'h0;
+        end
+        M_state_d = STATE1_state;
+      end
+      STATE1_state: begin
+        x = 1'h0;
+        y = 1'h0;
+        cin = 1'h1;
+        customout[0+0-:1] = x;
+        customout[1+0-:1] = y;
+        customout[2+0-:1] = cin;
+        io_led[8+1+0-:1] = s_check;
+        io_led[8+0+0-:1] = cout_check;
+        io_led[16+1+0-:1] = 1'h1;
+        io_led[16+0+0-:1] = 1'h0;
+        if (s_check == 1'h1 && cout_check == 1'h0) begin
+          io_led[0+0+0-:1] = 1'h1;
+        end else begin
+          io_led[0+0+0-:1] = 1'h0;
+        end
+        M_state_d = STATE2_state;
+      end
+      STATE2_state: begin
+        x = 1'h0;
+        y = 1'h1;
+        cin = 1'h0;
+        customout[0+0-:1] = x;
+        customout[1+0-:1] = y;
+        customout[2+0-:1] = cin;
+        io_led[8+1+0-:1] = s_check;
+        io_led[8+0+0-:1] = cout_check;
+        io_led[16+1+0-:1] = 1'h1;
+        io_led[16+0+0-:1] = 1'h0;
+        if (s_check == 1'h1 && cout_check == 1'h0) begin
+          io_led[0+0+0-:1] = 1'h1;
+        end else begin
+          io_led[0+0+0-:1] = 1'h0;
+        end
+        M_state_d = STATE3_state;
+      end
+      STATE3_state: begin
+        x = 1'h0;
+        y = 1'h1;
+        cin = 1'h1;
+        customout[0+0-:1] = x;
+        customout[1+0-:1] = y;
+        customout[2+0-:1] = cin;
+        io_led[8+1+0-:1] = s_check;
+        io_led[8+0+0-:1] = cout_check;
+        io_led[16+1+0-:1] = 1'h0;
+        io_led[16+0+0-:1] = 1'h1;
+        if (s_check == 1'h0 && cout_check == 1'h1) begin
+          io_led[0+0+0-:1] = 1'h1;
+        end else begin
+          io_led[0+0+0-:1] = 1'h0;
+        end
+        M_state_d = STATE4_state;
+      end
+      STATE4_state: begin
+        x = 1'h1;
+        y = 1'h0;
+        cin = 1'h0;
+        customout[0+0-:1] = x;
+        customout[1+0-:1] = y;
+        customout[2+0-:1] = cin;
+        io_led[8+1+0-:1] = s_check;
+        io_led[8+0+0-:1] = cout_check;
+        io_led[16+1+0-:1] = 1'h1;
+        io_led[16+0+0-:1] = 1'h0;
+        if (s_check == 1'h1 && cout_check == 1'h0) begin
+          io_led[0+0+0-:1] = 1'h1;
+        end else begin
+          io_led[0+0+0-:1] = 1'h0;
+        end
+        M_state_d = STATE5_state;
+      end
+      STATE5_state: begin
+        x = 1'h1;
+        y = 1'h0;
+        cin = 1'h1;
+        customout[0+0-:1] = x;
+        customout[1+0-:1] = y;
+        customout[2+0-:1] = cin;
+        io_led[8+1+0-:1] = s_check;
+        io_led[8+0+0-:1] = cout_check;
+        io_led[16+1+0-:1] = 1'h0;
+        io_led[16+0+0-:1] = 1'h1;
+        if (s_check == 1'h0 && cout_check == 1'h1) begin
+          io_led[0+0+0-:1] = 1'h1;
+        end else begin
+          io_led[0+0+0-:1] = 1'h0;
+        end
+        M_state_d = STATE6_state;
+      end
+      STATE6_state: begin
+        x = 1'h1;
+        y = 1'h0;
+        cin = 1'h1;
+        customout[0+0-:1] = x;
+        customout[1+0-:1] = y;
+        customout[2+0-:1] = cin;
+        io_led[8+1+0-:1] = s_check;
+        io_led[8+0+0-:1] = cout_check;
+        io_led[16+1+0-:1] = 1'h0;
+        io_led[16+0+0-:1] = 1'h1;
+        if (s_check == 1'h0 && cout_check == 1'h1) begin
+          io_led[0+0+0-:1] = 1'h1;
+        end else begin
+          io_led[0+0+0-:1] = 1'h0;
+        end
+        M_state_d = STATE7_state;
+      end
+    endcase
   end
+  
+  always @(posedge M_slowclock_value) begin
+    M_state_q <= M_state_d;
+  end
+  
 endmodule

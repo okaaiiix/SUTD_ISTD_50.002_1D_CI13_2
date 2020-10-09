@@ -66,11 +66,6 @@ pin io_dip[2][5] A37 pulldown;
 pin io_dip[2][6] A39 pulldown;
 pin io_dip[2][7] A40 pulldown;
 
-pin io_button[0] B28 pulldown;
-pin io_button[1] B27 pulldown;
-pin io_button[2] B23 pulldown;
-pin io_button[3] B24 pulldown;
-pin io_button[4] C49 pulldown;
 
 pin io_sel[0] A9;
 pin io_sel[1] A8;
@@ -90,4 +85,4 @@ pin customin[0] C49;
 pin customin[1] C48;
 pin customout[0] C2;
 pin customout[1] C3;
-pin customout[2] C4;
+pin customout[2] C5;
