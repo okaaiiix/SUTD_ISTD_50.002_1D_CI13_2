@@ -13,7 +13,7 @@ module au_top (
   ) {
   
   sig rst, x , y , cin, s_check, cout_check;                  // reset signal
-  //full_adder fulladder;
+  full_adder fulladder;
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
@@ -21,8 +21,7 @@ module au_top (
   }
   
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  dff register_1[8](#INIT(0), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0, STATE1, STATE2, STATE3, STATE4, STATE5, STATE6, STATE7};
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEM, STATE1, STATE2, STATE3, STATE4, STATE5, STATE6, STATE7};
   
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
@@ -54,6 +53,12 @@ module au_top (
     io_led[2][1] = fulladder.s; // Software S
     io_led[2][0] = fulladder.cout; // Software Cout
     */
+    
+    fulladder.x = 0;
+    fulladder.y = 0;
+    fulladder.cin = 0;
+    fulladder.s_check = 0;
+    fulladder.cout_check = 0;
 
     s_check = customin[0];
     cout_check = customin[1];
@@ -87,7 +92,35 @@ module au_top (
           io_led[0][0] = 1;
         }
         else {io_led[0][0] = 0;}
-        state.d = state.STATE1;
+        if (io_dip[1][0] == 0) {
+          state.d = state.STATE1;
+        } else {
+          state.d = state.STATEM;
+        }
+        
+      state.STATEM:
+        fulladder.x = io_dip[0][0];
+        fulladder.y = io_dip[0][1];
+        fulladder.cin = io_dip[0][2];
+    
+        customout[0] = io_dip[0][0]; // C2 == x
+        customout[1] = io_dip[0][1]; // C3 == y
+        customout[2] = io_dip[0][2]; // C5 == cin
+    
+        fulladder.s_check = customin[0]; // s_check == C49
+        fulladder.cout_check = customin[1]; // cout_check == C48
+    
+        io_led[0][0] = fulladder.checker; //checker LED
+        io_led[1][1] = customin[0];  // Hardware S C49
+        io_led[1][0] = customin[1]; // Hardware Cout
+        io_led[2][1] = fulladder.s; // Software S
+        io_led[2][0] = fulladder.cout; // Software Cout
+        
+        if (io_dip[1][0] == 0) {
+          state.d = state.STATE1;
+        } else {
+          state.d = state.STATEM;
+        }
         
       state.STATE1:
         x = 0;
