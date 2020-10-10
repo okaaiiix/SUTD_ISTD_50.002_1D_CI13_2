@@ -27,34 +27,52 @@ module au_top_0 (
   reg s_check;
   reg cout_check;
   
+  wire [1-1:0] M_fulladder_s;
+  wire [1-1:0] M_fulladder_cout;
+  wire [1-1:0] M_fulladder_checker;
+  reg [1-1:0] M_fulladder_s_check;
+  reg [1-1:0] M_fulladder_cout_check;
+  reg [1-1:0] M_fulladder_x;
+  reg [1-1:0] M_fulladder_y;
+  reg [1-1:0] M_fulladder_cin;
+  full_adder_1 fulladder (
+    .s_check(M_fulladder_s_check),
+    .cout_check(M_fulladder_cout_check),
+    .x(M_fulladder_x),
+    .y(M_fulladder_y),
+    .cin(M_fulladder_cin),
+    .s(M_fulladder_s),
+    .cout(M_fulladder_cout),
+    .checker(M_fulladder_checker)
+  );
+  
   wire [1-1:0] M_reset_cond_out;
   reg [1-1:0] M_reset_cond_in;
-  reset_conditioner_1 reset_cond (
+  reset_conditioner_2 reset_cond (
     .clk(clk),
     .in(M_reset_cond_in),
     .out(M_reset_cond_out)
   );
   
   wire [1-1:0] M_slowclock_value;
-  counter_2 slowclock (
+  counter_3 slowclock (
     .clk(clk),
     .rst(rst),
     .value(M_slowclock_value)
   );
   
-  reg [7:0] M_register_1_d, M_register_1_q = 1'h0;
   
+  localparam STATE0_state = 4'd0;
+  localparam STATEM_state = 4'd1;
+  localparam STATE1_state = 4'd2;
+  localparam STATE2_state = 4'd3;
+  localparam STATE3_state = 4'd4;
+  localparam STATE4_state = 4'd5;
+  localparam STATE5_state = 4'd6;
+  localparam STATE6_state = 4'd7;
+  localparam STATE7_state = 4'd8;
   
-  localparam STATE0_state = 3'd0;
-  localparam STATE1_state = 3'd1;
-  localparam STATE2_state = 3'd2;
-  localparam STATE3_state = 3'd3;
-  localparam STATE4_state = 3'd4;
-  localparam STATE5_state = 3'd5;
-  localparam STATE6_state = 3'd6;
-  localparam STATE7_state = 3'd7;
-  
-  reg [2:0] M_state_d, M_state_q = STATE0_state;
+  reg [3:0] M_state_d, M_state_q = STATE0_state;
   
   always @* begin
     M_state_d = M_state_q;
@@ -66,6 +84,11 @@ module au_top_0 (
     io_led = 24'h000000;
     io_seg = 8'hff;
     io_sel = 4'hf;
+    M_fulladder_x = 1'h0;
+    M_fulladder_y = 1'h0;
+    M_fulladder_cin = 1'h0;
+    M_fulladder_s_check = 1'h0;
+    M_fulladder_cout_check = 1'h0;
     s_check = customin[0+0-:1];
     cout_check = customin[1+0-:1];
     customout[0+0-:1] = 1'h0;
@@ -92,7 +115,31 @@ module au_top_0 (
         end else begin
           io_led[0+0+0-:1] = 1'h0;
         end
-        M_state_d = STATE1_state;
+        if (io_dip[8+0+0-:1] == 1'h0) begin
+          M_state_d = STATE1_state;
+        end else begin
+          M_state_d = STATEM_state;
+        end
+      end
+      STATEM_state: begin
+        M_fulladder_x = io_dip[0+0+0-:1];
+        M_fulladder_y = io_dip[0+1+0-:1];
+        M_fulladder_cin = io_dip[0+2+0-:1];
+        customout[0+0-:1] = io_dip[0+0+0-:1];
+        customout[1+0-:1] = io_dip[0+1+0-:1];
+        customout[2+0-:1] = io_dip[0+2+0-:1];
+        M_fulladder_s_check = customin[0+0-:1];
+        M_fulladder_cout_check = customin[1+0-:1];
+        io_led[0+0+0-:1] = M_fulladder_checker;
+        io_led[8+1+0-:1] = customin[0+0-:1];
+        io_led[8+0+0-:1] = customin[1+0-:1];
+        io_led[16+1+0-:1] = M_fulladder_s;
+        io_led[16+0+0-:1] = M_fulladder_cout;
+        if (io_dip[8+0+0-:1] == 1'h0) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = STATEM_state;
+        end
       end
       STATE1_state: begin
         x = 1'h0;
@@ -249,15 +296,6 @@ module au_top_0 (
       M_state_q <= 1'h0;
     end else begin
       M_state_q <= M_state_d;
-    end
-  end
-  
-  
-  always @(posedge clk) begin
-    if (rst == 1'b1) begin
-      M_register_1_q <= 1'h0;
-    end else begin
-      M_register_1_q <= M_register_1_d;
     end
   end
   

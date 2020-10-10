@@ -117,7 +117,7 @@ module au_top (
         io_led[2][0] = fulladder.cout; // Software Cout
         
         if (io_dip[1][0] == 0) {
-          state.d = state.STATE1;
+          state.d = state.STATE0;
         } else {
           state.d = state.STATEM;
         }

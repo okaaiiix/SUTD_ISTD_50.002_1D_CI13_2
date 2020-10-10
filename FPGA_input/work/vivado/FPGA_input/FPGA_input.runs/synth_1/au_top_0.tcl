@@ -84,8 +84,9 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
-  {C:/root/SUTD/Term 4/50.002/SUTD_ISTD_50.002_1D_CI13_2/FPGA_input/work/vivado/FPGA_input/FPGA_input.srcs/sources_1/imports/verilog/counter_2.v}
-  {C:/root/SUTD/Term 4/50.002/SUTD_ISTD_50.002_1D_CI13_2/FPGA_input/work/vivado/FPGA_input/FPGA_input.srcs/sources_1/imports/verilog/reset_conditioner_1.v}
+  {C:/root/SUTD/Term 4/50.002/SUTD_ISTD_50.002_1D_CI13_2/FPGA_input/work/vivado/FPGA_input/FPGA_input.srcs/sources_1/imports/verilog/counter_3.v}
+  {C:/root/SUTD/Term 4/50.002/SUTD_ISTD_50.002_1D_CI13_2/FPGA_input/work/vivado/FPGA_input/FPGA_input.srcs/sources_1/imports/verilog/full_adder_1.v}
+  {C:/root/SUTD/Term 4/50.002/SUTD_ISTD_50.002_1D_CI13_2/FPGA_input/work/vivado/FPGA_input/FPGA_input.srcs/sources_1/imports/verilog/reset_conditioner_2.v}
   {C:/root/SUTD/Term 4/50.002/SUTD_ISTD_50.002_1D_CI13_2/FPGA_input/work/vivado/FPGA_input/FPGA_input.srcs/sources_1/imports/verilog/au_top_0.v}
 }
 OPTRACE "Adding files" END { }
