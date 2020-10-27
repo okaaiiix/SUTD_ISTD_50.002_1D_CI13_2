@@ -2,10 +2,11 @@ module comparator (
     input a[16],
     input b[16],
     input alufn[6],
-    output out
+    output out[16]
   ) {
 
   always {
-    out = 0;
+    out = 16b0;
+
   }
 }

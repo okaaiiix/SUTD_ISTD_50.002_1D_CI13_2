@@ -1,0 +1,10 @@
+Warnings in file C:\root\SUTD\Term 4\50.002\SUTD_ISTD_50.002_1D_CI13_2\ALU\source\au_top.luc:
+    Line 18, Column 2 : "adder" was never used
+    Line 11, Column 4 : "io_button" was never used
+    Line 15, Column 2 : "shifter" was never used
+    Line 16, Column 2 : "boolean" was never used
+    Line 17, Column 2 : "comparator" was never used
+Warnings in file C:\root\SUTD\Term 4\50.002\SUTD_ISTD_50.002_1D_CI13_2\ALU\source\comparator.luc:
+    Line 4, Column 4 : "alufn" was never used
+    Line 2, Column 4 : "a" was never used
+    Line 3, Column 4 : "b" was never used
