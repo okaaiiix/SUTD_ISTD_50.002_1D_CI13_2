@@ -1,12 +1,19 @@
 module comparator (
     input a[16],
     input b[16],
+    input n[16]
     input alufn[6],
     output out[16]
   ) {
 
   always {
     out = 16b0;
+    case(alufn){
+    default: out[0] = 0; 
+    b11011: out[0] = a[16];
+    b110101: out[0] = (n[16])^(b[16]);
+    b1101111: out[0] = a[16] | (n[16]^b[16]);
+    
 
   }
 }
