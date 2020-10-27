@@ -21,12 +21,25 @@ module au_top (
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
-  }
+  
   
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
   fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT};
+
+  dff inp_a[16];  // to store input of a
+  dff inp_b[16];  // to store input of b
+  
+    .rst(rst){
+      
+      counter ctr (#SIZE(5), #DIV(25));  //instantiate seven segment display
+      multi_seven_seg seg;
+    }
+  }
+  decoder num_to_seg (#WIDTH(3));
+  decoder num_to_digit (#WIDTH(2));
   
   always {
+
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset
     
@@ -57,23 +70,41 @@ module au_top (
     adder.a[15:0]=a[15:0];
     adder.b[15:0]=b[15:0];
     adder.alufn[5:0]=alufn[5:0];
+    seg.values = {8h0,8h0,8h0,8h0}; //initiate seven segment display
     
     case (state.q) {
       state.STATE0:
+      if (io_button[0] == 1) { //UP BUTTON TO CHANGE STATE
         state.d = state.STATEA;
+      }
         
       state.STATEA:
         a[15:0] = in[15:0];
+        io_led[1][7:0] = io_dip[1];      //indicate using led that input is being read
+        io_led[0][7:0] = io_dip[0];
+        input_a.d = c{io_dip[1][7:0], io_dip[0][7:0]}; //concatenate values from io_dip to input
+        if (io_button[2] == 1) {  //DOWN BUTTON TO CHANGE STATE
         state.d = state.STATEB;
+      } else if (io_button[3] ==1){  //LEFT BUTTON TO RESET
+          state.d = state.STATE0;
+      }
         
       state.STATEB:
         b[15:0] = in[15:0];
+        io_led[1][7:0] = io_dip[1];   
+        io_led[0][7:0] = io_dip[0];
+        input_b.d = c{io_dip[1][7:0], io_dip[0][7:0]};
+        if (io_button[1] == 1) {  //after center button is pressed, alu will be processed 
         state.d = state.STATEOUT;
+        } else if (io_button[3]==1){
+            state.d = state.STATE0
+        }
+
         
       state.STATEOUT:
         //code goes here
         
         state.d = state.STATE0;
     }
-  }
+    }
 }
