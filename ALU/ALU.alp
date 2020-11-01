@@ -3,8 +3,9 @@
   <files>
     <src>comparator.luc</src>
     <src>seven_seg.luc</src>
-    <component>counter.luc</component>
+    <src>alu.luc</src>
     <src>multi_seven_seg.luc</src>
+    <component>counter.luc</component>
     <src>shifter.luc</src>
     <component>reset_conditioner.luc</component>
     <src>boolean.luc</src>

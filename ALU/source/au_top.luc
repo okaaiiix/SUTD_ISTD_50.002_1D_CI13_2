@@ -30,18 +30,13 @@ module au_top (
       multi_seven_seg seg;
     }
   }
-  
-  decoder num_to_seg (#WIDTH(3));
-  decoder num_to_digit (#WIDTH(2));
-  
+
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
   fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT};
 
   dff inp_a[16];  // to store input of a
   dff inp_b[16];  // to store input of b
   
-
-
   
   always {
 
@@ -49,15 +44,22 @@ module au_top (
     rst = reset_cond.out;   // conditioned reset
     
     led = 8h00;             // turn LEDs off
-    io_led = 3x{{8h00}};    // turn LEDs off
-    io_seg = 8hff;          // turn segments off
-    io_sel = 4hf;           // select no digits
-
+    seg.char = ctr.value;
+     
+    seg.values = {8h0,8h0,8h0,8h0}; //initiate seven segment display
+     
+    io_seg = ~seg.seg;      // connect segments to the driver
+    io_sel = ~seg.sel;      // connect digit select to the driver
+     
     usb_tx = usb_rx;        // echo the serial data
     
-    in[7:0]=io_dip[0][7:0];
-    in[15:8]=io_dip[1][7:0];
-    alufn[5:0]=io_dip[2][5:0];
+    
+    io_led[2][5:0] = io_dip[2][5:0];  // show ALUFN on led
+ 
+    alu.a = 0;                        
+    alu.b = 0;
+    alu.alufn = 0;
+    
     
     a[15:0]=0;
     b[15:0]=0;
@@ -75,39 +77,53 @@ module au_top (
     adder.a[15:0]=a[15:0];
     adder.b[15:0]=b[15:0];
     adder.alufn[5:0]=alufn[5:0];
-    seg.values = {8h0,8h0,8h0,8h0}; //initiate seven segment display
+    
     
     case (state.q) {
       state.STATE0:
+      seg.values = {8h17,8h17,8h17,8h17};
       if (io_button[0] == 1) { //UP BUTTON TO CHANGE STATE
         state.d = state.STATEA;
       }
         
       state.STATEA:
-        a[15:0] = in[15:0];
-        io_led[1][7:0] = io_dip[1];      //indicate using led that input is being read
+        seg.values = {8h26,8h26,8h26,8h1}; //show ---A on seven_seg
+        io_led[1][7:0] = io_dip[1];      //read input using led 
         io_led[0][7:0] = io_dip[0];
         input_a.d = c{io_dip[1][7:0], io_dip[0][7:0]}; //concatenate values from io_dip to input
         if (io_button[2] == 1) {  //DOWN BUTTON TO CHANGE STATE
         state.d = state.STATEB;
-      } else if (io_button[3] ==1){  //LEFT BUTTON TO RESET
+      } else if (io_button[4] ==1){  //RIGHT BUTTON TO RESET
           state.d = state.STATE0;
       }
         
       state.STATEB:
-        b[15:0] = in[15:0];
+        seg.values = {8h26,8h26,8h26,8h2};  //show ---B on seven_seg
         io_led[1][7:0] = io_dip[1];   
         io_led[0][7:0] = io_dip[0];
         input_b.d = c{io_dip[1][7:0], io_dip[0][7:0]};
+        alu.alufn = io_dip[2][5:0];
         if (io_button[1] == 1) {  //after center button is pressed, alu will be processed 
         state.d = state.STATEOUT;
-        } else if (io_button[3]==1){
+        } else if (io_button[4]==1){
             state.d = state.STATE0
         }
 
         
       state.STATEOUT:
         //code goes here
+        alu.alufn = io_dip[2][5:0]; 
+        alu.a = input_a.d;
+        alu.b = input_b.d;
+        
+        seg.values = {8h26,8h16,8h15,8h14}; //show -OUt on seven_seg
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        
+        if (io_button[3] == 1) {
+          state.d = state.STATE0;
+          }
+        
         
         state.d = state.STATE0;
     }

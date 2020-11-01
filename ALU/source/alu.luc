@@ -1,0 +1,38 @@
+module alu (
+    input a[16],
+    input b[16],
+    input alufn[6],
+    output out[16]
+
+  ) {
+
+  .a(a) {
+    .b(b) {
+      .alufn(alufn[5:0]) {
+        adder adder16;
+        boolean bool;
+        comparator cmp;
+        shifter shift;
+        }        
+      }
+    }
+  
+  
+  always {    
+    out = 0;
+    
+    case(alufn[5:4]) {
+    //write output values of each unit
+      2b00:  
+        out = adder16.out;              
+      2b01:  
+        out = bool.boolean;       
+      2b10:  
+        out = shift.shifter;  
+      2b11:  
+        out = cmp.comparator;   
+
+      default: out = 0;  
+    }   
+  }
+}

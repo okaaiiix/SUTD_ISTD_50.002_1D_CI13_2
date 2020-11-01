@@ -1,10 +1,23 @@
-Warnings in file C:\root\SUTD\Term 4\50.002\SUTD_ISTD_50.002_1D_CI13_2\ALU\source\au_top.luc:
-    Line 18, Column 2 : "adder" was never used
-    Line 11, Column 4 : "io_button" was never used
-    Line 15, Column 2 : "shifter" was never used
-    Line 16, Column 2 : "boolean" was never used
-    Line 17, Column 2 : "comparator" was never used
-Warnings in file C:\root\SUTD\Term 4\50.002\SUTD_ISTD_50.002_1D_CI13_2\ALU\source\comparator.luc:
+Warnings in file C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\ALU\source\comparator.luc:
     Line 4, Column 4 : "alufn" was never used
     Line 2, Column 4 : "a" was never used
     Line 3, Column 4 : "b" was never used
+Errors in file C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\ALU\source\multi_seven_seg.luc:
+    Line 27, Column 10 : The name "digit_dec" could not be resolved
+    Line 20, Column 2 : The module "decoder" could not be found
+    Line 26, Column 4 : The name "digit_dec" could not be resolved
+Errors in file C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\ALU\source\au_top.luc:
+    Line 107, Column 8 : missing ';' at '}'
+    Line 15, Column 2 : "shifter" was never used
+    Line 16, Column 2 : "boolean" was never used
+    Line 17, Column 2 : "comparator" was never used
+    Line 18, Column 2 : "adder" was never used
+    Line 26, Column 41 : The input "clk" was already defined
+    Line 29, Column 2 : "inp_a" was never used
+    Line 30, Column 2 : "inp_b" was never used
+    Line 45, Column 8 : The signal "char" does not belong to the module type "multi_seven_seg"
+    Line 47, Column 17 : When assigning two arrays, their dimensions must match
+    Line 52, Column 4 : The name "result" could not be resolved
+    Line 54, Column 20 : The name "result" could not be resolved
+    Line 91, Column 8 : The name "input_a" could not be resolved
+    Line 102, Column 8 : The name "input_b" could not be resolved
