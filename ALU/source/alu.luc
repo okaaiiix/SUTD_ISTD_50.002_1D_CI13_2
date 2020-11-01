@@ -26,11 +26,11 @@ module alu (
       2b00:  
         out = adder16.out;              
       2b01:  
-        out = bool.boolean;       
+        out = bool.out;       
       2b10:  
-        out = shift.shifter;  
+        out = shift.out;  
       2b11:  
-        out = cmp.comparator;   
+        out = cmp.out;   
 
       default: out = 0;  
     }   
