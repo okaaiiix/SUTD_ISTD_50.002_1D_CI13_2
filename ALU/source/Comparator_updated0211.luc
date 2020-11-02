@@ -11,10 +11,11 @@ module comparator (
     case(alufn){
     default: out[0] = 0; 
     b110011: out[0] = z;
-    b110101: out[0] = n^v;
-    b110111: out[0] = z | n^v;
-    
+    b110101: out[0] = (n^v);
+    b110111: out[0] = z | (n^v);
     
 
+
   }
-}
+}}
+  
