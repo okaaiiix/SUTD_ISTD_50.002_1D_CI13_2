@@ -5,32 +5,41 @@ module alu (
     output out[16]
 
   ) {
+  adder adder;
+  shifter shifter;
+  boolean boolean;
+  comparator comparator;
+  
 
-  .a(a) {
-    .b(b) {
-      .alufn(alufn[5:0]) {
-        adder adder16;
-        boolean bool;
-        comparator cmp;
-        shifter shift;
-        }        
-      }
-    }
+  
+  
   
   
   always {    
     out = 0;
-    
+    adder.a = a;
+    adder.b=b;
+    adder.alufn=alufn;
+    shifter.a = a;
+    shifter.b=b;
+    shifter.alufn=alufn;
+    boolean.a = a;
+    boolean.b=b;
+    boolean.alufn=alufn;
+    comparator.n=adder.n;
+    comparator.v = adder.v;
+    comparator.z=adder.z;
+    comparator.alufn=alufn;
     case(alufn[5:4]) {
     //write output values of each unit
       2b00:  
-        out = adder16.out;              
+        out = adder.out;              
       2b01:  
-        out = bool.out;       
+        out = boolean.out;       
       2b10:  
-        out = shift.out;  
+        out = shifter.out;  
       2b11:  
-        out = cmp.out;   
+        out = comparator.out;   
 
       default: out = 0;  
     }   

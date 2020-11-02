@@ -11,12 +11,8 @@ module au_top (
     input io_button[5]
   ) {
   
-  sig rst,a[16],b[16],in[16],alufn[6];                  // reset signal
-  shifter shifter;
-  boolean boolean;
-  comparator comparator;
-  adder adder;
-  
+  sig rst,a[16],b[16],alufn[6];                  // reset signal
+  alu alu;
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
@@ -25,8 +21,6 @@ module au_top (
 
     
     .rst(rst){
-      
-      counter ctr (#SIZE(5), #DIV(25));  //instantiate seven segment display
       multi_seven_seg seg;
     }
   }
@@ -34,8 +28,6 @@ module au_top (
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
   fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT};
 
-  dff inp_a[16];  // to store input of a
-  dff inp_b[16];  // to store input of b
   
   
   always {
@@ -44,7 +36,6 @@ module au_top (
     rst = reset_cond.out;   // conditioned reset
     
     led = 8h00;             // turn LEDs off
-    seg.char = ctr.value;
      
     seg.values = {8h0,8h0,8h0,8h0}; //initiate seven segment display
      
@@ -55,10 +46,12 @@ module au_top (
     
     
     io_led[2][5:0] = io_dip[2][5:0];  // show ALUFN on led
- 
-    alu.a = 0;                        
-    alu.b = 0;
-    alu.alufn = 0;
+    a=0;
+    b=0;
+    alufn=0;
+    alu.a = a;                        
+    alu.b = b;
+    alu.alufn = alufn;
     
     
     case (state.q) {
@@ -72,7 +65,7 @@ module au_top (
         seg.values = {8h26,8h26,8h26,8h1}; //show ---A on seven_seg
         io_led[1][7:0] = io_dip[1];      //read input using led 
         io_led[0][7:0] = io_dip[0];
-        input_a.d = c{io_dip[1][7:0], io_dip[0][7:0]}; //concatenate values from io_dip to input
+        a = c{io_dip[1][7:0], io_dip[0][7:0]}; //concatenate values from io_dip to input
         if (io_button[2] == 1) {  //DOWN BUTTON TO CHANGE STATE
         state.d = state.STATEB;
       } else if (io_button[4] ==1){  //RIGHT BUTTON TO RESET
@@ -83,20 +76,20 @@ module au_top (
         seg.values = {8h26,8h26,8h26,8h2};  //show ---B on seven_seg
         io_led[1][7:0] = io_dip[1];   
         io_led[0][7:0] = io_dip[0];
-        input_b.d = c{io_dip[1][7:0], io_dip[0][7:0]};
+        b = c{io_dip[1][7:0], io_dip[0][7:0]};
         alu.alufn = io_dip[2][5:0];
         if (io_button[1] == 1) {  //after center button is pressed, alu will be processed 
         state.d = state.STATEOUT;
         } else if (io_button[4]==1){
-            state.d = state.STATE0
+            state.d = state.STATE0;
         }
 
         
       state.STATEOUT:
         //code goes here
         alu.alufn = io_dip[2][5:0]; //taking dip value as ALUFN 
-        alu.a = input_a.d; //reading input values
-        alu.b = input_b.d;
+        alu.a = a; //reading input values
+        alu.b = b;
         
         seg.values = {8h26,8h16,8h15,8h14}; //show -OUt on seven_seg
         io_led[1] = alu.out[15:8];       // write output on led
@@ -107,7 +100,6 @@ module au_top (
           }
         
         
-        state.d = state.STATE0;
     }
     }
 }
