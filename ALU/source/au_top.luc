@@ -61,24 +61,6 @@ module au_top (
     alu.alufn = 0;
     
     
-    a[15:0]=0;
-    b[15:0]=0;
-    alufn[5:0]=0;
-    
-    shifter.a[15:0]=a[15:0];
-    shifter.b[15:0]=b[15:0];
-    shifter.alufn[5:0]=alufn[5:0];
-    boolean.a[15:0]=a[15:0];
-    boolean.b[15:0]=b[15:0];
-    boolean.alufn[5:0]=alufn[5:0];
-    comparator.a[15:0]=a[15:0];
-    comparator.b[15:0]=b[15:0];
-    comparator.alufn[5:0]=alufn[5:0];
-    adder.a[15:0]=a[15:0];
-    adder.b[15:0]=b[15:0];
-    adder.alufn[5:0]=alufn[5:0];
-    
-    
     case (state.q) {
       state.STATE0:
       seg.values = {8h17,8h17,8h17,8h17};
