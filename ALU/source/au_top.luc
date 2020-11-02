@@ -112,8 +112,8 @@ module au_top (
         
       state.STATEOUT:
         //code goes here
-        alu.alufn = io_dip[2][5:0]; 
-        alu.a = input_a.d;
+        alu.alufn = io_dip[2][5:0]; //taking dip value as ALUFN 
+        alu.a = input_a.d; //reading input values
         alu.b = input_b.d;
         
         seg.values = {8h26,8h16,8h15,8h14}; //show -OUt on seven_seg
