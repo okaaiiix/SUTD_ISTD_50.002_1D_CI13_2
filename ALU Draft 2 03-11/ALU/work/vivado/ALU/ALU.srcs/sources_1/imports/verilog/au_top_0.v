@@ -44,7 +44,6 @@ module au_top_0 (
   );
   reg [15:0] M_inp_a_d, M_inp_a_q = 1'h0;
   reg [15:0] M_inp_b_d, M_inp_b_q = 1'h0;
-  reg [26:0] M_counter_d, M_counter_q = 1'h0;
   reg M_next_state_d, M_next_state_q = 1'h0;
   wire [7-1:0] M_seg_seg;
   wire [4-1:0] M_seg_sel;
@@ -154,20 +153,19 @@ module au_top_0 (
     endcase
   end
   
-  always @(posedge clk) begin
-    M_inp_a_q <= M_inp_a_d;
-    M_inp_b_q <= M_inp_b_d;
-    M_counter_q <= M_counter_d;
-    M_next_state_q <= M_next_state_d;
-  end
-  
-  
   always @(posedge M_slowclock_value) begin
     if (rst == 1'b1) begin
       M_state_q <= 1'h0;
     end else begin
       M_state_q <= M_state_d;
     end
+  end
+  
+  
+  always @(posedge clk) begin
+    M_inp_a_q <= M_inp_a_d;
+    M_inp_b_q <= M_inp_b_d;
+    M_next_state_q <= M_next_state_d;
   end
   
 endmodule

@@ -1,5 +1,5 @@
-set_property SRC_FILE_INFO {cfile:{C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/constraint/alchitry.xdc} rfile:../../../../../constraint/alchitry.xdc id:1} [current_design]
-set_property SRC_FILE_INFO {cfile:{C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/constraint/custom.xdc} rfile:../../../../../constraint/custom.xdc id:2} [current_design]
+set_property SRC_FILE_INFO {cfile:{C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU Draft 2 03-11/ALU/work/constraint/alchitry.xdc} rfile:../../../../../constraint/alchitry.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:{C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU Draft 2 03-11/ALU/work/constraint/custom.xdc} rfile:../../../../../constraint/custom.xdc id:2} [current_design]
 set_property src_info {type:XDC file:1 line:3 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN N14 [get_ports {clk}]
 set_property src_info {type:XDC file:1 line:5 export:INPUT save:INPUT read:READ} [current_design]
