@@ -1,0 +1,122 @@
+module au_top (
+    input clk,              // 100MHz clock
+    input rst_n,            // reset button (active low)
+    output led [8],         // 8 user controllable LEDs
+    input usb_rx,           // USB->Serial input
+    output usb_tx,           // USB->Serial output
+    output io_led [3][8],   // LEDs on IO Shield
+    output io_seg [8],      // 7-segment LEDs on IO Shield
+    output io_sel [4],      // Digit select on IO Shield
+    input io_dip [3][8],    // DIP switches on IO Shield
+    input io_button[5]
+  ) {
+  
+  sig rst,a[16],b[16],alufn[6];                  // reset signal
+  alu alu;
+  .clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+    dff inp_a[16];
+    dff inp_b[16];
+    dff counter[27];
+    dff next_state;
+    .rst(rst){
+      multi_seven_seg seg;
+      
+      
+    }
+  }
+
+  counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT};
+
+  
+  
+  always {
+
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out;   // conditioned reset
+    usb_tx = usb_rx;        // echo the serial data
+    led = 8h00;             // turn LEDs off
+     
+    seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display
+     
+    io_seg = ~seg.seg;      // connect segments to the driver
+    io_sel = ~seg.sel;      // connect digit select to the driver
+     
+    io_led[2][5:0] = io_dip[2][5:0];  // show ALUFN on led
+    a=0;
+    b=0;
+    alufn=0;
+    alu.a = a;                        
+    alu.b = b;
+    alu.alufn = alufn;
+    
+    case (state.q) {
+      state.STATE0:
+      seg.values = {4h2,4h2,4h2,4h2};
+      if (io_button[0] == 0) { //UP BUTTON TO CHANGE STATE //switches: io_dip[2][6] == 1 && io_dip[2][7] == 0
+        state.d = state.STATEA;
+      } else {
+        state.d = state.STATE0;
+        }
+        
+      state.STATEA:
+        seg.values = {4h0,4h0,4h0,4h0}; //show ---A on seven_seg
+        io_led[1][7:0] = io_dip[1];      //read input using led 
+        io_led[0][7:0] = io_dip[0];
+        inp_a.d = c{io_dip[1][7:0], io_dip[0][7:0]}; //concatenate values from io_dip to input
+        io_led[2][6] = 1;
+        io_led[2][7] = 0;
+        if (io_button[2] == 0) {  //DOWN BUTTON TO CHANGE STATE Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 1)
+        state.d = state.STATEB;
+      } else if (io_button[4] == 0) {  //RIGHT BUTTON TO RESET Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 0)
+          state.d = state.STATE0;
+      } else {
+          state.d = state.STATEA;
+          }
+        
+      state.STATEB:
+        seg.values = {4h1,4h1,4h1,4h1};  //show ---B on seven_seg
+        io_led[1][7:0] = io_dip[1];   
+        io_led[0][7:0] = io_dip[0];
+        inp_b.d = c{io_dip[1][7:0], io_dip[0][7:0]};
+        alu.alufn = io_dip[2][5:0];
+        io_led[2][6] = 0;
+        io_led[2][7] = 1;
+        if (io_button[1] == 0) {  //after center button is pressed, alu will be processed Switches: (io_dip[2][6] == 1 && io_dip[2][7] == 1)
+          state.d = state.STATEOUT;
+        } else if (io_button[4] == 0) { //after right button pressed, reset to state 0
+            state.d = state.STATE0;
+        } else {
+            state.d = state.STATEB;
+        }
+
+        
+      state.STATEOUT:
+        //code goes here
+        alu.alufn = io_dip[2][5:0]; //taking dip value as ALUFN 
+        alu.a = inp_a.q; //reading input values
+        alu.b = inp_b.q;
+        
+        seg.values = {4h2,4h3,4h4,4h7}; //show -OUt on seven_seg
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        
+        io_led[2][6] = 1;
+        io_led[2][7] = 1;
+        
+        if (io_button[1] == 0) { //switches: (io_dip[2][6] == 1 && io_dip[2][7] == 1)
+          state.d = state.STATEOUT;
+          } else {
+          state.d = state.STATE0;
+        }
+        
+        
+    }
+    
+    
+    
+    }
+}
