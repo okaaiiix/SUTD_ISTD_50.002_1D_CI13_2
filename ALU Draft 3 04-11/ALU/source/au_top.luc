@@ -71,6 +71,8 @@ module au_top (
         io_led[2][7] = 0;
         if (io_dip[2][1] == 1) {  //DOWN BUTTON TO CHANGE STATE Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 1)
         state.d = state.STATEB;
+      } else if (io_dip[2][7] == 1) {
+          state.d = state.AUTO00A;
       } else if (io_dip[2][7:0] == 0) {  //RIGHT BUTTON TO RESET Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 0)
           state.d = state.STATE0;
       } else {
@@ -127,16 +129,22 @@ module au_top (
         
       state.AUTO00A:
         seg.values = {4h0,4h2,4h2,4h0};
-        inp_a.d = 16b0000000000000000;
+        inp_a.d = 16b0000000000000001;
         io_led[1] = inp_a.q[15:8];
         io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
         state.d = state.AUTO00B;
       
       state.AUTO00B:
         seg.values = {4h0,4h2,4h2,4h1};
-        inp_b.d = 16b0000000000000000;
+        inp_b.d = 16b0000000000000110;
         io_led[1] = inp_b.q[15:8];
         io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
         state.d = state.AUTO00O;
         
       state.AUTO00O:
@@ -145,6 +153,13 @@ module au_top (
         alu.b = inp_b.q;
         io_led[1] = alu.out[15:8];       // write output on led
         io_led[0] = alu.out[7:0];
+        alu.alufn = 6b000000;
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
+        if (alu.out == 16b0000000000000111) {
+          io_led[2][7:0] = 1;
+        }
         
         if (io_dip[2][7:0]==0) {
           state.d = state.STATE0;
