@@ -13,24 +13,22 @@ module shifter_6 (
   
   
   
-  reg num_bits;
   reg [15:0] expr;
   
   always @* begin
     out = 1'h0;
-    num_bits = b[4+0-:1] * 5'h10 + b[3+0-:1] * 4'h8 + b[2+0-:1] * 3'h4 + b[1+0-:1] * 2'h2 + b[0+0-:1] * 1'h1;
-    expr[0+15-:16] = $signed(a[0+15-:16]);
+    expr = $signed(a);
     if ({alufn[1+0-:1], alufn[0+0-:1]} == 2'h0) begin
-      out[0+15-:16] = expr[0+15-:16] << num_bits;
+      out = expr << b;
     end
     if ({alufn[1+0-:1], alufn[0+0-:1]} == 2'h1) begin
-      out[0+15-:16] = expr[0+15-:16] >> num_bits;
+      out = expr >> b;
     end
     if ({alufn[1+0-:1], alufn[0+0-:1]} == 2'h2) begin
-      out[0+15-:16] = expr[0+15-:16] <<< num_bits;
+      out = expr <<< b;
     end
     if ({alufn[1+0-:1], alufn[0+0-:1]} == 2'h3) begin
-      out[0+15-:16] = expr[0+15-:16] >>> num_bits;
+      out = expr >>> b;
     end
   end
 endmodule

@@ -4,20 +4,19 @@ module shifter (
     input alufn[6],
     output out[16]
   ) {
-  sig num_bits,expr[16];
+  sig expr[16];
   
   always {
-    out = 0;
-    num_bits = b[4]*16+b[3]*8+b[2]*4+b[1]*2+b[0]*1;
-    expr[15:0]=$signed(a[15:0]);
+    out=0;
+    expr=$signed(a);
     if ({alufn[1],alufn[0]}=={0,0}) //left shift
-      {out[15:0]=expr[15:0]<<num_bits;}
+      {out=expr<<b;}
     if ({alufn[1],alufn[0]}=={0,1}) //right shift
-      {out[15:0]=expr[15:0]>>num_bits;}
+      {out=expr>>b;}
     if ({alufn[1],alufn[0]}=={1,0}) //signed left shift
-      {out[15:0]=expr[15:0]<<<num_bits;}   
+      {out=expr<<<b;}   
     if ({alufn[1],alufn[0]}=={1,1}) //signed right shift
-      {out[15:0]=expr[15:0]>>>num_bits;}  
-
+      {out=expr>>>b;}
+    
   }
 }

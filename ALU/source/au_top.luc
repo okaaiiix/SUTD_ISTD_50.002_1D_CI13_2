@@ -11,22 +11,25 @@ module au_top (
     input io_button[5]
   ) {
   
-  sig rst,a[16],b[16],alufn[6];                  // reset signal
+  sig rst,a[16],b[16],alufn[6],error;                  // reset signal
   alu alu;
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
-    
-
-    
+    dff inp_a[16];
+    dff inp_b[16];
+    dff counter[27];
+    dff next_state;
     .rst(rst){
       multi_seven_seg seg;
+      
+      
     }
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT};
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTOBANDA,AUTOBANDB,AUTOBANDO,AUTOORA,AUTOORB,AUTOORO,AUTOXORA,AUTOXORB,AUTOXORO,AUTOSHIFTA,AUTOSHIFTB,AUTOSHIFTO,AUTOCMPA,AUTOCMPB,AUTOCMPO };
 
   
   
@@ -34,17 +37,14 @@ module au_top (
 
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset
-    
+    usb_tx = usb_rx;        // echo the serial data
     led = 8h00;             // turn LEDs off
      
-    seg.values = {8h0,8h0,8h0,8h0}; //initiate seven segment display
+    seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display
      
     io_seg = ~seg.seg;      // connect segments to the driver
     io_sel = ~seg.sel;      // connect digit select to the driver
      
-    usb_tx = usb_rx;        // echo the serial data
-    
-    
     io_led[2][5:0] = io_dip[2][5:0];  // show ALUFN on led
     a=0;
     b=0;
@@ -53,53 +53,308 @@ module au_top (
     alu.b = b;
     alu.alufn = alufn;
     
-    
     case (state.q) {
       state.STATE0:
-      seg.values = {4h17,4h17,4h17,4h17};
-      if (io_button[0] == 1) { //UP BUTTON TO CHANGE STATE
+      seg.values = {4h2,4h2,4h2,4h2};
+      if (io_dip[2][0] == 1) { //UP BUTTON TO CHANGE STATE //switches: io_dip[2][6] == 1 && io_dip[2][7] == 0
         state.d = state.STATEA;
-      }
+      } else if (io_dip[2][7] == 1) {
+          state.d = state.AUTO00A;
+      } else {
+        state.d = state.STATE0;
+        }
         
       state.STATEA:
-        seg.values = {8h26,8h26,8h26,8h1}; //show ---A on seven_seg
+        seg.values = {4h0,4h0,4h0,4h0}; //show ---A on seven_seg
         io_led[1][7:0] = io_dip[1];      //read input using led 
         io_led[0][7:0] = io_dip[0];
-        a = c{io_dip[1][7:0], io_dip[0][7:0]}; //concatenate values from io_dip to input
-        if (io_button[2] == 1) {  //DOWN BUTTON TO CHANGE STATE
+        inp_a.d = c{io_dip[1][7:0], io_dip[0][7:0]}; //concatenate values from io_dip to input
+        io_led[2][6] = 1;
+        io_led[2][7] = 0;
+        if (io_dip[2][1] == 1) {  //DOWN BUTTON TO CHANGE STATE Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 1)
         state.d = state.STATEB;
-      } else if (io_button[4] ==1){  //RIGHT BUTTON TO RESET
+      } else if (io_dip[2][7:0]==8b00000000) {  //RIGHT BUTTON TO RESET Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 0)
           state.d = state.STATE0;
-      }
+      } else {
+          state.d = state.STATEA;
+          }
         
       state.STATEB:
-        seg.values = {8h26,8h26,8h26,8h2};  //show ---B on seven_seg
+        seg.values = {4h1,4h1,4h1,4h1};  //show ---B on seven_seg
         io_led[1][7:0] = io_dip[1];   
         io_led[0][7:0] = io_dip[0];
-        b = c{io_dip[1][7:0], io_dip[0][7:0]};
-        alu.alufn = io_dip[2][5:0];
-        if (io_button[1] == 1) {  //after center button is pressed, alu will be processed 
-        state.d = state.STATEOUT;
-        } else if (io_button[4]==1){
+        inp_b.d = c{io_dip[1][7:0], io_dip[0][7:0]};
+        io_led[2][6] = 0;
+        io_led[2][7] = 1;
+        if (io_dip[2][2]==1) {  //after center button is pressed, alu will be processed Switches: (io_dip[2][6] == 1 && io_dip[2][7] == 1)
+          state.d = state.STATEOUT;
+        } else if (io_dip[2][7:0]==8b00000000) { //after right button pressed, reset to state 0
             state.d = state.STATE0;
+        } else {
+            state.d = state.STATEB;
         }
 
         
       state.STATEOUT:
         //code goes here
-        alu.alufn = io_dip[2][5:0]; //taking dip value as ALUFN 
-        alu.a = a; //reading input values
-        alu.b = b;
+        alu.alufn = io_dip[0][5:0]; //taking dip value as ALUFN 
+        alu.a = inp_a.q; //reading input values
+        alu.b = inp_b.q;
         
-        seg.values = {8h26,8h16,8h15,8h14}; //show -OUt on seven_seg
+        seg.values = {4h2,4h3,4h4,4h7}; //show -OUt on seven_seg
         io_led[1] = alu.out[15:8];       // write output on led
         io_led[0] = alu.out[7:0];
         
-        if (io_button[3] == 1) {
+        io_led[2][6] = 1;
+        io_led[2][7] = 1;
+        
+        error = alu.error;
+        
+        if (error==1) {
+          state.d = state.STATEERR;
+        
+        } else if (io_dip[2][2]==1) { //switches: (io_dip[2][6] == 1 && io_dip[2][7] == 1)
+          state.d = state.STATEOUT;
+          } else {
           state.d = state.STATE0;
-          }
+        }
+        
+      state.STATEERR:
+        seg.values = {4h7,4h5,4h6,4h6};
+        if (io_dip[2][7:0]==8b00000000) {
+          state.d = state.STATE0;
+        } else {
+          state.d = state.STATEERR;
+        }
+      
+      //AUTO TEST CASES     
+      state.AUTO00A:
+        seg.values = {4h0,4h2,4h2,4h0}; //A00A
+        inp_a.d = 16b0000000000000001;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTO00B;}
+      
+      state.AUTO00B:
+        seg.values = {4h0,4h2,4h2,4h1}; //A00B
+        inp_b.d = 16b0000000000000110;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTO00O;}
+        
+      state.AUTO00O:
+        seg.values = {4h0,4h2,4h2,4h2}; //A000
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b000000;
+        
+                
+        if (alu.out == 16b0000000000000111) {
+          io_led[2][7:0] = 8b11111111;
+        }
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOBANDA;}
+
+      state.AUTOBANDA:
+        seg.values = {4h1,4h0,4h2,4h0}; //-BA0A
+        inp_a.d =16b0001010101010101;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOBANDB;}
+      
+      state.AUTOBANDB:
+        seg.values = {4h1,4h0,4h2,4h1}; //-BA0B
+        inp_b.d =16b0010101010101011;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOBANDO;}
+        
+      state.AUTOBANDO:
+        seg.values = {4h1,4h0,4h2,4h2}; //-BA00 will do an AND boolean
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b11000;
+        
+                
+        if (alu.out == 16b0000000000000001) {
+          io_led[2][7:0] = 8b11111111;
+        }
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOORA;}
+
+
+      state.AUTOORA:
+        seg.values = {4h1,4h2,4h6,4h0}; //BORA
+        inp_a.d =16b0001010101010101;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOORB;}
+      
+      state.AUTOORB:
+        seg.values = {4h1,4h2,4h6,4h1}; //BORB
+        inp_b.d =16b0010101010101011;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOORO;}
+        
+      state.AUTOORO:
+        seg.values = {4h1,4h2,4h6,4h2}; //BOR0 will do an OR boolean
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b11110;
+        
+                
+        if (alu.out == 16b0011111111111111) {
+          io_led[2][7:0] = 8b11111111;
+        }
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOXORA;}
+
+      state.AUTOXORA:
+        seg.values = {4h7,4h2,4h6,4h0}; //-ORA
+        inp_a.d =16b0001010101010101;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOXORB;}
+      
+      state.AUTOXORB:
+        seg.values = {4h7,4h2,4h6,4h1}; //-ORB
+        inp_b.d =16b0010101010101011;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOXORO;}
+        
+      state.AUTOXORO:
+        seg.values = {4h7,4h2,4h6,4h2}; //-OR0 will do a XOR boolean
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b10110;
         
         
-    }
+        
+        if (alu.out == 16b0011111111111110) {
+          io_led[2][7:0] = 8b11111111;
+        }
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOSHIFTO;
+        }
+        
+      state.AUTOCMPA:
+        seg.values = {4h2,4h2,4h2,4h0}; //CMP-A
+        inp_a.d = 16b0000000000000001;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOSHIFTB;}
+      
+      state.AUTOCMPB:
+        seg.values = {4h2,4h2,4h2,4h1}; //CMP-B 
+        inp_b.d = 16b0000000000000001;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOSHIFTO;}
+        
+      state.AUTOCMPO:
+        seg.values = {4h2,4h2,4h2,4h2}; //CMP-OUT
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b110011;
+        
+        
+        
+        if (alu.out == 16b0000000000000001) {
+          io_led[2][7:0] = 8b11111111;
+        }
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOSHIFTA;
+        }
+      
+      state.AUTOSHIFTA:
+        seg.values = {4h7,4h2,4h6,4h0}; //-ORA
+        inp_a.d =16b0000000000000011;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOSHIFTB;}
+      
+      state.AUTOSHIFTB:
+        seg.values = {4h7,4h2,4h6,4h1}; //-ORB
+        inp_b.d =16b0000000000000001;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOSHIFTO;}
+        
+      state.AUTOSHIFTO:
+        seg.values = {4h7,4h2,4h6,4h2}; //-OR0 will do a XOR boolean
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b100000;
+        
+        
+        
+        if (alu.out == 16b0000000000000110) {
+          io_led[2][7:0] = 8b11111111;
+        }
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOSHIFTO;
+        }
+      
+
+    
     }
 }

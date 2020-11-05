@@ -21,7 +21,6 @@ module adder (
       2b01: s = a-b;
       2b10: s = a*b;
       2b11: s = a/b;
-      
       default: s = 16b0;
   }
     n = s[15];

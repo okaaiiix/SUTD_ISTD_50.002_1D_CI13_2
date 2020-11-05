@@ -1,0 +1,28 @@
+module full_adder (
+  input s_check,
+  input cout_check,
+	input x,
+	input y,
+	input cin,
+	output s,
+	output cout,
+ output checker
+  ) {
+sig and1, and2, and3, xor_connector, cout_connector, s_connector; // connector
+always {
+ xor_connector = x ^ y ;
+ s_connector = xor_connector ^ cin;
+	and1 = x & y;
+	and2 = x & cin;
+	and3 = y & cin;
+	cout_connector = and1 | and2 | and3;
+ cout = cout_connector;
+ s = s_connector;
+    
+    if (cout_connector==cout_check && s_connector==s_check) {
+      checker = 1;
+	  }
+    else {
+      checker = 0;  
+    }
+}

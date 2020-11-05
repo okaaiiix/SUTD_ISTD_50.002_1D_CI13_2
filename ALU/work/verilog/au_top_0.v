@@ -42,9 +42,13 @@ module au_top_0 (
     .in(M_reset_cond_in),
     .out(M_reset_cond_out)
   );
+  reg [15:0] M_inp_a_d, M_inp_a_q = 1'h0;
+  reg [15:0] M_inp_b_d, M_inp_b_q = 1'h0;
+  reg [26:0] M_counter_d, M_counter_q = 1'h0;
+  reg M_next_state_d, M_next_state_q = 1'h0;
   wire [7-1:0] M_seg_seg;
   wire [4-1:0] M_seg_sel;
-  reg [32-1:0] M_seg_values;
+  reg [16-1:0] M_seg_values;
   multi_seven_seg_3 seg (
     .clk(clk),
     .rst(rst),
@@ -70,14 +74,16 @@ module au_top_0 (
   
   always @* begin
     M_state_d = M_state_q;
+    M_inp_b_d = M_inp_b_q;
+    M_inp_a_d = M_inp_a_q;
     
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out;
+    usb_tx = usb_rx;
     led = 8'h00;
-    M_seg_values = 32'h00000000;
+    M_seg_values = 16'h7777;
     io_seg = ~M_seg_seg;
     io_sel = ~M_seg_sel;
-    usb_tx = usb_rx;
     io_led[16+0+5-:6] = io_dip[16+0+5-:6];
     a = 1'h0;
     b = 1'h0;
@@ -88,46 +94,60 @@ module au_top_0 (
     
     case (M_state_q)
       STATE0_state: begin
-        M_seg_values = 32'h17171717;
-        if (io_button[0+0-:1] == 1'h1) begin
+        M_seg_values = 16'h2222;
+        if (io_button[0+0-:1] == 1'h0) begin
           M_state_d = STATEA_state;
+        end else begin
+          M_state_d = STATE0_state;
         end
       end
       STATEA_state: begin
-        M_seg_values = 32'h26262601;
+        M_seg_values = 16'h0000;
         io_led[8+0+7-:8] = io_dip[8+7-:8];
         io_led[0+0+7-:8] = io_dip[0+7-:8];
-        a = {io_dip[8+0+7-:8], io_dip[0+0+7-:8]};
-        if (io_button[2+0-:1] == 1'h1) begin
+        M_inp_a_d = {io_dip[8+0+7-:8], io_dip[0+0+7-:8]};
+        io_led[16+6+0-:1] = 1'h1;
+        io_led[16+7+0-:1] = 1'h0;
+        if (io_button[2+0-:1] == 1'h0) begin
           M_state_d = STATEB_state;
         end else begin
-          if (io_button[4+0-:1] == 1'h1) begin
+          if (io_button[4+0-:1] == 1'h0) begin
             M_state_d = STATE0_state;
+          end else begin
+            M_state_d = STATEA_state;
           end
         end
       end
       STATEB_state: begin
-        M_seg_values = 32'h26262602;
+        M_seg_values = 16'h1111;
         io_led[8+0+7-:8] = io_dip[8+7-:8];
         io_led[0+0+7-:8] = io_dip[0+7-:8];
-        b = {io_dip[8+0+7-:8], io_dip[0+0+7-:8]};
+        M_inp_b_d = {io_dip[8+0+7-:8], io_dip[0+0+7-:8]};
         M_alu_alufn = io_dip[16+0+5-:6];
-        if (io_button[1+0-:1] == 1'h1) begin
+        io_led[16+6+0-:1] = 1'h0;
+        io_led[16+7+0-:1] = 1'h1;
+        if (io_button[1+0-:1] == 1'h0) begin
           M_state_d = STATEOUT_state;
         end else begin
-          if (io_button[4+0-:1] == 1'h1) begin
+          if (io_button[4+0-:1] == 1'h0) begin
             M_state_d = STATE0_state;
+          end else begin
+            M_state_d = STATEB_state;
           end
         end
       end
       STATEOUT_state: begin
         M_alu_alufn = io_dip[16+0+5-:6];
-        M_alu_a = a;
-        M_alu_b = b;
-        M_seg_values = 32'h26161514;
+        M_alu_a = M_inp_a_q;
+        M_alu_b = M_inp_b_q;
+        M_seg_values = 16'h2347;
         io_led[8+7-:8] = M_alu_out[8+7-:8];
         io_led[0+7-:8] = M_alu_out[0+7-:8];
-        if (io_button[3+0-:1] == 1'h1) begin
+        io_led[16+6+0-:1] = 1'h1;
+        io_led[16+7+0-:1] = 1'h1;
+        if (io_button[1+0-:1] == 1'h0) begin
+          M_state_d = STATEOUT_state;
+        end else begin
           M_state_d = STATE0_state;
         end
       end
@@ -140,6 +160,14 @@ module au_top_0 (
     end else begin
       M_state_q <= M_state_d;
     end
+  end
+  
+  
+  always @(posedge clk) begin
+    M_inp_a_q <= M_inp_a_d;
+    M_inp_b_q <= M_inp_b_d;
+    M_counter_q <= M_counter_d;
+    M_next_state_q <= M_next_state_d;
   end
   
 endmodule

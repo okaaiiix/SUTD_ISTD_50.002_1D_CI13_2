@@ -2,21 +2,19 @@ module alu (
     input a[16],
     input b[16],
     input alufn[6],
-    output out[16]
+    output out[16],
+    output error
 
   ) {
   adder adder;
   shifter shifter;
   boolean boolean;
   comparator comparator;
-  
-
-  
-  
-  
+ 
   
   always {    
     out = 0;
+    error = 0;
     adder.a = a;
     adder.b=b;
     adder.alufn=alufn;
@@ -39,9 +37,16 @@ module alu (
       2b10:  
         out = shifter.out;  
       2b11:  
-        out = comparator.out;  
+        out = comparator.out;   
 
       default: out = 0;  
-    }   
+    }
+
+    if (alufn == 6b000000 && adder.v == 1) { 
+      error = 1;
+      
+    }  
   }
+  
+  
 }
