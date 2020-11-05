@@ -29,7 +29,7 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O };
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTO01A, AUTO01B, AUTO01O };
 
   
   
@@ -164,9 +164,9 @@ module au_top (
         if (io_dip[2][7:0]==0) {
           state.d = state.STATE0;
           }
-        state.d = state.AUTOB00A;
+        state.d = state.AUTO01A;
 
-      state.AUTOB00A:
+      state.AUTO01A:
         seg.values = {4h0,4h2,4h2,4h0}; //B00A
         inp_a.d =16b0001010101010101;
         io_led[1] = inp_a.q[15:8];
@@ -174,9 +174,9 @@ module au_top (
         
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
-        state.d = state.AUTOB00B;
+        state.d = state.AUTO01B;
       
-      state.AUTOB00B:
+      state.AUTO01B:
         seg.values = {4h0,4h2,4h2,4h1}; //B00B
         inp_b.d =16b0010101010101011;
         io_led[1] = inp_b.q[15:8];
@@ -184,9 +184,9 @@ module au_top (
         
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
-        state.d = state.AUTOB00O;
+        state.d = state.AUTO01O;
         
-      state.AUTOB00O:
+      state.AUTO01O:
         seg.values = {4h0,4h2,4h2,4h2}; //B000
         alu.a = inp_a.q;
         alu.b = inp_b.q;
@@ -203,7 +203,7 @@ module au_top (
         if (io_dip[2][7:0]==0) {
           state.d = state.STATE0;
           }
-        state.d = state.AUTOB00O;
+        state.d = state.AUTO01O;
     
     }
 }
