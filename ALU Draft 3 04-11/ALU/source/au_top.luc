@@ -158,7 +158,7 @@ module au_top (
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
         if (alu.out == 16b0000000000000111) {
-          io_led[2][7:0] = 1;
+          io_led[2][7:0] = 8b11111111;
         }
         
         if (io_dip[2][7:0]==0) {
@@ -197,7 +197,7 @@ module au_top (
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
         if (alu.out == 16b0000000000000111) {
-          io_led[2][7:0] = 1;
+          io_led[2][7:0] = 8b11111111;
         }
         
         if (io_dip[2][7:0]==0) {
@@ -237,7 +237,7 @@ module au_top (
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
         if (alu.out == 16b0000000000000111) {
-          io_led[2][7:0] = 1;
+          io_led[2][7:0] = 8b11111111;
         }
         
         if (io_dip[2][7:0]==0) {
@@ -255,7 +255,7 @@ module au_top (
         
         state.d = state.AUTOXORB;
       
-      state.AUTOX0RB:
+      state.AUTOXORB:
         seg.values = {4h7,4h2,4h6,4h1}; //-ORB
         inp_b.d =16b0010101010101011;
         io_led[1] = inp_b.q[15:8];
@@ -276,7 +276,7 @@ module au_top (
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
         if (alu.out == 16b0000000000000111) {
-          io_led[2][7:0] = 1;
+          io_led[2][7:0] = 8b11111111;
         }
         
         if (io_dip[2][7:0]==0) {
