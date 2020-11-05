@@ -29,7 +29,7 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTOBANDA,AUTOBANDB,AUTOBANDO,AUTOORA,AUTOORB,AUTOORO,AUTOXORA,AUTOXORB,AUTOXORO };
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTOBANDA,AUTOBANDB,AUTOBANDO,AUTOORA,AUTOORB,AUTOORO,AUTOXORA,AUTOXORB,AUTOXORO,AUTOCMPA,AUTOCMPB,AUTOCMPO};
 
   
   
@@ -271,13 +271,43 @@ module au_top (
         }
         
         state.d = state.AUTOXORO;
-
+        
+      state.AUTOCMPA:
+        seg.values = {4h2,4h2,4h2,4h0}; //A00A
+        inp_a.d = 16b0000000000000001;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        
+        state.d = state.AUTOCMP1;
       
+      state.AUTOCMPB:
+        seg.values = {4h2,4h2,4h2,4h1}; //A00B
+        inp_b.d = 16b0000000000000001;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        
+        state.d = state.AUTOCMP2;
+        
+      state.AUTOCMPO:
+        seg.values = {4h2,4h2,4h2,4h2}; //A000
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b110011;
+        
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        
+        if (alu.out == 16b0000000000000001) {
+          io_led[2][7:0] = 8b11111111;
+        }
+        
+        state.d = state.AUTOCMPO;
+        
 
-      
-
-      
-
-    
     }
 }
