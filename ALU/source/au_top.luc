@@ -273,7 +273,7 @@ module au_top (
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         else {
-        state.d = state.AUTOSHIFTO;
+        state.d = state.AUTOCMPA;
         }
         
       state.AUTOCMPA:
@@ -284,7 +284,7 @@ module au_top (
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         else {
-        state.d = state.AUTOSHIFTB;}
+        state.d = state.AUTOCMPB;}
       
       state.AUTOCMPB:
         seg.values = {4h2,4h2,4h2,4h1}; //CMP-B 
@@ -294,7 +294,7 @@ module au_top (
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         else {
-        state.d = state.AUTOSHIFTO;}
+        state.d = state.AUTOCMPO;}
         
       state.AUTOCMPO:
         seg.values = {4h2,4h2,4h2,4h2}; //CMP-OUT
