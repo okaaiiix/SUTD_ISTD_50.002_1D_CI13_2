@@ -277,7 +277,7 @@ module au_top (
         }
         
       state.AUTOCMPA:
-        seg.values = {4h2,4h2,4h2,4h0}; //A00A
+        seg.values = {4h2,4h2,4h2,4h0}; //CMP-A
         inp_a.d = 16b0000000000000001;
         io_led[1] = inp_a.q[15:8];
         io_led[0] = inp_a.q[7:0];
@@ -287,7 +287,7 @@ module au_top (
         state.d = state.AUTOCMPB;}
       
       state.AUTOCMPB:
-        seg.values = {4h2,4h2,4h2,4h1}; //A00B
+        seg.values = {4h2,4h2,4h2,4h1}; //CMP-B 
         inp_b.d = 16b0000000000000001;
         io_led[1] = inp_b.q[15:8];
         io_led[0] = inp_b.q[7:0];
@@ -297,7 +297,7 @@ module au_top (
         state.d = state.AUTOCMPO;}
         
       state.AUTOCMPO:
-        seg.values = {4h2,4h2,4h2,4h2}; //A000
+        seg.values = {4h2,4h2,4h2,4h2}; //CMP-OUT
         alu.a = inp_a.q;
         alu.b = inp_b.q;
         io_led[1] = alu.out[15:8];       // write output on led
