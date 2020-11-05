@@ -16,9 +16,12 @@ module adder (
     s = 16b0; 
 
     
-    case(alufn[0]){
-      1b0: s = a+b;
-      1b1: s = a-b;
+    case(alufn[1:0]){
+      2b00: s = a+b;
+      2b01: s = a-b;
+      2b10: s = a*b;
+      2b11: s = a/b;
+      
       default: s = 16b0;
   }
     n = s[15];

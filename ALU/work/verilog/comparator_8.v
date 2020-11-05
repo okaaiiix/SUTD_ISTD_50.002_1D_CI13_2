@@ -25,10 +25,10 @@ module comparator_8 (
         out[0+0-:1] = z;
       end
       6'h35: begin
-        out[0+0-:1] = n ^ v;
+        out[0+0-:1] = (n ^ v);
       end
       6'h37: begin
-        out[0+0-:1] = z | n ^ v;
+        out[0+0-:1] = z | (n ^ v);
       end
     endcase
   end

@@ -56,7 +56,7 @@ module au_top (
     
     case (state.q) {
       state.STATE0:
-      seg.values = {8h17,8h17,8h17,8h17};
+      seg.values = {4h17,4h17,4h17,4h17};
       if (io_button[0] == 1) { //UP BUTTON TO CHANGE STATE
         state.d = state.STATEA;
       }

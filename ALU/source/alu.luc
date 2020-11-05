@@ -39,7 +39,7 @@ module alu (
       2b10:  
         out = shifter.out;  
       2b11:  
-        out = comparator.out;   
+        out = comparator.out;  
 
       default: out = 0;  
     }   
