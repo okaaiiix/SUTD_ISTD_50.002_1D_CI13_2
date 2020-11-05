@@ -29,7 +29,7 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTOBANDA,AUTOBANDB,AUTOBANDO,AUTOORA,AUTOORB,AUTOORO,AUTOXORA,AUTOXORB,AUTOXORO,AUTOCMPA,AUTOCMPB,AUTOCMPO};
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTOBANDA,AUTOBANDB,AUTOBANDO,AUTOORA,AUTOORB,AUTOORO,AUTOXORA,AUTOXORB,AUTOXORO,AUTOSHIFTA,AUTOSHIFTB,AUTOSHIFTO };
 
   
   
@@ -192,7 +192,7 @@ module au_top (
         alu.alufn = 6b11000;
         
                 
-        if (alu.out == 16b0000000000000111) {
+        if (alu.out == 16b0000000000000001) {
           io_led[2][7:0] = 8b11111111;
         }
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
@@ -229,7 +229,7 @@ module au_top (
         alu.alufn = 6b11110;
         
                 
-        if (alu.out == 16b0000000000000111) {
+        if (alu.out == 16b0011111111111111) {
           io_led[2][7:0] = 8b11111111;
         }
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
@@ -266,52 +266,57 @@ module au_top (
         
         
         
-        if (alu.out == 16b0000000000000111) {
+        if (alu.out == 16b0011111111111110) {
           io_led[2][7:0] = 8b11111111;
         }
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         else {
-        state.d = state.AUTOCMPA;
+        state.d = state.AUTOSHIFTO;
         }
-        
-      state.AUTOCMPA:
-        seg.values = {4h2,4h2,4h2,4h0}; //A00A
-        inp_a.d = 16b0000000000000001;
+      
+            state.AUTOSHIFTA:
+        seg.values = {4h7,4h2,4h6,4h0}; //-ORA
+        inp_a.d =16b0000000000000011;
         io_led[1] = inp_a.q[15:8];
         io_led[0] = inp_a.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         else {
-        state.d = state.AUTOCMPB;}
+        state.d = state.AUTOSHIFTB;}
       
-      state.AUTOCMPB:
-        seg.values = {4h2,4h2,4h2,4h1}; //A00B
-        inp_b.d = 16b0000000000000001;
+      state.AUTOSHIFTB:
+        seg.values = {4h7,4h2,4h6,4h1}; //-ORB
+        inp_b.d =16b0000000000000001;
         io_led[1] = inp_b.q[15:8];
         io_led[0] = inp_b.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         else {
-        state.d = state.AUTOCMPO;}
+        state.d = state.AUTOSHIFTO;}
         
-      state.AUTOCMPO:
-        seg.values = {4h2,4h2,4h2,4h2}; //A000
+      state.AUTOSHIFTO:
+        seg.values = {4h7,4h2,4h6,4h2}; //-OR0 will do a XOR boolean
         alu.a = inp_a.q;
         alu.b = inp_b.q;
         io_led[1] = alu.out[15:8];       // write output on led
         io_led[0] = alu.out[7:0];
-        alu.alufn = 6b110011;
+        alu.alufn = 6b100000;
         
         
         
-        if (alu.out == 16b0000000000000001) {
+        if (alu.out == 16b0000000000000110) {
           io_led[2][7:0] = 8b11111111;
         }
+        
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         else {
-        state.d = state.AUTOCMPO;}
-        
+        state.d = state.AUTOXORO;
+        }
+      
 
+      
+
+    
     }
 }
