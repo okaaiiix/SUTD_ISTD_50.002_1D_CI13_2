@@ -29,7 +29,7 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O };
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTOBANDA,AUTOBANDB,AUTOBANDO,AUTOORA,AUTOORB,AUTOORO,AUTOXORA,AUTOXORB,AUTOXORO };
 
   
   
@@ -164,30 +164,30 @@ module au_top (
         if (io_dip[2][7:0]==0) {
           state.d = state.STATE0;
           }
-        state.d = state.AUTOB00A;
+        state.d = state.AUTOBANDA;
 
-      state.AUTOB00A:
-        seg.values = {4h0,4h2,4h2,4h0}; //B00A
+      state.AUTOBANDA:
+        seg.values = {4h1,4h0,4h2,4h0}; //-BA0A
         inp_a.d =16b0001010101010101;
         io_led[1] = inp_a.q[15:8];
         io_led[0] = inp_a.q[7:0];
         
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
-        state.d = state.AUTOB00B;
+        state.d = state.AUTOBANDB;
       
-      state.AUTOB00B:
-        seg.values = {4h0,4h2,4h2,4h1}; //B00B
+      state.AUTOBANDB:
+        seg.values = {4h1,4h0,4h2,4h1}; //-BA0B
         inp_b.d =16b0010101010101011;
         io_led[1] = inp_b.q[15:8];
         io_led[0] = inp_b.q[7:0];
         
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
-        state.d = state.AUTOB00O;
+        state.d = state.AUTOBANDO;
         
-      state.AUTOB00O:
-        seg.values = {4h0,4h2,4h2,4h2}; //B000
+      state.AUTOBANDO:
+        seg.values = {4h1,4h0,4h2,4h2}; //-BA00 will do an AND boolean
         alu.a = inp_a.q;
         alu.b = inp_b.q;
         io_led[1] = alu.out[15:8];       // write output on led
@@ -203,7 +203,93 @@ module au_top (
         if (io_dip[2][7:0]==0) {
           state.d = state.STATE0;
           }
-        state.d = state.AUTOB00O;
+        state.d = state.AUTOORA;
+
+
+      state.AUTOORA:
+        seg.values = {4h1,4h2,4h6,4h0}; //BORA
+        inp_a.d =16b0001010101010101;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
+        state.d = state.AUTOORB;
+      
+      state.AUTOORB:
+        seg.values = {4h1,4h2,4h6,4h1}; //BORB
+        inp_b.d =16b0010101010101011;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
+        state.d = state.AUTOORO;
+        
+      state.AUTOORO:
+        seg.values = {4h1,4h2,4h6,4h2}; //BOR0 will do an OR boolean
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b11110;
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
+        if (alu.out == 16b0000000000000111) {
+          io_led[2][7:0] = 1;
+        }
+        
+        if (io_dip[2][7:0]==0) {
+          state.d = state.STATE0;
+          }
+        state.d = state.AUTOXORA;
+
+      state.AUTOXORA:
+        seg.values = {4h7,4h2,4h6,4h0}; //-ORA
+        inp_a.d =16b0001010101010101;
+        io_led[1] = inp_a.q[15:8];
+        io_led[0] = inp_a.q[7:0];
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
+        state.d = state.AUTOXORB;
+      
+      state.AUTOX0RB:
+        seg.values = {4h7,4h2,4h6,4h1}; //-ORB
+        inp_b.d =16b0010101010101011;
+        io_led[1] = inp_b.q[15:8];
+        io_led[0] = inp_b.q[7:0];
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
+        state.d = state.AUTOXORO;
+        
+      state.AUTOXORO:
+        seg.values = {4h7,4h2,4h6,4h2}; //-OR0 will do a XOR boolean
+        alu.a = inp_a.q;
+        alu.b = inp_b.q;
+        io_led[1] = alu.out[15:8];       // write output on led
+        io_led[0] = alu.out[7:0];
+        alu.alufn = 6b10110;
+        
+        if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
+        
+        if (alu.out == 16b0000000000000111) {
+          io_led[2][7:0] = 1;
+        }
+        
+        if (io_dip[2][7:0]==0) {
+          state.d = state.STATE0;
+          }
+        state.d = state.AUTOXORO;
+
+      
+
+      
+
+      
+
     
     }
 }
