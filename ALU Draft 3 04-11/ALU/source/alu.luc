@@ -42,7 +42,7 @@ module alu (
       default: out = 0;  
     }
 
-    if (a == 16b1000000000000000 && b == 16b1000000000000000 && alufn == 6b000000) { 
+    if (alufn == 6b000000 && adder.v == 1) { 
       error = 1;
       
     }  
