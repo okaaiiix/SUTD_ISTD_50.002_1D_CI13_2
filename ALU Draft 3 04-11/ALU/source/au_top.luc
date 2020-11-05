@@ -126,7 +126,8 @@ module au_top (
         } else {
           state.d = state.STATEERR;
         }
-        
+      
+      //AUTO TEST CASES     
       state.AUTO00A:
         seg.values = {4h0,4h2,4h2,4h0}; //A00A
         inp_a.d = 16b0000000000000001;
