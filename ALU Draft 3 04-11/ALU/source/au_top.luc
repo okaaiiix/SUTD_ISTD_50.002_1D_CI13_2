@@ -196,7 +196,7 @@ module au_top (
         
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
-        if (alu.out == 16b0000000000000111) {
+        if (alu.out == 16b0000000000000001) {
           io_led[2][7:0] = 8b11111111;
         }
         
@@ -236,7 +236,7 @@ module au_top (
         
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
-        if (alu.out == 16b0000000000000111) {
+        if (alu.out == 16b0011111111111111) {
           io_led[2][7:0] = 8b11111111;
         }
         
@@ -275,7 +275,7 @@ module au_top (
         
         if (io_dip[2][7:0]==0) {state.d = state.STATE0;}
         
-        if (alu.out == 16b0000000000000111) {
+        if (alu.out == 16b0011111111111110) {
           io_led[2][7:0] = 8b11111111;
         }
         
