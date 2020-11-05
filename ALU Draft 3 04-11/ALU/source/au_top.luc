@@ -58,6 +58,8 @@ module au_top (
       seg.values = {4h2,4h2,4h2,4h2};
       if (io_dip[2][0] == 1) { //UP BUTTON TO CHANGE STATE //switches: io_dip[2][6] == 1 && io_dip[2][7] == 0
         state.d = state.STATEA;
+      } else if (io_dip[2][7] == 1) {
+          state.d = state.AUTO00A;
       } else {
         state.d = state.STATE0;
         }
@@ -71,8 +73,6 @@ module au_top (
         io_led[2][7] = 0;
         if (io_dip[2][1] == 1) {  //DOWN BUTTON TO CHANGE STATE Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 1)
         state.d = state.STATEB;
-      } else if (io_dip[2][7] == 1) {
-          state.d = state.AUTO00A;
       } else if (io_dip[2][7:0] == 0) {  //RIGHT BUTTON TO RESET Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 0)
           state.d = state.STATE0;
       } else {
