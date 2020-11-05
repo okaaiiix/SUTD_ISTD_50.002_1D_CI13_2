@@ -351,7 +351,7 @@ module au_top (
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         else {
-        state.d = state.AUTOXORO;
+        state.d = state.AUTOSHIFTO;
         }
       
 
