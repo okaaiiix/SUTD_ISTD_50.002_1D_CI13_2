@@ -73,7 +73,7 @@ module au_top (
         io_led[2][7] = 0;
         if (io_dip[2][1] == 1) {  //DOWN BUTTON TO CHANGE STATE Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 1)
         state.d = state.STATEB;
-      } else if (io_dip[2][7:0] == 8b00000000) {  //RIGHT BUTTON TO RESET Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 0)
+      } else if (io_dip[2][7:0]==8b00000000) {  //RIGHT BUTTON TO RESET Switches: (io_dip[2][6] == 0 && io_dip[2][7] == 0)
           state.d = state.STATE0;
       } else {
           state.d = state.STATEA;
@@ -88,7 +88,7 @@ module au_top (
         io_led[2][7] = 1;
         if (io_dip[2][2]==1) {  //after center button is pressed, alu will be processed Switches: (io_dip[2][6] == 1 && io_dip[2][7] == 1)
           state.d = state.STATEOUT;
-        } else if (io_dip[2][7:0] == 8b00000000) { //after right button pressed, reset to state 0
+        } else if (io_dip[2][7:0]==8b00000000) { //after right button pressed, reset to state 0
             state.d = state.STATE0;
         } else {
             state.d = state.STATEB;
@@ -121,7 +121,7 @@ module au_top (
         
       state.STATEERR:
         seg.values = {4h7,4h5,4h6,4h6};
-        if (io_dip[2][7:0] == 8b00000000) {
+        if (io_dip[2][7:0]==8b00000000) {
           state.d = state.STATE0;
         } else {
           state.d = state.STATEERR;
@@ -134,8 +134,8 @@ module au_top (
         io_led[0] = inp_a.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTO00B;
+        else {
+        state.d = state.AUTO00B;}
       
       state.AUTO00B:
         seg.values = {4h0,4h2,4h2,4h1}; //A00B
@@ -144,8 +144,8 @@ module au_top (
         io_led[0] = inp_b.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTO00O;
+        else {
+        state.d = state.AUTO00O;}
         
       state.AUTO00O:
         seg.values = {4h0,4h2,4h2,4h2}; //A000
@@ -155,13 +155,13 @@ module au_top (
         io_led[0] = alu.out[7:0];
         alu.alufn = 6b000000;
         
-        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
+                
         if (alu.out == 16b0000000000000111) {
           io_led[2][7:0] = 8b11111111;
         }
-        
-        state.d = state.AUTOBANDA;
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOBANDA;}
 
       state.AUTOBANDA:
         seg.values = {4h1,4h0,4h2,4h0}; //-BA0A
@@ -170,8 +170,8 @@ module au_top (
         io_led[0] = inp_a.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTOBANDB;
+        else {
+        state.d = state.AUTOBANDB;}
       
       state.AUTOBANDB:
         seg.values = {4h1,4h0,4h2,4h1}; //-BA0B
@@ -180,8 +180,8 @@ module au_top (
         io_led[0] = inp_b.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTOBANDO;
+        else {
+        state.d = state.AUTOBANDO;}
         
       state.AUTOBANDO:
         seg.values = {4h1,4h0,4h2,4h2}; //-BA00 will do an AND boolean
@@ -191,13 +191,13 @@ module au_top (
         io_led[0] = alu.out[7:0];
         alu.alufn = 6b11000;
         
-        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        if (alu.out == 16b0000000000000001) {
+                
+        if (alu.out == 16b0000000000000111) {
           io_led[2][7:0] = 8b11111111;
         }
-        
-        state.d = state.AUTOORA;
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOORA;}
 
 
       state.AUTOORA:
@@ -207,8 +207,8 @@ module au_top (
         io_led[0] = inp_a.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTOORB;
+        else {
+        state.d = state.AUTOORB;}
       
       state.AUTOORB:
         seg.values = {4h1,4h2,4h6,4h1}; //BORB
@@ -217,8 +217,8 @@ module au_top (
         io_led[0] = inp_b.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTOORO;
+        else {
+        state.d = state.AUTOORO;}
         
       state.AUTOORO:
         seg.values = {4h1,4h2,4h6,4h2}; //BOR0 will do an OR boolean
@@ -228,13 +228,13 @@ module au_top (
         io_led[0] = alu.out[7:0];
         alu.alufn = 6b11110;
         
-        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        if (alu.out == 16b0011111111111111) {
+                
+        if (alu.out == 16b0000000000000111) {
           io_led[2][7:0] = 8b11111111;
         }
-        
-        state.d = state.AUTOXORA;
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOXORA;}
 
       state.AUTOXORA:
         seg.values = {4h7,4h2,4h6,4h0}; //-ORA
@@ -243,8 +243,8 @@ module au_top (
         io_led[0] = inp_a.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTOXORB;
+        else {
+        state.d = state.AUTOXORB;}
       
       state.AUTOXORB:
         seg.values = {4h7,4h2,4h6,4h1}; //-ORB
@@ -253,8 +253,8 @@ module au_top (
         io_led[0] = inp_b.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTOXORO;
+        else {
+        state.d = state.AUTOXORO;}
         
       state.AUTOXORO:
         seg.values = {4h7,4h2,4h6,4h2}; //-OR0 will do a XOR boolean
@@ -264,13 +264,16 @@ module au_top (
         io_led[0] = alu.out[7:0];
         alu.alufn = 6b10110;
         
-        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
         
-        if (alu.out == 16b0011111111111110) {
+        
+        if (alu.out == 16b0000000000000111) {
           io_led[2][7:0] = 8b11111111;
         }
         
-        state.d = state.AUTOXORO;
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOCMPA;
+        }
         
       state.AUTOCMPA:
         seg.values = {4h2,4h2,4h2,4h0}; //A00A
@@ -279,8 +282,8 @@ module au_top (
         io_led[0] = inp_a.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTOCMP1;
+        else {
+        state.d = state.AUTOCMPB;}
       
       state.AUTOCMPB:
         seg.values = {4h2,4h2,4h2,4h1}; //A00B
@@ -289,8 +292,8 @@ module au_top (
         io_led[0] = inp_b.q[7:0];
         
         if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
-        
-        state.d = state.AUTOCMP2;
+        else {
+        state.d = state.AUTOCMPO;}
         
       state.AUTOCMPO:
         seg.values = {4h2,4h2,4h2,4h2}; //A000
@@ -300,13 +303,14 @@ module au_top (
         io_led[0] = alu.out[7:0];
         alu.alufn = 6b110011;
         
-        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        
         
         if (alu.out == 16b0000000000000001) {
           io_led[2][7:0] = 8b11111111;
         }
-        
-        state.d = state.AUTOCMPO;
+        if (io_dip[2][7:0]==8b00000000) {state.d = state.STATE0;}
+        else {
+        state.d = state.AUTOCMPO;}
         
 
     }
