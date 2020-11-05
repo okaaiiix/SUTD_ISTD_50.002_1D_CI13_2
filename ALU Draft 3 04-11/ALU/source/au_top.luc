@@ -82,7 +82,6 @@ module au_top (
         io_led[1][7:0] = io_dip[1];   
         io_led[0][7:0] = io_dip[0];
         inp_b.d = c{io_dip[1][7:0], io_dip[0][7:0]};
-        alu.alufn = io_dip[2][5:0];
         io_led[2][6] = 0;
         io_led[2][7] = 1;
         if (io_dip[2][2]==1) {  //after center button is pressed, alu will be processed Switches: (io_dip[2][6] == 1 && io_dip[2][7] == 1)
@@ -96,7 +95,7 @@ module au_top (
         
       state.STATEOUT:
         //code goes here
-        alu.alufn = io_dip[2][5:0]; //taking dip value as ALUFN 
+        alu.alufn = io_dip[0][5:0]; //taking dip value as ALUFN 
         alu.a = inp_a.q; //reading input values
         alu.b = inp_b.q;
         
