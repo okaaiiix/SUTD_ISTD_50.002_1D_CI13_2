@@ -120,7 +120,7 @@ module au_top (
         }
         
       state.STATEERR:
-        seg.values = {4h8,4h5,4h6,4h6};
+        seg.values = {4h7,4h5,4h6,4h6};
         if (io_dip[2][7:0] == 0) {
           state.d = state.STATE0;
         } else {
