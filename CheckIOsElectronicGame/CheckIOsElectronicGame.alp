@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CheckIOsElectronicGame" board="Alchitry Au" language="Lucid" version="3">
+  <files>
+    <component>counter.luc</component>
+    <component>reset_conditioner.luc</component>
+    <src top="true">au_top.luc</src>
+    <constraint>newConstraints.xdc</constraint>
+    <constraint>custom.acf</constraint>
+  </files>
+</project>

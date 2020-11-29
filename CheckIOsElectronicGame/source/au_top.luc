@@ -1,0 +1,398 @@
+module au_top (
+    input clk,              // 100MHz clock
+    input rst_n,            // reset button (active low)
+    //output led [8],         // 8 user controllable LEDs
+    input usb_rx,           // USB->Serial input
+    output usb_tx,          // USB->Serial output
+    //output io_led [3][8],   // LEDs on IO Shield
+    //output io_seg [8],      // 7-segment LEDs on IO Shield
+    //output io_sel [4],      // Digit select on IO Shield
+    //input io_dip [3][8],
+    //input customin [3],
+    //output customout [3],  // DIP switches on IO Shield
+    output blink [108]
+   
+  ) {
+  
+  sig rst;                  // reset signal
+  .clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+  }
+  
+  counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0, STATE1};
+  
+  always {
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out;   // conditioned reset
+    
+    usb_tx = usb_rx;        // loop serial port
+    
+    //led = 8h00;             // turn LEDs off
+    
+    //io_led = 3x{{8h00}};    // turn LEDs off
+   // io_seg = 8hff;          // turn segments off
+    //io_sel = 4hf;           // select no digits
+    
+    blink[0] = 0;
+    blink[1] = 0;
+    blink[2] = 0;
+    blink[3] = 0;
+    blink[4] = 0;
+    blink[5] = 0;
+    blink[6] = 0;
+    blink[7] = 0;
+    blink[8] = 0;
+    blink[9] = 0;
+    blink[10] = 0;
+    blink[11] = 0;
+    blink[12] = 0;
+    blink[13] = 0;
+    blink[14] = 0;
+    blink[15] = 0;
+    blink[16] = 0;
+    blink[17] = 0;
+    blink[18] = 0;
+    blink[19] = 0;
+    blink[20] = 0;
+    blink[21] = 0;
+    blink[22] = 0;
+    blink[23] = 0;
+    blink[24] = 0;
+    blink[25] = 0;
+    blink[26] = 0;
+    blink[27] = 0;
+    blink[28] = 0;
+    blink[29] = 0;
+    blink[30] = 0;
+    blink[31] = 0;
+    blink[32] = 0;
+    blink[33] = 0;
+    blink[34] = 0;
+    blink[35] = 0;
+    blink[36] = 0;
+    blink[37] = 0;
+    blink[38] = 0;
+    blink[39] = 0;
+    blink[40] = 0;
+    blink[41] = 0;
+    blink[42] = 0;
+    blink[43] = 0;
+    blink[44] = 0;
+    blink[45] = 0;
+    blink[46] = 0;
+    blink[47] = 0;
+    blink[48] = 0;
+    blink[49] = 0;
+    blink[50] = 0;
+    blink[51] = 0;
+    blink[52] = 0;
+    blink[53] = 0;
+    blink[54] = 0;
+    blink[55] = 0;
+    blink[56] = 0;
+    blink[57] = 0;
+    blink[58] = 0;
+    blink[59] = 0;
+    blink[60] = 0;
+    blink[61] = 0;
+    blink[62] = 0;
+    blink[63] = 0;
+    blink[64] = 0;
+    blink[65] = 0;
+    blink[66] = 0;
+    blink[67] = 0;
+    blink[68] = 0;
+    blink[69] = 0;
+    blink[70] = 0;
+    blink[71] = 0;
+    blink[72] = 0;
+    blink[73] = 0;
+    blink[74] = 0;
+    blink[75] = 0;
+    blink[76] = 0;
+    blink[77] = 0;
+    blink[78] = 0;
+    blink[79] = 0;
+    blink[80] = 0;
+    blink[81] = 0;
+    blink[82] = 0;
+    blink[83] = 0;
+    blink[84] = 0;
+    blink[85] = 0;
+    blink[86] = 0;
+    blink[87] = 0;
+    blink[88] = 0;
+    blink[89] = 0;
+    blink[90] = 0;
+    blink[91] = 0;
+    blink[92] = 0;
+    blink[93] = 0;
+    blink[94] = 0;
+    blink[95] = 0;
+    blink[96] = 0;
+    blink[97] = 0;
+    blink[98] = 0;
+    blink[99] = 0;
+    blink[100] = 0;
+    blink[101] = 0;
+    blink[102] = 0;
+    blink[103] = 0;
+    blink[104] = 0;
+    blink[105] = 0;
+    blink[106] = 0;
+    blink[107] = 0;
+    
+
+    
+    //io_led[2][7] = 0;
+    
+    //remain on 
+    /*
+    customout[0] = customin[0];
+    customout[1] = customin[1];
+    customout[2] = customin[2];
+    */
+
+    //customout[0] = 0;
+    //customout[1] = 0;
+    //customout[2] = 0;
+    
+    
+    case (state.q) {
+      state.STATE0:
+        blink[0] = 0;
+        blink[1] = 0;
+        blink[2] = 0;
+        blink[3] = 0;
+        blink[4] = 0;
+        blink[5] = 0;
+        blink[6] = 0;
+        blink[7] = 0;
+        blink[8] = 0;
+        blink[9] = 0;
+        blink[10] = 0;
+        blink[11] = 0;
+        blink[12] = 0;
+        blink[13] = 0;
+        blink[14] = 0;
+        blink[15] = 0;
+        blink[16] = 0;
+        blink[17] = 0;
+        blink[18] = 0;
+        blink[19] = 0;
+        blink[20] = 0;
+        blink[21] = 0;
+        blink[22] = 0;
+        blink[23] = 0;
+        blink[24] = 0;
+        blink[25] = 0;
+        blink[26] = 0;
+        blink[27] = 0;
+        blink[28] = 0;
+        blink[29] = 0;
+        blink[30] = 0;
+        blink[31] = 0;
+        blink[32] = 0;
+        blink[33] = 0;
+        blink[34] = 0;
+        blink[35] = 0;
+        blink[36] = 0;
+        blink[37] = 0;
+        blink[38] = 0;
+        blink[39] = 0;
+        blink[40] = 0;
+        blink[41] = 0;
+        blink[42] = 0;
+        blink[43] = 0;
+        blink[44] = 0;
+        blink[45] = 0;
+        blink[46] = 0;
+        blink[47] = 0;
+        blink[48] = 0;
+        blink[49] = 0;
+        blink[50] = 0;
+        blink[51] = 0;
+        blink[52] = 0;
+        blink[53] = 0;
+        blink[54] = 0;
+        blink[55] = 0;
+        blink[56] = 0;
+        blink[57] = 0;
+        blink[58] = 0;
+        blink[59] = 0;
+        blink[60] = 0;
+        blink[61] = 0;
+        blink[62] = 0;
+        blink[63] = 0;
+        blink[64] = 0;
+        blink[65] = 0;
+        blink[66] = 0;
+        blink[67] = 0;
+        blink[68] = 0;
+        blink[69] = 0;
+        blink[70] = 0;
+        blink[71] = 0;
+        blink[72] = 0;
+        blink[73] = 0;
+        blink[74] = 0;
+        blink[75] = 0;
+        blink[76] = 0;
+        blink[77] = 0;
+        blink[78] = 0;
+        blink[79] = 0;
+        blink[80] = 0;
+        blink[81] = 0;
+        blink[82] = 0;
+        blink[83] = 0;
+        blink[84] = 0;
+        blink[85] = 0;
+        blink[86] = 0;
+        blink[87] = 0;
+        blink[88] = 0;
+        blink[89] = 0;
+        blink[90] = 0;
+        blink[91] = 0;
+        blink[92] = 0;
+        blink[93] = 0;
+        blink[94] = 0;
+        blink[95] = 0;
+        blink[96] = 0;
+        blink[97] = 0;
+        blink[98] = 0;
+        blink[99] = 0;
+        blink[100] = 0;
+        blink[101] = 0;
+        blink[102] = 0;
+        blink[103] = 0;
+        blink[104] = 0;
+        blink[105] = 0;
+        blink[106] = 0;
+        blink[107] = 0;
+        
+        
+            
+        
+        state.d=state.STATE1;
+        
+      state.STATE1:
+        blink[0] = 1;
+        blink[1] = 1;
+        blink[2] = 1;
+        blink[3] = 1;
+        blink[4] = 1;
+        blink[5] = 1;
+        blink[6] = 1;
+        blink[7] = 1;
+        blink[8] = 1;
+        blink[9] = 1;
+        blink[10] = 1;
+        blink[11] = 1;
+        blink[12] = 1;
+        blink[13] = 1;
+        blink[14] = 1;
+        blink[15] = 1;
+        blink[16] = 1;
+        blink[17] = 1;
+        blink[18] = 1;
+        blink[19] = 1;
+        blink[20] = 1;
+        blink[21] = 1;
+        blink[22] = 1;
+        blink[23] = 1;
+        blink[24] = 1;
+        blink[25] = 1;
+        blink[26] = 1;
+        blink[27] = 1;
+        blink[28] = 1;
+        blink[29] = 1;
+        blink[30] = 1;
+        blink[31] = 1;
+        blink[32] = 1;
+        blink[33] = 1;
+        blink[34] = 1;
+        blink[35] = 1;
+        blink[36] = 1;
+        blink[37] = 1;
+        blink[38] = 1;
+        blink[39] = 1;
+        blink[40] = 1;
+        blink[41] = 1;
+        blink[42] = 1;
+        blink[43] = 1;
+        blink[44] = 1;
+        blink[45] = 1;
+        blink[46] = 1;
+        blink[47] = 1;
+        blink[48] = 1;
+        blink[49] = 1;
+        blink[50] = 1;
+        blink[51] = 1;
+        blink[52] = 1;
+        blink[53] = 1;
+        blink[54] = 1;
+        blink[55] = 1;
+        blink[56] = 1;
+        blink[57] = 1;
+        blink[58] = 1;
+        blink[59] = 1;
+        blink[60] = 1;
+        blink[61] = 1;
+        blink[62] = 1;
+        blink[63] = 1;
+        blink[64] = 1;
+        blink[65] = 1;
+        blink[66] = 1;
+        blink[67] = 1;
+        blink[68] = 1;
+        blink[69] = 1;
+        blink[70] = 1;
+        blink[71] = 1;
+        blink[72] = 1;
+        blink[73] = 1;
+        blink[74] = 1;
+        blink[75] = 1;
+        blink[76] = 1;
+        blink[77] = 1;
+        blink[78] = 1;
+        blink[79] = 1;
+        blink[80] = 1;
+        blink[81] = 1;
+        blink[82] = 1;
+        blink[83] = 1;
+        blink[84] = 1;
+        blink[85] = 1;
+        blink[86] = 1;
+        blink[87] = 1;
+        blink[88] = 1;
+        blink[89] = 1;
+        blink[90] = 1;
+        blink[91] = 1;
+        blink[92] = 1;
+        blink[93] = 1;
+        blink[94] = 1;
+        blink[95] = 1;
+        blink[96] = 1;
+        blink[97] = 1;
+        blink[98] = 1;
+        blink[99] = 1;
+        blink[100] = 1;
+        blink[101] = 1;
+        blink[102] = 1;
+        blink[103] = 1;
+        blink[104] = 1;
+        blink[105] = 1;
+        blink[106] = 1;
+        blink[107] = 1;
+
+        
+        state.d = state.STATE0;
+        
+    }
+
+   
+
+  }
+}
