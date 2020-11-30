@@ -6,9 +6,14 @@ module score_calc (
     input overall_output, // overall answer chosen--> SATH    
     input correct,       // player answer address --> link to KX 
     output hp_out,        // output reflected in HP bar
+    input p1_display[7:0],
+    input p2_display[7:0]
   ) {
 
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATEC,STATEHP_A,STATEHP_B,STATEQN,STATEGAMEOVER}
+  // initializing state have to have HP bar full 
+  // hp[9:0] = 1;
+  
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATEC,STATEHP_A,STATEHP_B,STATEQN,STATEGAMEOVER,STATEGAMESTART}
   
   always {
   
@@ -26,7 +31,7 @@ module score_calc (
             hp[4] = 0;
           } else if (hp[4] == 0) {
             if (hp[3] == 1) {
-              hp[3] =0;
+              hp[3] = 0;
             } else if (hp[3] == 0) {
               if (hp[2] == 1) { 
                 hp[2] = 0;
@@ -48,7 +53,7 @@ module score_calc (
             hp[9] = 0;
           } else if (hp[9] == 0) {
             if (hp[8] == 1) {
-              hp[8] =0;
+              hp[8] = 0;
             } else if (hp[8] == 0) {
               if (hp[7] == 1) { 
                 hp[7] = 0;
@@ -63,7 +68,25 @@ module score_calc (
         } else if (overall_output != correct) { 
           state.d = STATEQN;
         }
-
+        
+      state.STATEGAMEOVER: // switch off player lights, switch on question lights, leave HP bar on 
+        p1_display[7:0] = 0;
+        p2_display[7:0] = 0;
+        // add all 7 seg led for questions to be set as 1 
+        if (submit[0] == 1 && submit[1] == 1) {
+          state.d = STATEGAMESTART;
+        }
+        
+      state.STATEGAMESTART: // add at beginning of game--> link to KX
+        p1_display[7:0] = 0;
+        p2_display[7:0] = 0;
+        // add all 7 seg led for questions to be set as 1 or blink
+        hp[9:0] = 1;
+        
+        if (submit[0] == 1 && submit[1] == 1) {
+          state.d = STATEQN;
+        }
+      
     }
   }
 }

@@ -96,7 +96,6 @@ pin p2_display[7] B12;
 pin p1_display_sel[0] B48;
 pin p2_display_sel[0] B49;
 
-
 pin hp[0] C30;
 pin hp[1] C31;
 pin hp[2] C34;
