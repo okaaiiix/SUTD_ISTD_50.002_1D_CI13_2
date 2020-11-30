@@ -75,6 +75,28 @@ pin button[3] C24;
 pin submit[0] C20;
 pin submit[1] C21;
 
+pin p1_display[0] C2;
+pin p1_display[1] C3;
+pin p1_display[2] C5;
+pin p1_display[3] C6;
+pin p1_display[4] C8;
+pin p1_display[5] C9;
+pin p1_display[6] C11;
+pin p1_display[7] C12;
+
+pin p2_display[0] B2;
+pin p2_display[1] B3;
+pin p2_display[2] B5;
+pin p2_display[3] B6;
+pin p2_display[4] B8;
+pin p2_display[5] B9;
+pin p2_display[6] B11;
+pin p2_display[7] B12;
+
+pin p1_display_sel[0] B48;
+pin p2_display_sel[0] B49;
+
+
 pin hp[0] C30;
 pin hp[1] C31;
 pin hp[2] C34;

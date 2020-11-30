@@ -2,13 +2,18 @@ module au_top (
     input clk,              // 100MHz clock
     input rst_n,            // reset button (active low)
     output led [8],         // 8 user controllable LEDs
-    output hp[10],          // HP LEDS 
     input usb_rx,           // USB->Serial input
     output usb_tx,           // USB->Serial output
     input button[4],     ///external buttons (Player 1 up, Player 2 up, Player 1 down, Player 2 down)
     input submit[2],     //(Player 1 submit, Player 2 submit)
+    output p1_display[8],
+    output p2_display[8],
+    output p1_display_sel[1],
+    output p2_display_sel[1],
+   
  
   ) {
+  
   sig button_press[6];                                 //button signals after conditioning and edge detection
   sig rst,a[16],b[16],alufn[6],error;                  // reset signal
   alu alu;
@@ -35,7 +40,6 @@ module au_top (
     .rst(rst){
       multi_seven_seg seg;
       
-      
     }
   }
 
@@ -45,6 +49,7 @@ module au_top (
   
   
   always {
+  
     bc0.in = button[0];
     ed0.in = bc0.out;
     bc1.in = button[1];
@@ -59,6 +64,11 @@ module au_top (
     rst = reset_cond.out;   // conditioned reset
     usb_tx = usb_rx;        // echo the serial data
     led = 8h00;             // turn LEDs off
+    
+    p1_display = ~seg.seg;      // connect segments to the driver
+    p2_display = ~seg.seg; 
+    p1_display_sel = ~4h1;      // only last digit of array used
+    p2_display_sel = ~4h1;
      
     seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display
      
@@ -72,5 +82,6 @@ module au_top (
     
     case (state.q) {
       state.STATE_INPUT:
+      if (
       
 }
