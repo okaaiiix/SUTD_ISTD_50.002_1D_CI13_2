@@ -10,7 +10,7 @@ module au_top (
     //input io_dip [3][8],
     //input customin [3],
     //output customout [3],  // DIP switches on IO Shield
-    output blink [108]
+    output blink [110]
    
   ) {
   
@@ -144,6 +144,8 @@ module au_top (
     blink[105] = 0;
     blink[106] = 0;
     blink[107] = 0;
+    blink[108] = 0;
+    blink[109] = 0;
     
 
     
@@ -271,6 +273,8 @@ module au_top (
         blink[105] = 0;
         blink[106] = 0;
         blink[107] = 0;
+        blink[108] = 0;
+        blink[109] = 0;
         
         
             
@@ -386,6 +390,8 @@ module au_top (
         blink[105] = 1;
         blink[106] = 1;
         blink[107] = 1;
+        blink[108] = 1;
+        blink[109] = 1;
 
         
         state.d = state.STATE0;

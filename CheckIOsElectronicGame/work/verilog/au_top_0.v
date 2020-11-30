@@ -9,7 +9,7 @@ module au_top_0 (
     input rst_n,
     input usb_rx,
     output reg usb_tx,
-    output reg [107:0] blink
+    output reg [109:0] blink
   );
   
   
@@ -151,6 +151,8 @@ module au_top_0 (
     blink[105+0-:1] = 1'h0;
     blink[106+0-:1] = 1'h0;
     blink[107+0-:1] = 1'h0;
+    blink[108+0-:1] = 1'h0;
+    blink[109+0-:1] = 1'h0;
     
     case (M_state_q)
       STATE0_state: begin
@@ -262,6 +264,8 @@ module au_top_0 (
         blink[105+0-:1] = 1'h0;
         blink[106+0-:1] = 1'h0;
         blink[107+0-:1] = 1'h0;
+        blink[108+0-:1] = 1'h0;
+        blink[109+0-:1] = 1'h0;
         M_state_d = STATE1_state;
       end
       STATE1_state: begin
@@ -373,6 +377,8 @@ module au_top_0 (
         blink[105+0-:1] = 1'h1;
         blink[106+0-:1] = 1'h1;
         blink[107+0-:1] = 1'h1;
+        blink[108+0-:1] = 1'h1;
+        blink[109+0-:1] = 1'h1;
         M_state_d = STATE0_state;
       end
     endcase

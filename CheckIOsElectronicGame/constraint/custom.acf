@@ -1,3 +1,13 @@
+pin clk CLOCK;
+clock clk 100MHz;
+
+pin rst_n RESET;
+
+// flip the Tx/Rx lines
+pin usb_rx USB_TX;
+pin usb_tx USB_RX;
+
+
 pin blink[0] A27;
 pin blink[1] A30;
 pin blink[2] A33;
@@ -30,6 +40,7 @@ pin blink[28] A11;
 pin blink[29] A8;
 pin blink[30] A5;
 pin blink[31] A2;
+
 pin blink[32] B27;
 pin blink[33] B30;
 pin blink[34] B33;
@@ -62,6 +73,7 @@ pin blink[60] B11;
 pin blink[61] B8;
 pin blink[62] B5;
 pin blink[63] B2;
+
 pin blink[64] C27;
 pin blink[65] C30;
 pin blink[66] C33;
@@ -94,6 +106,7 @@ pin blink[92] C11;
 pin blink[93] C8;
 pin blink[94] C43;
 pin blink[95] C46;
+
 pin blink[96] D49;
 pin blink[97] D42;
 pin blink[98] D45;
@@ -105,4 +118,9 @@ pin blink[103] D2;
 pin blink[104] D12;
 pin blink[105] D9;
 pin blink[106] D6;
-pin blink[107] D3;
+pin blink[107] D3;  
+pin blink[108] D43;
+pin blink[109] D46;
+
+
+

@@ -3,10 +3,10 @@
 <!--                                                         -->
 <!-- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="49" Path="C:/Users/admin/Desktop/CheckIOsElectronicGame/work/vivado/CheckIOsElectronicGame/CheckIOsElectronicGame.xpr">
+<Project Version="7" Minor="49" Path="C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/CheckIOsElectronicGame/work/vivado/CheckIOsElectronicGame/CheckIOsElectronicGame.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="0a293abd496a48bba3377ce7f7ed0317"/>
+    <Option Name="Id" Val="6b4935665b8047caad78d93357f91e93"/>
     <Option Name="Part" Val="xc7a35tftg256-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -69,7 +69,7 @@
       <File Path="$PSRCDIR/sources_1/imports/verilog/counter_2.v">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/counter_2.v"/>
-          <Attr Name="ImportTime" Val="1606604451"/>
+          <Attr Name="ImportTime" Val="1606723700"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -78,7 +78,7 @@
       <File Path="$PSRCDIR/sources_1/imports/verilog/reset_conditioner_1.v">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/reset_conditioner_1.v"/>
-          <Attr Name="ImportTime" Val="1606604451"/>
+          <Attr Name="ImportTime" Val="1606723700"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -87,7 +87,7 @@
       <File Path="$PSRCDIR/sources_1/imports/verilog/au_top_0.v">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/au_top_0.v"/>
-          <Attr Name="ImportTime" Val="1606604451"/>
+          <Attr Name="ImportTime" Val="1606723700"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
