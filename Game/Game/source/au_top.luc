@@ -1,0 +1,56 @@
+module au_top (
+    input clk,              // 100MHz clock
+    input rst_n,            // reset button (active low)
+    output led [8],         // 8 user controllable LEDs
+    input usb_rx,           // USB->Serial input
+    output usb_tx,           // USB->Serial output
+    input up_button
+    
+
+  ) {
+  
+  sig rst,a[16],b[16],alufn[6],error;                  // reset signal
+  alu alu;
+  .clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+    dff inp_a[16];
+    dff inp_b[16];
+    dff counter[27];
+    dff next_state;
+    .rst(rst){
+      multi_seven_seg seg;
+      
+      
+    }
+  }
+
+  counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTOBANDA,AUTOBANDB,AUTOBANDO,AUTOORA,AUTOORB,AUTOORO,AUTOXORA,AUTOXORB,AUTOXORO,AUTOCMPA,AUTOCMPB,AUTOCMPO,AUTOSHIFTA,AUTOSHIFTB,AUTOSHIFTO };
+
+  
+  
+  always {
+
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out;   // conditioned reset
+    usb_tx = usb_rx;        // echo the serial data
+    led = 8h00;             // turn LEDs off
+     
+    seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display
+     
+    io_seg = ~seg.seg;      // connect segments to the driver
+    io_sel = ~seg.sel;      // connect digit select to the driver
+     
+    io_led[2][5:0] = io_dip[2][5:0];  // show ALUFN on led
+    a=0;
+    b=0;
+    alufn=0;
+    alu.a = a;                        
+    alu.b = b;
+    alu.alufn = alufn;
+    
+    case (state.q) {
+      state.STATE0:
+}
