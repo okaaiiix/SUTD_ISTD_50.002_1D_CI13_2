@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Game" board="Alchitry Au" language="Lucid" version="3">
   <files>
+    <src>comparator.luc</src>
+    <src>adder.luc</src>
+    <component>pipeline.luc</component>
     <src top="true">au_top.luc</src>
+    <component>counter.luc</component>
+    <component>decoder.luc</component>
+    <src>seven_seg.luc</src>
+    <src>multi_seven_seg.luc</src>
+    <src>shifter.luc</src>
     <component>reset_conditioner.luc</component>
-    <constraint lib="true">alchitry.acf</constraint>
-    <constraint lib="true">au.xdc</constraint>
+    <src>alu.luc</src>
+    <src>boolean.luc</src>
+    <component>button_conditioner.luc</component>
+    <constraint>ALU.xdc</constraint>
+    <constraint>custom.acf</constraint>
   </files>
 </project>
