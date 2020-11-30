@@ -67,3 +67,10 @@ pin io_seg[4] A45;
 pin io_seg[5] A3;
 pin io_seg[6] A2;
 pin io_seg[7] A49;
+
+pin button[0] C28;
+pin button[1] C27;
+pin button[2] C23;
+pin button[3] C24;
+pin submit[0] C20;
+pin submit[1] C21;

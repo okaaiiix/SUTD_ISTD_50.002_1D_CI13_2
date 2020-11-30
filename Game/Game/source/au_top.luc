@@ -4,14 +4,15 @@ module au_top (
     output led [8],         // 8 user controllable LEDs
     input usb_rx,           // USB->Serial input
     output usb_tx,           // USB->Serial output
-    
-    input button_conditioner buttoncond[4](.clk(clk));
-    
-
+    input button[4],     ///external buttons (Player 1 up, Player 2 up, Player 1 down, Player 2 down)
+    input submit[2],     //(Player 1 submit, Player 2 submit)
+   
+ 
   ) {
-  
+  sig button_press[6];                                 //button signals after conditioning and edge detection
   sig rst,a[16],b[16],alufn[6],error;                  // reset signal
   alu alu;
+  
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
@@ -20,6 +21,17 @@ module au_top (
     dff inp_b[16];
     dff counter[27];
     dff next_state;
+    
+    // For button, ed detects rising edges, bc conditions input.
+    edge_detector ed0(#RISE(1), #FALL(0));
+    button_conditioner bc0;
+    edge_detector ed1(#RISE(1), #FALL(0));
+    button_conditioner bc1;
+    edge_detector ed2(#RISE(1), #FALL(0));
+    button_conditioner bc2;
+    edge_detector ed3(#RISE(1), #FALL(0));
+    button_conditioner bc3;
+    
     .rst(rst){
       multi_seven_seg seg;
       
@@ -28,13 +40,20 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATEA, STATEB,STATEOUT,STATEERR, AUTO00A, AUTO00B, AUTO00O, AUTOBANDA,AUTOBANDB,AUTOBANDO,AUTOORA,AUTOORB,AUTOORO,AUTOXORA,AUTOXORB,AUTOXORO,AUTOCMPA,AUTOCMPB,AUTOCMPO,AUTOSHIFTA,AUTOSHIFTB,AUTOSHIFTO };
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE_INPUT,STATEP1,}
 
   
   
   always {
-    
-    buttoncond.in = io_button[3:0];
+    bc0.in = button[0];
+    ed0.in = bc0.out;
+    bc1.in = button[1];
+    ed1.in = bc1.out;
+    bc2.in = button[2];
+    ed2.in = bc2.out;
+    bc3.in = button[3];
+    ed3.in = bc3.out;
+    button_press = c{ed3.out, ed2.out, ed1.out, ed0.out};
 
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset
@@ -43,10 +62,7 @@ module au_top (
      
     seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display
      
-    io_seg = ~seg.seg;      // connect segments to the driver
-    io_sel = ~seg.sel;      // connect digit select to the driver
-     
-    io_led[2][5:0] = io_dip[2][5:0];  // show ALUFN on led
+  
     a=0;
     b=0;
     alufn=0;
@@ -55,5 +71,6 @@ module au_top (
     alu.alufn = alufn;
     
     case (state.q) {
-      state.STATE0:
+      state.STATE_INPUT:
+      
 }

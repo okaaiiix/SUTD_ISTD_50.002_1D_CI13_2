@@ -11,6 +11,7 @@
     <src>multi_seven_seg.luc</src>
     <src>shifter.luc</src>
     <component>reset_conditioner.luc</component>
+    <component>edge_detector.luc</component>
     <src>alu.luc</src>
     <src>boolean.luc</src>
     <component>button_conditioner.luc</component>
