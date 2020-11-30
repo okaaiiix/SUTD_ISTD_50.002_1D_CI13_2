@@ -2,11 +2,11 @@ module au_top (
     input clk,              // 100MHz clock
     input rst_n,            // reset button (active low)
     output led [8],         // 8 user controllable LEDs
+    output hp[10],          // HP LEDS 
     input usb_rx,           // USB->Serial input
     output usb_tx,           // USB->Serial output
     input button[4],     ///external buttons (Player 1 up, Player 2 up, Player 1 down, Player 2 down)
     input submit[2],     //(Player 1 submit, Player 2 submit)
-   
  
   ) {
   sig button_press[6];                                 //button signals after conditioning and edge detection

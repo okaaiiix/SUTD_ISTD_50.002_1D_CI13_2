@@ -1,7 +1,8 @@
 module score_calc (
     input clk,       // clock
     input rst,       // reset
-    input ans        // answer address --> link to SATH 
+    input ans_A      // answer address for player A--> link to SATH 
+    input ans_B      // answer address for player B--> link to SATH 
     input correct    // player answer address --> link to KX 
     input alufn[6]   
     output hp_out    // output reflected in HP bar
@@ -13,17 +14,18 @@ module score_calc (
   
     case (state.q) {
       state.STATEC: // CHECK IF INPUT ANSWER IS CORRECT 
-      if (ans == correct) {
+      if (ans_A == correct) {
         state.d = state.STATEHP;
-      } else if (ans != correct) {
-        state.d = state.STATEQN; // link to kx's question generation state 
-      }
+      } else if (ans_A!= correct) {
+        state.d = state.STATEQN; // link to kx's question state 
+      } else if (ans_B == correct) {
+        state.d = state.STATEHP;
+      } else if (ans_B != correct) { 
+        state.d = state.STATEQ;  // link to kx's question state
+      }      
         
       state.STATEHP:
-        
-      
-      
-        
+
      
       
  
