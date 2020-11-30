@@ -74,3 +74,15 @@ pin button[2] C23;
 pin button[3] C24;
 pin submit[0] C20;
 pin submit[1] C21;
+
+pin led[0] C30;
+pin led[1] C31;
+pin led[2] C34;
+pin led[3] C33;
+pin led[4] C37;
+pin led[5] C36;
+pin led[6] C14;
+pin led[7] C15;
+pin led[8] C18;
+pin led[9] C17;
+pin led[10] C12;

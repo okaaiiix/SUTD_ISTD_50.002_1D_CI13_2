@@ -1,0 +1,31 @@
+module score_calc (
+    input clk,       // clock
+    input rst,       // reset
+    input ans        // answer address --> link to SATH 
+    input correct    // player answer address --> link to KX 
+    input alufn[6]   
+    output hp_out    // output reflected in HP bar
+  ) {
+
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATEC,STATEHP_FULL,STATEQN}
+  
+  always {
+  
+    case (state.q) {
+      state.STATEC: // CHECK IF INPUT ANSWER IS CORRECT 
+      if (ans == correct) {
+        state.d = state.STATEHP;
+      } else if (ans != correct) {
+        state.d = state.STATEQN; // link to kx's question generation state 
+      }
+        
+      state.STATEHP:
+        
+      
+      
+        
+     
+      
+ 
+    }
+}   
