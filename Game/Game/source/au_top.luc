@@ -47,6 +47,8 @@ module au_top (
     dff inp_b[16];
     dff counter[27];
     dff next_state;
+    dff health_a[5];
+    dff health_b[5];
     
     // For button, ed detects rising edges, bc conditions input.
     edge_detector ed0(#RISE(1), #FALL(0));
@@ -106,6 +108,8 @@ module au_top (
     seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display for both displays
     seg2.values = {4h7,4h7,4h7,4h7};
     
+    hp[4:0] = health_a.q;
+    hp[9:5] = health_b.q;
      
     a=0;
     b=0;
@@ -720,20 +724,20 @@ module au_top (
         
       state.STATEHP_A: // b scored 
         if (correct1) { 
-          if (hp[4] == 1) {
-            hp[4] = 0;
-          } else if (hp[4] == 0) {
-            if (hp[3] == 1) {
-              hp[3] = 0;
-            } else if (hp[3] == 0) {
-              if (hp[2] == 1) { 
-                hp[2] = 0;
-              } else if (hp[2] == 0) {
-                if (hp[1] == 1) {
-                  hp[1] = 0;
-                } else if (hp[1] == 0) {
-                  if (hp[0] == 1) {
-                    hp[0] = 0;
+          if (health_a.q[4] == 1) {
+            health_a.d[4] = 0;
+          } else if (health_a.q[4] == 0) {
+            if (health_a.q[3] == 1) {
+              health_a.d[3] = 0;
+            } else if (health_a.q[3] == 0) {
+              if (health_a.q[2] == 1) { 
+                health_a.d[2] = 0;
+              } else if (health_a.q[2] == 0) {
+                if (health_a.q[1] == 1) {
+                  health_a.d[1] = 0;
+                } else if (health_a.q[1] == 0) {
+                  if (health_a.q[0] == 1) {
+                    health_a.d[0] = 0;
                     state.d = state.STATEGAMEOVER;
                   }}}}}
         } else if (correct_answer != ans_input2) { 
@@ -742,20 +746,20 @@ module au_top (
 
       state.STATEHP_B: // a scored
         if (correct2) { 
-          if (hp[9] == 1) {
-            hp[9] = 0;
-          } else if (hp[9] == 0) {
-            if (hp[8] == 1) {
-              hp[8] = 0;
-            } else if (hp[8] == 0) {
-              if (hp[7] == 1) { 
-                hp[7] = 0;
-              } else if (hp[7] == 0) {
-                if (hp[6] == 1) {
-                  hp[6] = 0;
-                } else if (hp[6] == 0) {
-                  if (hp[5] == 1) {
-                    hp[5] = 0;
+          if (health_b.q[4] == 1) {
+            health_b.d[4] = 0;
+          } else if (health_b.q[4] == 0) {
+            if (health_b.q[3] == 1) {
+              health_b.d[3] = 0;
+            } else if (health_b.q[3] == 0) {
+              if (health_b.q[2] == 1) { 
+                health_b.d[2] = 0;
+              } else if (health_b.q[2] == 0) {
+                if (health_b.q[1] == 1) {
+                  health_b.d[1] = 0;
+                } else if (health_b.q[1] == 0) {
+                  if (health_b.q[0] == 1) {
+                    health_b.d[0] = 0;
                     state.d = state.STATEGAMEOVER;
                   }}}}}
         } else if (correct_answer != ans_input2) { 
@@ -775,7 +779,10 @@ module au_top (
         seg2.values ={4h0,4h0,4h0,4h0};
         
         // add all 7 seg led for questions to be set as 1 or blink
-        hp[9:0] = 1;
+        // hp[9:0] = 1;
+        health_a.d = 5b11111;
+        health_b.d = 5b11111;
+        
         
         if (submit[0] == 1 && submit[1] == 1) {
           state.d = state.STATEINIT; 
