@@ -1,11 +1,11 @@
-pin button[0] C28 pulldown;
-pin button[1] C27 pulldown;
-pin button[2] C23 pulldown;
-pin button[3] C24 pulldown;
-pin submit[0] C20 pulldown;
-pin submit[1] C21 pulldown;
+pin button[0] C28 pulldown;  //player 1 board up button
+pin button[1] C27 pulldown;  //player 2 board up button
+pin button[2] C23 pulldown;  //player 1 board down button
+pin button[3] C24 pulldown;  //player 2 board down button
+pin submit[0] C20 pulldown;  //player 1 submit button
+pin submit[1] C21 pulldown;  //player 2 submit button
 
-pin p1_display[0] C2;
+pin p1_display[0] C2; //7 segment of player 1 board pins
 pin p1_display[1] C3;
 pin p1_display[2] C5;
 pin p1_display[3] C6;
@@ -14,7 +14,7 @@ pin p1_display[5] C9;
 pin p1_display[6] C11;
 pin p1_display[7] C12;
 
-pin p2_display[0] B2;
+pin p2_display[0] B2;  //7 segment of player 2 board pins
 pin p2_display[1] B3;
 pin p2_display[2] B5;
 pin p2_display[3] B6;
@@ -23,7 +23,7 @@ pin p2_display[5] B9;
 pin p2_display[6] B11;
 pin p2_display[7] B12;
 
-pin p1_display_sel[0] B48;
+pin p1_display_sel[0] B48; 
 pin p2_display_sel[0] B49;
 
 pin hp[0] C30; // HP 1 (PLAYER A)
