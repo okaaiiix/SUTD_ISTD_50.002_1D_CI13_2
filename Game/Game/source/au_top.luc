@@ -9,8 +9,10 @@ module au_top (
     output p1_display[8],
     output p2_display[8],
     output p1_display_sel[1],
-    output p2_display_sel[1]
+    output p2_display_sel[1],
+    output hp[10]      // output reflected in HP bar
     
+
   ) {
   
   modulo modulo;
@@ -73,7 +75,7 @@ module au_top (
     RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,
     CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,
     CHECKDOVER,CHECKDUNDER,
-    RANDHIDE};
+    RANDHIDE,STATEC,STATEHP_A,STATEHP_B,STATEQN,STATEGAMEOVER,STATEGAMESTART};
 
   
   
@@ -94,6 +96,7 @@ module au_top (
     rst = reset_cond.out;   // conditioned reset
     usb_tx = usb_rx;        // echo the serial data
     led = 8h00;             // turn LEDs off
+    hp[9:0] = 8h00;
     
     p1_display = ~seg.seg;      // connect segments to the driver
     p2_display = ~seg2.seg; 
@@ -102,6 +105,7 @@ module au_top (
      
     seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display for both displays
     seg2.values = {4h7,4h7,4h7,4h7};
+    
      
     a=0;
     b=0;
@@ -705,7 +709,76 @@ module au_top (
         
       state.STATEP2CORRECT:
         correct2 = 1;
-        state.d = state.STATEOUTPUT;  
+        state.d = state.STATEOUTPUT; 
+        
+      state.STATEC: // CHECK IF INPUT ANSWER IS CORRECT 
+      if (correct_answer == ans_input1) {
+          state.d = state.STATEHP_A; // if b sent in answer, go to HP_A
+      } else if (correct_answer == ans_input2) {
+          state.d = state.STATEHP_B; // if a sent in answer, go to HP_B
+        }
+        
+      state.STATEHP_A: // b scored 
+        if (correct1) { 
+          if (hp[4] == 1) {
+            hp[4] = 0;
+          } else if (hp[4] == 0) {
+            if (hp[3] == 1) {
+              hp[3] = 0;
+            } else if (hp[3] == 0) {
+              if (hp[2] == 1) { 
+                hp[2] = 0;
+              } else if (hp[2] == 0) {
+                if (hp[1] == 1) {
+                  hp[1] = 0;
+                } else if (hp[1] == 0) {
+                  if (hp[0] == 1) {
+                    hp[0] = 0;
+                    state.d = state.STATEGAMEOVER;
+                  }}}}}
+        } else if (correct_answer != ans_input2) { 
+          state.d = state.STATEINIT;
+        }
+
+      state.STATEHP_B: // a scored
+        if (correct2) { 
+          if (hp[9] == 1) {
+            hp[9] = 0;
+          } else if (hp[9] == 0) {
+            if (hp[8] == 1) {
+              hp[8] = 0;
+            } else if (hp[8] == 0) {
+              if (hp[7] == 1) { 
+                hp[7] = 0;
+              } else if (hp[7] == 0) {
+                if (hp[6] == 1) {
+                  hp[6] = 0;
+                } else if (hp[6] == 0) {
+                  if (hp[5] == 1) {
+                    hp[5] = 0;
+                    state.d = state.STATEGAMEOVER;
+                  }}}}}
+        } else if (correct_answer != ans_input2) { 
+          state.d = state.STATEINIT;
+        }
+        
+      state.STATEGAMEOVER: // switch off player lights, switch on question lights, leave HP bar on 
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values ={4h0,4h0,4h0,4h0};
+        // add all 7 seg led for questions to be set as 1 
+        if (submit[0] == 1 && submit[1] == 1) {
+          state.d = state.STATEGAMESTART;
+        }
+        
+      state.STATEGAMESTART: // add at beginning of game--> link to KX
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values ={4h0,4h0,4h0,4h0};
+        
+        // add all 7 seg led for questions to be set as 1 or blink
+        hp[9:0] = 1;
+        
+        if (submit[0] == 1 && submit[1] == 1) {
+          state.d = state.STATEINIT; 
       
     }
 }

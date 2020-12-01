@@ -5,7 +5,7 @@ module score_calc (
     input b_out,          // answer address for player B--> SATH
     input overall_output, // overall answer chosen--> SATH    
     input correct,       // player answer address --> link to KX 
-    output hp_out,        // output reflected in HP bar
+    
     input p1_display[7:0],
     input p2_display[7:0]
   ) {
@@ -70,16 +70,17 @@ module score_calc (
         }
         
       state.STATEGAMEOVER: // switch off player lights, switch on question lights, leave HP bar on 
-        p1_display[7:0] = 0;
-        p2_display[7:0] = 0;
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values = {4h0,4h0,4h0,4h0};
         // add all 7 seg led for questions to be set as 1 
         if (submit[0] == 1 && submit[1] == 1) {
-          state.d = STATEGAMESTART;
+          state.d = state.STATEGAMESTART;
         }
         
       state.STATEGAMESTART: // add at beginning of game--> link to KX
-        p1_display[7:0] = 0;
-        p2_display[7:0] = 0;
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values = {4h0,4h0,4h0,4h0};
+        
         // add all 7 seg led for questions to be set as 1 or blink
         hp[9:0] = 1;
         
