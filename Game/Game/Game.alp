@@ -14,6 +14,7 @@
     <src>random.luc</src>
     <src>shifter.luc</src>
     <component>reset_conditioner.luc</component>
+    <component>edge_detector.luc</component>
     <src>alu.luc</src>
     <src>question_gen.luc</src>
     <src>boolean.luc</src>
