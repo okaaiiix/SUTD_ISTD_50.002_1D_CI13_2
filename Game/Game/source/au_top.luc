@@ -781,7 +781,7 @@ module au_top (
         // add all 7 seg led for questions to be set as 1 or blink
         // hp[9:0] = 1;
         health_a.d = 5b11111;
-        health_b.d = 5b11111;
+        health_b.d = 5b11111; 
         
         
         if (submit[0] == 1 && submit[1] == 1) {
