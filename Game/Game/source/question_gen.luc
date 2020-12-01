@@ -1,71 +1,26 @@
-module au_top (
-    input clk,              // 100MHz clock
-    input rst_n,            // reset button (active low)
-    output led [8],         // 8 user controllable LEDs
-    input usb_rx,           // USB->Serial input
-    output usb_tx,           // USB->Serial output
-    input button[4],     ///external buttons (Player 1 up, Player 2 up, Player 1 down, Player 2 down)
-    input submit[2],     //(Player 1 submit, Player 2 submit)
-    output p1_display[8],
-    output p2_display[8],
-    output p1_display_sel[1],
-    output p2_display_sel[1]
-    
+module question_gen (
+    input clk,  // clock
+    input rst,  // reset
+    output a[4],
+    output op1[2],
+    output b[4],
+    output op2[2],
+    output c[4],
+    output d[4],
+    output hide_index[2],
+    output correct_answer[4],
+    output error[1]
   ) {
+  sig a_temp[4],b_temp[4],c_temp[4],d_temp[4],op1_temp[2],op2_temp[2],a_actl[4],b_actl[4],c_actl[4],d_actl[4],hide_temp[2];
   
   modulo modulo;
   
-  var ans_input1;
-  var ans_input2;                                  //value to store player inputs of awnsers
-  var correct1;                                    //check if input values tally with correct awnser
-  var correct2; 
-  
-  var a[4];
-  var op1[2];
-  var b[4];
-  var op2[2];
-  var c[4];
-  var d[4];
-  var hide_index[2];
-  var correct_answer[4];
-  var error[1];
-  
-  sig button_press[6];                              //button signals after conditioning and edge detection
-  sig rst,alua[16],alub[16],alufn[6];                  // reset signal and relevant alu components
-  sig a_temp[4],b_temp[4],c_temp[4],d_temp[4],op1_temp[2],op2_temp[2],a_actl[4],b_actl[4],c_actl[4],d_actl[4],hide_temp[2];
-  alu alu;
-  
   .clk(clk) {
-    // The reset conditioner is used to synchronize the reset signal to the FPGA
-    // clock. This ensures the entire FPGA comes out of reset at the same time.
-    reset_conditioner reset_cond;
-    random random;
-    dff seed [32];                   // seed for each run
-    dff inp_a[16];
-    dff inp_b[16];
-    dff counter[27];
-    dff next_state;
-    
-    // For button, ed detects rising edges, bc conditions input.
-    edge_detector ed0(#RISE(1), #FALL(0));
-    button_conditioner bc0;
-    edge_detector ed1(#RISE(1), #FALL(0));
-    button_conditioner bc1;
-    edge_detector ed2(#RISE(1), #FALL(0));
-    button_conditioner bc2;
-    edge_detector ed3(#RISE(1), #FALL(0));
-    button_conditioner bc3;
-    
-    .rst(rst){
-      multi_seven_seg seg;
-      multi_seven_seg seg2;
-    }
+  random random;
+  dff seed [32];                   // seed for each run
   }
-
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
   fsm state(.clk(slowclock.value),.rst(rst)) = {
-  STATEINIT,
-  STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,
     RANDA,
     RANDOP1,
     RANDB0,RANDB1,RANDB2,RANDB3,
@@ -75,45 +30,7 @@ module au_top (
     CHECKDOVER,CHECKDUNDER,
     RANDHIDE};
 
-  
-  
   always {
-
-    
-    bc0.in = button[0];
-    ed0.in = bc0.out;
-    bc1.in = button[1];
-    ed1.in = bc1.out;
-    bc2.in = button[2];
-    ed2.in = bc2.out;
-    bc3.in = button[3];
-    ed3.in = bc3.out;
-    button_press = c{ed3.out, ed2.out, ed1.out, ed0.out};
-
-    reset_cond.in = ~rst_n; // input raw inverted reset signal
-    rst = reset_cond.out;   // conditioned reset
-    usb_tx = usb_rx;        // echo the serial data
-    led = 8h00;             // turn LEDs off
-    
-    p1_display = ~seg.seg;      // connect segments to the driver
-    p2_display = ~seg2.seg; 
-    p1_display_sel = ~4h1;      // only last digit of array used
-    p2_display_sel = ~4h1;
-     
-    seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display for both displays
-    seg2.values = {4h7,4h7,4h7,4h7};
-     
-    a=0;
-    b=0;
-    alufn=0;
-    alu.a = a;                        
-    alu.b = b;
-    alu.alufn = alufn;
-    ans_input1 = 0;
-    ans_input2 = 0;
-    correct1 = 0;
-    correct2 = 0;
-    
     random.seed = seed.q;              // use seed.q as the seed
     random.next = 0;                   // don't generate new numbers
     random.rst = rst;                  // connect rst by default
@@ -152,10 +69,7 @@ module au_top (
 // 3 -> /
     
     case (state.q) {
-      state.STATEINIT:
-        if (submit[1] == 1 & submit[0] == 1) {state.d = state.RANDA;}
-        else state.d = state.STATEINIT;
-        
+    
       // Randomise A
       state.RANDA:
         a_temp = random.num;
@@ -567,146 +481,4 @@ module au_top (
         else if (hide_temp == 1) {correct_answer = b_actl;}
         else if (hide_temp == 2) {correct_answer = c_actl;}
         else {correct_answer = d_actl;}
-      
-      state.STATEINPUT:
-        if (ans_input1 == 0){
-         seg.values = {4h0,4h0,4h0,4h0};
-        }
-        if (ans_input1 == 1){
-         seg.values = {4h1,4h1,4h1,4h1};
-        }
-        if (ans_input1 == 2){
-         seg.values = {4h2,4h2,4h2,4h2};
-        }
-        if (ans_input1 == 3){
-         seg.values = {4h3,4h3,4h3,4h3};
-        }
-        if (ans_input1 == 4){
-         seg.values = {4h4,4h4,4h4,4h4};
-        }
-        if (ans_input1 == 5){
-         seg.values = {4h5,4h5,4h5,4h5};
-        }
-        if (ans_input1 == 6){
-         seg.values = {4h6,4h6,4h6,4h6};
-        }
-        if (ans_input1 == 7){
-         seg.values = {4h6,4h6,4h6,4h6};
-        }
-        if (ans_input1 == 8){
-         seg.values = {4h6,4h6,4h6,4h6};
-        }
-        if (ans_input1 == 9){
-         seg.values = {4h6,4h6,4h6,4h6};
-        }
-        
-        if (ans_input2 == 0){
-          seg2.values = {4h0,4h0,4h0,4h0};
-        }
-        if (ans_input2 == 1){
-         seg2.values = {4h1,4h1,4h1,4h1};
-        }
-        if (ans_input2 == 2){
-         seg2.values = {4h2,4h2,4h2,4h2};
-        }
-        if (ans_input2 == 3){
-         seg2.values = {4h3,4h3,4h3,4h3};
-        }
-        if (ans_input2 == 4){
-         seg2.values = {4h4,4h4,4h4,4h4};
-        }
-        if (ans_input2 == 5){
-         seg2.values = {4h5,4h5,4h5,4h5};
-        }
-        if (ans_input2 == 6){
-         seg2.values = {4h6,4h6,4h6,4h6};
-        }
-        if (ans_input2 == 7){
-         seg2.values = {4h6,4h6,4h6,4h6};
-        }
-        if (ans_input2 == 8){
-         seg2.values = {4h6,4h6,4h6,4h6};
-        }
-        if (ans_input2 == 9){
-         seg2.values = {4h6,4h6,4h6,4h6};
-        }
-        
-        if (button[0] ==1){
-          state.d = state.STATEP1UP;
-        }
-        if (button[1] ==1){
-          state.d = state.STATEP2UP;
-        }
-        if (button[2] ==1){
-          state.d = state.STATEP1DOWN;
-        }
-        
-        if (button[3] == 1){
-          state.d = state.STATEP2DOWN;
-        }
-        
-        if (submit[0] == 1){
-          //if( //ans_input1 == correct_ans){
-              //state.d = STATEP1CORRECT;
-          //}
-          //else{ state.d = state.STATEINPUT}
-        }
-        
-        if (submit[1]==1){
-          //if(  //ans_input2 == correct_ans){
-              //state.d = STATEP2CORRECT;
-          //}
-          //else{ state.d = state.STATEINPUT}
-        }
-            
-            
-       state.STATEP1UP:
-          if (ans_input1 == 9){
-            ans_input1 = 0;
-            state.d = state.STATEINPUT;
-          }
-          else{
-          ans_input1 = ans_input1 + 1;
-          state.d = state.STATEINPUT;
-          }
-        
-      state.STATEP1DOWN:
-          if (ans_input1 ==0){
-            ans_input1 = 9;
-            state.d = state.STATEINPUT;
-          }
-          else{
-          ans_input1 = ans_input1 - 1;
-          state.d = state.STATEINPUT;
-          }
-        
-       state.STATEP2UP:
-          if (ans_input2 ==0){
-            ans_input2 = 9;
-            state.d = state.STATEINPUT;
-          }
-          else{
-          ans_input2 = ans_input1 + 1;
-          state.d = state.STATEINPUT;
-          }
-        
-       state.STATEP2DOWN:
-          if (ans_input2 ==0){
-            ans_input2 = 9;
-            state.d = state.STATEINPUT;
-          }
-          else{
-          ans_input2 = ans_input1 - 1;
-          state.d = state.STATEINPUT;
-          }
-      state.STATEP1CORRECT:
-        correct1 = 1;
-        state.d = state.STATEOUTPUT;
-        
-      state.STATEP2CORRECT:
-        correct2 = 1;
-        state.d = state.STATEOUTPUT;  
-      
-    }
 }
-  
