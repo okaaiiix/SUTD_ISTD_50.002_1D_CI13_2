@@ -209,12 +209,18 @@ module au_top (
     
       // Randomise Operator 1
       state.RANDOP1:
+        random.next = 1;
+        random.next = 0;
         op1_temp = random.num;
-        random.next = 2;
-        if (op1_temp == 3) {state.d = state.RANDB3;}
+        if (op1_temp != 0) {
+          modulo1.a = op1_temp;
+          modulo1.b = 4;
+          op1_temp = modulo1.out;
+        }
+        if (op1_temp == 3 && a_temp != 0) {state.d = state.RANDB3;}
         else if (op1_temp == 2) {state.d = state.RANDB2;}
         else if (op1_temp == 1) {state.d = state.RANDB1;}
-        else {state.d = state.RANDB0;}
+        else {op1_temp=0;state.d = state.RANDB0;}
         
       // Randomise B
       state.RANDB0:
@@ -241,50 +247,79 @@ module au_top (
         state.d = state.RANDOP22;
         
       state.RANDB3:
+        random.next=1;
+        random.next=0;
         b_temp = random.num;
-        // (A/B)%1 == 0 
+        // (A/B)%1 == 0
+        if ( a_actl != 0 && b_actl != 0 ) { 
         random.next = 3;
         if (b_temp > 9) { b_temp = b_temp - 10;}
         modulo1.a = a_actl/b_actl;
         modulo1.b = 1;
         if (modulo1.out != 0) {state.d = state.RANDB3;}
-        else  {state.d = state.RANDOP23;}
+        else  {state.d = state.RANDOP23;}} else {state.d = state.RANDB3;}
         
       // Randomise Operator 2
       state.RANDOP20:
+        random.next=1;
+        random.next=0;
         op2_temp = random.num;
-        random.next = 1;
-        if (op2_temp == 3) {state.d = state.RANDC3;}
+        if (op2_temp != 0) {
+          modulo1.a = op1_temp;
+          modulo1.b = 4;
+          op1_temp = modulo1.out;
+          }
+        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDC3;}
         else if (op2_temp == 2) {state.d = state.RANDC2;}
         else if (op2_temp == 1) {state.d = state.RANDC1;}
-        else state.d = state.RANDC0;
+        else {op2_temp=0;state.d = state.RANDC0;}
         
-      state.RANDOP20:
-        op2_temp = random.num;
+      state.RANDOP21:
         random.next = 1;
-        if (op2_temp == 3) {state.d = state.RANDC7;}
+        random.next = 0;
+        op2_temp = random.num;
+        if (op1_temp != 0) {
+          modulo1.a = op1_temp;
+          modulo1.b = 4;
+          op1_temp = modulo1.out;
+          }
+        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDC7;}
         else if (op2_temp == 2) {state.d = state.RANDC6;}
         else if (op2_temp == 1) {state.d = state.RANDC5;}
-        else state.d = state.RANDC4;
+        else {op2_temp=0;state.d = state.RANDC4;}
         
-      state.RANDOP20:
-        op2_temp = random.num;
+      state.RANDOP22:
         random.next = 1;
-        if (op2_temp == 3) {state.d = state.RANDCB;}
+        random.next = 0;
+        op2_temp = random.num;
+        if (op1_temp != 0) {
+          modulo1.a = op2_temp;
+          modulo1.b = 4;
+          op2_temp = modulo1.out;
+          }
+        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDCB;}
         else if (op2_temp == 2) {state.d = state.RANDCA;}
         else if (op2_temp == 1) {state.d = state.RANDC9;}
-        else state.d = state.RANDC8;
+        else {op2_temp=0;state.d = state.RANDC8;}
       
-      state.RANDOP20:
-        op2_temp = random.num;
+      state.RANDOP23:
         random.next = 1;
-        if (op2_temp == 3) {state.d = state.RANDCF;}
+        random.next = 0;
+        op2_temp = random.num;
+        if (op1_temp != 0) {
+          modulo1.a = op2_temp;
+          modulo1.b = 4;
+          op2_temp = modulo1.out;
+          }
+        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDCF;}
         else if (op2_temp == 2) {state.d = state.RANDCE;}
         else if (op2_temp == 1) {state.d = state.RANDCD;}
-        else state.d = state.RANDCC;
+        else {op2_temp=0;state.d = state.RANDCC;}
         
       // Randomise C
       state.RANDC0:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < 10 - B - A
         if (c_temp > 9) { 
@@ -296,7 +331,6 @@ module au_top (
           if (c_temp >= 10 - b_actl - a_actl) { c_actl = c_temp - ( 10 - b_actl - a_actl ); }
           else {c_actl = c_temp;}
         }
-        random.next = 4;
         state.d = state.CALCD0;
         
       state.RANDC1:
@@ -310,10 +344,11 @@ module au_top (
           if (c_temp >= b_actl + a_actl) { c_actl = c_temp - ( b_actl + a_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 4;
         state.d = state.CALCD1;
         
       state.RANDC2:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < (10-A)/B
         if (c_temp > 9) { 
@@ -324,10 +359,12 @@ module au_top (
           if (c_temp >= (10-a_actl)/b_actl) { c_actl = c_temp - ( (10-a_actl)/b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 4;
         state.d = state.CALCD2;
         
       state.RANDC3:
+        if (b_temp != 0 || c_temp != 0) {
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // ((B/C)%1==0
         if (c_temp > 9) { 
@@ -339,14 +376,15 @@ module au_top (
           modulo1.a = b_actl/c_actl;
           modulo1.b = 1;
           }
-        random.next = 4;
         if (modulo1.out != 0) {
           state.d = state.RANDC3;
         } else {
           state.d = state.CALCD3;
-          }
+          }} else { state.d = state.RANDC3; }
         
       state.RANDC4:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < 10 - B + A
         if (c_temp > 9) { 
@@ -358,10 +396,11 @@ module au_top (
           if (c_temp >= 10 - b_actl + a_actl) { c_actl = c_temp - ( 10 - b_actl + a_actl ); }
           else {c_actl = c_temp;}
         }
-        random.next = 4;
         state.d = state.CALCD4;
         
       state.RANDC5:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C > A - B
         if (c_temp > 9) { 
@@ -372,10 +411,11 @@ module au_top (
           if (c_temp <= a_actl - b_actl) { c_actl = c_temp + ( a_actl - b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 4;
         state.d = state.CALCD5;
         
       state.RANDC6:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < A/B
         if (c_temp > 9) { 
@@ -386,12 +426,14 @@ module au_top (
           if (c_temp >= (a_actl/b_actl)) { c_actl = c_temp - ( a_actl/b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 4;
         state.d = state.CALCD6;
         
       state.RANDC7:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // ((B/C)%1==0
+        if (b_temp!=0 && c_temp!=0) {
         if (c_temp > 9) { 
           c_temp = c_temp - 10;  
           modulo1.a = b_actl/c_actl;
@@ -405,9 +447,11 @@ module au_top (
           state.d = state.RANDC7;
         } else {
           state.d = state.CALCD7;
-          }
+          }} else {state.d = state.RANDC7;}
         
       state.RANDC8:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < 10 - A * B
         if (c_temp > 9) { 
@@ -423,6 +467,8 @@ module au_top (
         state.d = state.CALCD8;
         
       state.RANDC9:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C > A * B
         if (c_temp > 9) { 
@@ -437,6 +483,8 @@ module au_top (
         state.d = state.CALCD9;
         
       state.RANDCA:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < 10/A/B
         if (c_temp > 9) { 
@@ -447,12 +495,14 @@ module au_top (
           if (c_temp >= (10/a_actl/b_actl)) { c_actl = c_temp - ( 10/a_actl/b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 4;
         state.d = state.CALCDA;
         
       state.RANDCB:
+      random.next=1;
+        random.next=0;
         c_temp = random.num;
         // ((B/C)%1==0
+        if (a*b!=0 && c!=0) {
         if (c_temp > 9) { 
           c_temp = c_temp - 10;  
           modulo1.a = b_actl/c_actl;
@@ -461,14 +511,15 @@ module au_top (
           modulo1.a = b_actl/c_actl;
           modulo1.b = 1;
           }
-        random.next = 4;
         if (modulo1.out != 0) {
           state.d = state.RANDCB;
         } else {
           state.d = state.CALCDB;
-          }
+          }}
         
       state.RANDCC:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < 10 - A / B
         if (c_temp > 9) { 
@@ -484,6 +535,8 @@ module au_top (
         state.d = state.CALCDC;
         
       state.RANDCD:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < A / B
         if (c_temp > 9) { 
@@ -498,6 +551,8 @@ module au_top (
         state.d = state.CALCDD;
         
       state.RANDCE:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // C < 10*B/A
         if (c_temp > 9) { 
@@ -508,12 +563,14 @@ module au_top (
           if (c_temp >= (10*b_actl/a_actl)) { c_actl = c_temp - ( 10*b_actl/a_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 4;
         state.d = state.CALCDA;
         
       state.RANDCF:
+        random.next=1;
+        random.next=0;
         c_temp = random.num;
         // ((A/B/C)%1==0
+        if (a_actl/b_actl/c_actl!=0) {
         if (c_temp > 9) { 
           c_temp = c_temp - 10;  
           modulo1.a = a_actl/b_actl/c_actl;
@@ -522,12 +579,11 @@ module au_top (
           modulo1.a = a_actl/b_actl/c_actl;
           modulo1.b = 1;
           }
-        random.next = 4;
         if (modulo1.out != 0) {
           state.d = state.RANDCF;
         } else {
           state.d = state.CALCD3;
-          }
+          }} else {state.d = state.RANDCF;}
         
       // Calculate D
       state.CALCD0:
