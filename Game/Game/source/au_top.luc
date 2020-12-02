@@ -244,10 +244,10 @@ module au_top (
         
       // Randomise A
       state.RANDA:
-        //a_temp = random.num;
+        a_temp = random.num;
         //if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
         hp1[4]=0;
-        //random.next = 1;
+        random.next = 1;
         /*opled1[0] = 1;  
         opled1[1] = 0;
         opled1[2] = 0;
@@ -257,6 +257,17 @@ module au_top (
         opled2[1] = 0;
         opled2[2] = 0;
         opled2[3] = 0;*/
+        
+        if (a_actl==0) {sega.values = {4h0,4h0,4h0,4h0};} 
+        else if (a_actl==1) {sega.values = {4h0,4h0,4h0,4h1};}
+        else if (a_actl==2) {sega.values = {4h0,4h0,4h0,4h2};}
+        else if (a_actl==3) {sega.values = {4h0,4h0,4h0,4h3};}
+        else if (a_actl==4) {sega.values = {4h0,4h0,4h0,4h4};}
+        else if (a_actl==5) {sega.values = {4h0,4h0,4h0,4h5};}
+        else if (a_actl==6) {sega.values = {4h0,4h0,4h0,4h6};}
+        else if (a_actl==7) {sega.values = {4h0,4h0,4h0,4h7};}
+        else if (a_actl==8) {sega.values = {4h0,4h0,4h0,4h8};}
+        else {sega.values = {4h0,4h0,4h0,4h9};}
         
         sega.values = {4h7,4h7,4h7,4h2};
         segb.values = {4h7,4h7,4h7,4h2};
@@ -276,10 +287,10 @@ module au_top (
           modulo1.b = 4;
           op1_temp = modulo1.out;
         }
-        if (op1_temp == 3 && a_temp != 0) {state.d = state.RANDB3;}
-        else if (op1_temp == 2) {state.d = state.RANDB2;}
-        else if (op1_temp == 1) {state.d = state.RANDB1;}
-        else if (op1_temp == 0){state.d = state.RANDB0;}
+        if (op1_temp == 3 && a_temp != 0) {opled1[0]=1;opled1[1]=0;opled1[2]=0;opled1[3]=0;state.d = state.RANDB3;}
+        else if (op1_temp == 2) {opled1[0]=0;opled1[1]=1;opled1[2]=0;opled1[3]=0;state.d = state.RANDB2;}
+        else if (op1_temp == 1) {opled1[0]=0;opled1[1]=0;opled1[2]=1;opled1[3]=0;state.d = state.RANDB1;}
+        else if (op1_temp == 0){opled1[0]=0;opled1[1]=0;opled1[2]=0;opled1[3]=1;state.d = state.RANDB0;}
         
       // Randomise B
       state.RANDB0:
@@ -295,6 +306,16 @@ module au_top (
         random.next = 3;
         if (b_temp >9) { b_temp = b_temp - 10;}
         if (b_temp < a_actl) { b_actl = b_temp + a_actl;}
+        if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.RANDOP21;
         
       state.RANDB2:
@@ -303,6 +324,16 @@ module au_top (
         random.next = 3;
         if (b_temp > 9) { b_temp = b_temp - 10;}
         if (b_temp > (10 / a_actl)) { b_actl = b_temp - (10/a_actl);}
+        if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.RANDOP22;
         
       state.RANDB3:
@@ -315,6 +346,16 @@ module au_top (
         if (b_temp > 9) { b_temp = b_temp - 10;}
         modulo1.a = a_actl/b_actl;
         modulo1.b = 1;
+          if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         if (modulo1.out != 0) {state.d = state.RANDB3;}
         else  {state.d = state.RANDOP23;}} else {state.d = state.RANDB3;}
         
@@ -328,10 +369,10 @@ module au_top (
           modulo1.b = 4;
           op1_temp = modulo1.out;
           }
-        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDC3;}
-        else if (op2_temp == 2) {state.d = state.RANDC2;}
-        else if (op2_temp == 1) {state.d = state.RANDC1;}
-        else {op2_temp=0;state.d = state.RANDC0;}
+        if (op2_temp == 3 && a_temp != 0) {opled2[0]=1;opled2[1]=0;opled2[2]=0;opled2[3]=0;state.d = state.RANDC3;}
+        else if (op2_temp == 2) {opled2[0]=0;opled2[1]=1;opled2[2]=0;opled2[3]=0;state.d = state.RANDC2;}
+        else if (op2_temp == 1) {opled2[0]=0;opled2[1]=0;opled2[2]=1;opled2[3]=0;state.d = state.RANDC1;}
+        else if (op2_temp == 0){opled2[0]=0;opled2[1]=0;opled2[2]=0;opled2[3]=1;state.d = state.RANDC0;}
         
       state.RANDOP21:
         random.next = 1;
@@ -342,10 +383,10 @@ module au_top (
           modulo1.b = 4;
           op1_temp = modulo1.out;
           }
-        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDC7;}
-        else if (op2_temp == 2) {state.d = state.RANDC6;}
-        else if (op2_temp == 1) {state.d = state.RANDC5;}
-        else {op2_temp=0;state.d = state.RANDC4;}
+        if (op2_temp == 3 && a_temp != 0) {opled2[0]=1;opled2[1]=0;opled2[2]=0;opled2[3]=0;state.d = state.RANDC7;}
+        else if (op2_temp == 2) {opled2[0]=0;opled2[1]=1;opled2[2]=0;opled2[3]=0;state.d = state.RANDC6;}
+        else if (op2_temp == 1) {opled2[0]=0;opled2[1]=0;opled2[2]=1;opled2[3]=0;state.d = state.RANDC5;}
+        else if (op2_temp == 0){opled2[0]=0;opled2[1]=0;opled2[2]=0;opled2[3]=1;state.d = state.RANDC4;}
         
       state.RANDOP22:
         random.next = 1;
@@ -356,10 +397,10 @@ module au_top (
           modulo1.b = 4;
           op2_temp = modulo1.out;
           }
-        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDCB;}
-        else if (op2_temp == 2) {state.d = state.RANDCA;}
-        else if (op2_temp == 1) {state.d = state.RANDC9;}
-        else {op2_temp=0;state.d = state.RANDC8;}
+        if (op2_temp == 3 && a_temp != 0) {opled2[0]=1;opled2[1]=0;opled2[2]=0;opled2[3]=0;state.d = state.RANDCB;}
+        else if (op2_temp == 2) {opled2[0]=0;opled2[1]=1;opled2[2]=0;opled2[3]=0;state.d = state.RANDCA;}
+        else if (op2_temp == 1) {opled2[0]=0;opled2[1]=0;opled2[2]=1;opled2[3]=0;state.d = state.RANDC9;}
+        else if (op2_temp == 0){opled2[0]=0;opled2[1]=0;opled2[2]=0;opled2[3]=1;state.d = state.RANDC8;}
       
       state.RANDOP23:
         random.next = 1;
@@ -370,10 +411,10 @@ module au_top (
           modulo1.b = 4;
           op2_temp = modulo1.out;
           }
-        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDCF;}
-        else if (op2_temp == 2) {state.d = state.RANDCE;}
-        else if (op2_temp == 1) {state.d = state.RANDCD;}
-        else {op2_temp=0;state.d = state.RANDCC;}
+        if (op2_temp == 3 && a_temp != 0) {opled2[0]=1;opled2[1]=0;opled2[2]=0;opled2[3]=0;state.d = state.RANDCF;}
+        else if (op2_temp == 2) {opled2[0]=0;opled2[1]=1;opled2[2]=0;opled2[3]=0;state.d = state.RANDCE;}
+        else if (op2_temp == 1) {opled2[0]=0;opled2[1]=0;opled2[2]=1;opled2[3]=0;state.d = state.RANDCD;}
+        else if (op2_temp == 0){opled2[0]=0;opled2[1]=0;opled2[2]=0;opled2[3]=1;state.d = state.RANDCC;}
         
       // Randomise C
       state.RANDC0:
@@ -390,6 +431,16 @@ module au_top (
           if (c_temp >= 10 - b_actl - a_actl) { c_actl = c_temp - ( 10 - b_actl - a_actl ); }
           else {c_actl = c_temp;}
         }
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCD0;
         
       state.RANDC1:
@@ -403,6 +454,16 @@ module au_top (
           if (c_temp >= b_actl + a_actl) { c_actl = c_temp - ( b_actl + a_actl ); }
           else {c_actl = c_temp;}
           }
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCD1;
         
       state.RANDC2:
@@ -418,6 +479,16 @@ module au_top (
           if (c_temp >= (10-a_actl)/b_actl) { c_actl = c_temp - ( (10-a_actl)/b_actl ); }
           else {c_actl = c_temp;}
           }
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCD2;
         
       state.RANDC3:
@@ -435,6 +506,16 @@ module au_top (
           modulo1.a = b_actl/c_actl;
           modulo1.b = 1;
           }
+          if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         if (modulo1.out != 0) {
           state.d = state.RANDC3;
         } else {
@@ -455,6 +536,16 @@ module au_top (
           if (c_temp >= 10 - b_actl + a_actl) { c_actl = c_temp - ( 10 - b_actl + a_actl ); }
           else {c_actl = c_temp;}
         }
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCD4;
         
       state.RANDC5:
@@ -470,6 +561,16 @@ module au_top (
           if (c_temp <= a_actl - b_actl) { c_actl = c_temp + ( a_actl - b_actl ); }
           else {c_actl = c_temp;}
           }
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCD5;
         
       state.RANDC6:
@@ -485,6 +586,16 @@ module au_top (
           if (c_temp >= (a_actl/b_actl)) { c_actl = c_temp - ( a_actl/b_actl ); }
           else {c_actl = c_temp;}
           }
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCD6;
         
       state.RANDC7:
@@ -501,7 +612,16 @@ module au_top (
           modulo1.a = b_actl/c_actl;
           modulo1.b = 1;
           }
-        random.next=4;
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         if (modulo1.out != 0) {
           state.d = state.RANDC7;
         } else {
@@ -522,7 +642,16 @@ module au_top (
           if (c_temp >= 10 - b_actl * a_actl) { c_actl = c_temp - ( 10 - b_actl * a_actl ); }
           else {c_actl = c_temp;}
         }
-        random.next = 4;
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCD8;
         
       state.RANDC9:
@@ -538,7 +667,16 @@ module au_top (
           if (c_temp <= a_actl * b_actl) { c_actl = c_temp + ( a_actl * b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 4;
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCD9;
         
       state.RANDCA:
@@ -554,6 +692,16 @@ module au_top (
           if (c_temp >= (10/a_actl/b_actl)) { c_actl = c_temp - ( 10/a_actl/b_actl ); }
           else {c_actl = c_temp;}
           }
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCDA;
         
       state.RANDCB:
@@ -570,6 +718,16 @@ module au_top (
           modulo1.a = b_actl/c_actl;
           modulo1.b = 1;
           }
+          if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         if (modulo1.out != 0) {
           state.d = state.RANDCB;
         } else {
@@ -590,7 +748,16 @@ module au_top (
           if (c_temp >= 10 - b_actl / a_actl) { c_actl = c_temp - ( 10 - b_actl / a_actl ); }
           else {c_actl = c_temp;}
         }
-        random.next = 4;
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCDC;
         
       state.RANDCD:
@@ -605,8 +772,16 @@ module au_top (
           } else {
           if (c_temp >= a_actl / b_actl) { c_actl = c_temp - ( a_actl / b_actl ); }
           else {c_actl = c_temp;}
-          }
-        random.next = 4;
+          }if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCDD;
         
       state.RANDCE:
@@ -622,6 +797,16 @@ module au_top (
           if (c_temp >= (10*b_actl/a_actl)) { c_actl = c_temp - ( 10*b_actl/a_actl ); }
           else {c_actl = c_temp;}
           }
+        if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CALCDA;
         
       state.RANDCF:
@@ -638,6 +823,16 @@ module au_top (
           modulo1.a = a_actl/b_actl/c_actl;
           modulo1.b = 1;
           }
+          if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
         if (modulo1.out != 0) {
           state.d = state.RANDCF;
         } else {
@@ -647,72 +842,232 @@ module au_top (
       // Calculate D
       state.CALCD0:
         d_actl = a_actl + b_actl + c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCD1:
         d_actl = a_actl + b_actl - c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCD2:
         d_actl = a_actl + b_actl * c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
        
       state.CALCD3:
-        d_actl = a_actl + b_actl / c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCD4:
         d_actl = a_actl - b_actl + c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCD5:
         d_actl = a_actl - b_actl - c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCD6:
         d_actl = a_actl - b_actl * c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
        
       state.CALCD7:
         d_actl = a_actl - b_actl / c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCD8:
         d_actl = a_actl * b_actl + c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCD9:
         d_actl = a_actl * b_actl - c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCDA:
         d_actl = a_actl * b_actl * c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
        
       state.CALCDB:
         d_actl = a_actl * b_actl / c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCDC:
         d_actl = a_actl / b_actl + c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCDD:
         d_actl = a_actl / b_actl - c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       state.CALCDE:
         d_actl = a_actl / b_actl * c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
        
       state.CALCDF:
         d_actl = a_actl / b_actl / c_actl;
+        if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
         state.d = state.CHECKDOVER;
         
       // Checker
       state.CHECKDOVER:
         //if (d_actl > 9) {error = 1;}
-        state.d = state.CHECKDUNDER;
+        state.d = state.CHECKDOVER;
+        //state.d = state.CHECKDUNDER;
         
       state.CHECKDUNDER:
         //if (d_actl < 0) {error = 1;}
@@ -759,7 +1114,7 @@ module au_top (
         else if (hide_temp == 1) {
           correct_answer = b_actl;
           sega.values = {4h0,4h0,4h0,4h17};
-          if (a_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          if (a_actl==0) {sega.values = {4h0,4h0,4h0,4h0};} 
           else if (a_actl==1) {sega.values = {4h0,4h0,4h0,4h1};}
           else if (a_actl==2) {sega.values = {4h0,4h0,4h0,4h2};}
           else if (a_actl==3) {sega.values = {4h0,4h0,4h0,4h3};}
@@ -769,7 +1124,7 @@ module au_top (
           else if (a_actl==7) {sega.values = {4h0,4h0,4h0,4h7};}
           else if (a_actl==8) {sega.values = {4h0,4h0,4h0,4h8};}
           else {sega.values = {4h0,4h0,4h0,4h9};}
-          if (c_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          if (c_actl==0) {segc.values = {4h0,4h0,4h0,4h0};} 
           else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
           else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
           else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
