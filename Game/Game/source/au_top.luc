@@ -18,8 +18,9 @@ module au_top (
     output c_display_sel[1],
     output d_display[1],
     output d_display_sel[1],
-    output hp[10]      // output reflected in HP bar
-  ) {
+    output hp1[5],      // output reflected in HP bar
+    output hp2[5]
+      ) {
   
 
   
@@ -111,7 +112,9 @@ module au_top (
     rst = reset_cond.out;   // conditioned reset
     usb_tx = usb_rx;        // echo the serial data
     led = 8h00;             // turn LEDs off
-    hp[9:0] = 8h00;
+    hp1 = 8h00;
+    hp2 = 8h00;
+    
     
     p1_display = ~seg.seg;      // connect segments to the driver
     p2_display = ~seg2.seg; 
@@ -135,8 +138,8 @@ module au_top (
     segd.values = {4h7,4h7,4h7,4h7};
 
     
-    hp[4:0] = health_a.q;
-    hp[9:5] = health_b.q;
+    hp1 = health_a.q;
+    hp2 = health_b.q;
      
     a=0;
     b=0;

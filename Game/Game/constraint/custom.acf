@@ -26,13 +26,13 @@ pin p2_display[7] B12;
 pin p1_display_sel[0] B48; 
 pin p2_display_sel[0] B49;
 
-pin hp[0] C30; // HP 1 (PLAYER A)
-pin hp[1] C31; // HP 2 (PLAYER A)
-pin hp[2] C34; // HP 3 (PLAYER A)
-pin hp[3] C33; // HP 4 (PLAYER A)
-pin hp[4] C37; // HP 5 (PLAYER A) 
-pin hp[5] C36; // HP 1 (PLAYER B)
-pin hp[6] C14; // HP 2 (PLAYER B)
-pin hp[7] C15; // HP 3 (PLAYER B)
-pin hp[8] C18; // HP 4 (PLAYER B)
-pin hp[9] C17; // HP 5 (PLAYER B)
+pin hp1[0] C30; // HP 1 (PLAYER A)
+pin hp1[1] C31; // HP 2 (PLAYER A)
+pin hp1[2] C34; // HP 3 (PLAYER A)
+pin hp1[3] C33; // HP 4 (PLAYER A)
+pin hp1[4] C37; // HP 5 (PLAYER A) 
+pin hp2[0] C36; // HP 1 (PLAYER B)
+pin hp2[1] C14; // HP 2 (PLAYER B)
+pin hp2[2] C15; // HP 3 (PLAYER B)
+pin hp2[3] C18; // HP 4 (PLAYER B)
+pin hp2[4] C17; // HP 5 (PLAYER B)
