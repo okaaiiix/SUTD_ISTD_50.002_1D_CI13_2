@@ -1,4 +1,4 @@
-/*module question_gen (
+module question_gen (
     input clk,  // clock
     input rst,  // reset
     output a[4],
@@ -482,4 +482,3 @@
         else if (hide_temp == 2) {correct_answer = c_actl;}
         else {correct_answer = d_actl;}
 }
-*/
