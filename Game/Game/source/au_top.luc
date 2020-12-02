@@ -195,14 +195,12 @@ module au_top (
         if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
         
         random.next = 1;
-        random.next = 0;
         state.d = state.RANDOP1;
     
       // Randomise Operator 1
       state.RANDOP1:
         op1_temp = random.num;
-        random.next = 1;
-        random.next = 0;
+        random.next = 2;
         if (op1_temp == 3) {state.d = state.RANDB3;}
         else if (op1_temp == 2) {state.d = state.RANDB2;}
         else if (op1_temp == 1) {state.d = state.RANDB1;}
@@ -212,16 +210,14 @@ module au_top (
       state.RANDB0:
         b_temp = random.num;
         // B < 10 - A
-        random.next = 1;
-        random.next = 0;
+        random.next = 3;
         if (b_temp >= 10 - a_actl) { b_actl = b_temp - (10-a_actl); b = b_actl; }
         state.d = state.RANDOP20;
         
       state.RANDB1:
         b_temp = random.num;
         // B > A & B < 10
-        random.next = 1;
-        random.next = 0;
+        random.next = 3;
         if (b_temp >9) { b_temp = b_temp - 10;}
         if (b_temp < a_actl) { b_actl = b_temp + a_actl;}
         state.d = state.RANDOP21;
@@ -229,8 +225,7 @@ module au_top (
       state.RANDB2:
         b_temp = random.num;
         // B < 10/a
-        random.next = 1;
-        random.next = 0;
+        random.next = 3;
         if (b_temp > 9) { b_temp = b_temp - 10;}
         if (b_temp > (10 / a_actl)) { b_actl = b_temp - (10/a_actl);}
         state.d = state.RANDOP22;
@@ -238,8 +233,7 @@ module au_top (
       state.RANDB3:
         b_temp = random.num;
         // (A/B)%1 == 0 
-        random.next = 1;
-        random.next = 0;
+        random.next = 3;
         if (b_temp > 9) { b_temp = b_temp - 10;}
         modulo.a = a_actl/b_actl;
         modulo.b = 1;
@@ -250,7 +244,6 @@ module au_top (
       state.RANDOP20:
         op2_temp = random.num;
         random.next = 1;
-        random.next = 0;
         if (op2_temp == 3) {state.d = state.RANDC3;}
         else if (op2_temp == 2) {state.d = state.RANDC2;}
         else if (op2_temp == 1) {state.d = state.RANDC1;}
@@ -259,7 +252,6 @@ module au_top (
       state.RANDOP20:
         op2_temp = random.num;
         random.next = 1;
-        random.next = 0;
         if (op2_temp == 3) {state.d = state.RANDC7;}
         else if (op2_temp == 2) {state.d = state.RANDC6;}
         else if (op2_temp == 1) {state.d = state.RANDC5;}
@@ -268,7 +260,6 @@ module au_top (
       state.RANDOP20:
         op2_temp = random.num;
         random.next = 1;
-        random.next = 0;
         if (op2_temp == 3) {state.d = state.RANDCB;}
         else if (op2_temp == 2) {state.d = state.RANDCA;}
         else if (op2_temp == 1) {state.d = state.RANDC9;}
@@ -277,7 +268,6 @@ module au_top (
       state.RANDOP20:
         op2_temp = random.num;
         random.next = 1;
-        random.next = 0;
         if (op2_temp == 3) {state.d = state.RANDCF;}
         else if (op2_temp == 2) {state.d = state.RANDCE;}
         else if (op2_temp == 1) {state.d = state.RANDCD;}
@@ -296,8 +286,7 @@ module au_top (
           if (c_temp >= 10 - b_actl - a_actl) { c_actl = c_temp - ( 10 - b_actl - a_actl ); }
           else {c_actl = c_temp;}
         }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCD0;
         
       state.RANDC1:
@@ -311,8 +300,7 @@ module au_top (
           if (c_temp >= b_actl + a_actl) { c_actl = c_temp - ( b_actl + a_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCD1;
         
       state.RANDC2:
@@ -326,8 +314,7 @@ module au_top (
           if (c_temp >= (10-a_actl)/b_actl) { c_actl = c_temp - ( (10-a_actl)/b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCD2;
         
       state.RANDC3:
@@ -341,8 +328,7 @@ module au_top (
           modulo.a = b_actl/c_actl;
           modulo.b = 1;
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         if (modulo.out != 0) {
           state.d = state.RANDC3;
         } else {
@@ -361,8 +347,7 @@ module au_top (
           if (c_temp >= 10 - b_actl + a_actl) { c_actl = c_temp - ( 10 - b_actl + a_actl ); }
           else {c_actl = c_temp;}
         }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCD4;
         
       state.RANDC5:
@@ -376,8 +361,7 @@ module au_top (
           if (c_temp <= a_actl - b_actl) { c_actl = c_temp + ( a_actl - b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCD5;
         
       state.RANDC6:
@@ -391,8 +375,7 @@ module au_top (
           if (c_temp >= (a_actl/b_actl)) { c_actl = c_temp - ( a_actl/b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCD6;
         
       state.RANDC7:
@@ -406,8 +389,7 @@ module au_top (
           modulo.a = b_actl/c_actl;
           modulo.b = 1;
           }
-        random.next = 1;
-        random.next = 0;
+        random.next=4;
         if (modulo.out != 0) {
           state.d = state.RANDC7;
         } else {
@@ -426,8 +408,7 @@ module au_top (
           if (c_temp >= 10 - b_actl * a_actl) { c_actl = c_temp - ( 10 - b_actl * a_actl ); }
           else {c_actl = c_temp;}
         }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCD8;
         
       state.RANDC9:
@@ -441,8 +422,7 @@ module au_top (
           if (c_temp <= a_actl * b_actl) { c_actl = c_temp + ( a_actl * b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCD9;
         
       state.RANDCA:
@@ -456,8 +436,7 @@ module au_top (
           if (c_temp >= (10/a_actl/b_actl)) { c_actl = c_temp - ( 10/a_actl/b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCDA;
         
       state.RANDCB:
@@ -471,8 +450,7 @@ module au_top (
           modulo.a = b_actl/c_actl;
           modulo.b = 1;
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         if (modulo.out != 0) {
           state.d = state.RANDCB;
         } else {
@@ -491,8 +469,7 @@ module au_top (
           if (c_temp >= 10 - b_actl / a_actl) { c_actl = c_temp - ( 10 - b_actl / a_actl ); }
           else {c_actl = c_temp;}
         }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCDC;
         
       state.RANDCD:
@@ -506,8 +483,7 @@ module au_top (
           if (c_temp >= a_actl / b_actl) { c_actl = c_temp - ( a_actl / b_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCDD;
         
       state.RANDCE:
@@ -521,8 +497,7 @@ module au_top (
           if (c_temp >= (10*b_actl/a_actl)) { c_actl = c_temp - ( 10*b_actl/a_actl ); }
           else {c_actl = c_temp;}
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         state.d = state.CALCDA;
         
       state.RANDCF:
@@ -536,8 +511,7 @@ module au_top (
           modulo.a = a_actl/b_actl/c_actl;
           modulo.b = 1;
           }
-        random.next = 1;
-        random.next = 0;
+        random.next = 4;
         if (modulo.out != 0) {
           state.d = state.RANDCF;
         } else {
@@ -971,4 +945,5 @@ module au_top (
           state.d = state.STATEINIT; 
       
     }
-    }}
+}
+  
