@@ -19,7 +19,9 @@ module au_top (
     output d_display[7],
     output d_display_sel[1],
     output hp1[5],      // output reflected in HP bar
-    output hp2[5]
+    output hp2[5],
+    output opled1[4],
+    output opled2[4]
       ) {
   var health1;
   var health2;
@@ -110,6 +112,16 @@ module au_top (
     //hp1 = 8h00;
     //hp2 = 8h00;
     
+    opled1[0] = 1;
+    opled1[1] = 1;
+    opled1[2] = 1;
+    opled1[3] = 1;
+    
+    opled2[0] = 1;
+    opled2[1] = 1;
+    opled2[2] = 1;
+    opled2[3] = 1;
+    
     hp1[4] = 1;
     hp1[3] = 1;
     hp1[2] = 1;
@@ -139,12 +151,12 @@ module au_top (
     c_display_sel = ~4h1;
     d_display_sel = ~4h1;
      
-    seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display for both displays
-    seg2.values = {4h7,4h7,4h7,4h7};
-    sega.values = {4h7,4h7,4h7,4h7};
-    segb.values = {4h7,4h7,4h7,4h1};
-    segc.values = {4h7,4h7,4h7,4h7};
-    segd.values = {4h7,4h7,4h7,4h7};
+    seg.values = {4h7,4h7,4h7,4h8}; //initiate seven segment display for both displays
+    seg2.values = {4h7,4h7,4h7,4h8};
+    sega.values = {4h7,4h7,4h7,4h8};
+    segb.values = {4h7,4h7,4h7,4h8};
+    segc.values = {4h7,4h7,4h7,4h8};
+    segd.values = {4h7,4h7,4h7,4h8};
 
     
     //hp1 = health_a.q;

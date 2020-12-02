@@ -90,3 +90,12 @@ pin hp2[1] A31; // HP 2 (PLAYER B)
 pin hp2[2] A34; // HP 3 (PLAYER B)
 pin hp2[3] A37; // HP 4 (PLAYER B)
 pin hp2[4] A40; // HP 5 (PLAYER B)
+
+pin opled1[0] A24;
+pin opled1[1] A21;
+pin opled1[2] A18;
+pin opled1[3] A18;
+pin opled2[0] A15;
+pin opled2[1] A12;
+pin opled2[2] A9;
+pin opled1[3] A18;
