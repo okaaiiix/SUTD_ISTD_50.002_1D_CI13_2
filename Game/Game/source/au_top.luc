@@ -21,7 +21,7 @@ module au_top (
     output hp[10]      // output reflected in HP bar
   ) {
   
-  modulo modulo;
+
   
   var ans_input1;
   var ans_input2;                                  //value to store player inputs of awnsers
@@ -48,6 +48,7 @@ module au_top (
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
     random random;
+    modulo modulo;
     dff seed [32];                   // seed for each run
     dff inp_a[16];
     dff inp_b[16];
@@ -152,6 +153,7 @@ module au_top (
     
     modulo.a = 0;
     modulo.b = 0;
+    modulo.rst = rst;
     
     a=0;
     a_temp=0;
