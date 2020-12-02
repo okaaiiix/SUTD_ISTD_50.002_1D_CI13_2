@@ -14,7 +14,7 @@ module au_top (
     output a_display_sel[1],
     output b_display[7],
     output b_display_sel[1],
-    output c_display[7],
+    output c_display[7], 
     output c_display_sel[1],
     output d_display[7],
     output d_display_sel[1],
