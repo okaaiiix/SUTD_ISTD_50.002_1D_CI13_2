@@ -1,68 +1,38 @@
-Errors in file C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\source\au_top.luc:
-    Line 702, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
-    Line 24, Column 2 : The signals "Clock, Reset" were not assigned
+Warnings in file C:\root\SUTD\Term 4\50.002\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\source\au_top.luc:
+    Line 706, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
     Line 42, Column 2 : "alua" was never used
     Line 44, Column 2 : "alu" was never used
-    Line 52, Column 4 : "inp_a" was never used
-    Line 53, Column 4 : "inp_b" was never used
-    Line 54, Column 4 : "counter" was never used
-    Line 55, Column 4 : "next_state" was never used
-    Line 193, Column 17 : The signal "random.num" is wider than "a_temp" and the most significant bits will be dropped
-    Line 201, Column 19 : The signal "random.num" is wider than "op1_temp" and the most significant bits will be dropped
-    Line 210, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
-    Line 217, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
-    Line 225, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
-    Line 233, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
-    Line 244, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
-    Line 252, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
-    Line 260, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
-    Line 268, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
-    Line 277, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 292, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 306, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 320, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 338, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 353, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 367, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 381, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 399, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 414, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 428, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 442, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 460, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 475, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 489, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 503, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 596, Column 20 : The signal "random.num" is wider than "hide_temp" and the most significant bits will be dropped
-    Line 600, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
-    Line 634, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
-    Line 668, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
-Errors in file C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\source\question_gen.luc:
-    Line 478, Column 20 : The signal "random.num" is wider than "hide_temp" and the most significant bits will be dropped
-    Line 16, Column 2 : The signals "Clock, Reset" were not assigned
-    Line 75, Column 17 : The signal "random.num" is wider than "a_temp" and the most significant bits will be dropped
-    Line 83, Column 19 : The signal "random.num" is wider than "op1_temp" and the most significant bits will be dropped
-    Line 92, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
-    Line 99, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
-    Line 107, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
-    Line 115, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
-    Line 126, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
-    Line 134, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
-    Line 142, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
-    Line 150, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
-    Line 159, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 174, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 188, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 202, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 220, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 235, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 249, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 263, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 281, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 296, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 310, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
-    Line 324, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 55, Column 4 : "inp_a" was never used
+    Line 56, Column 4 : "inp_b" was never used
+    Line 57, Column 4 : "counter" was never used
+    Line 58, Column 4 : "next_state" was never used
+    Line 196, Column 17 : The signal "random.num" is wider than "a_temp" and the most significant bits will be dropped
+    Line 204, Column 19 : The signal "random.num" is wider than "op1_temp" and the most significant bits will be dropped
+    Line 213, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
+    Line 220, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
+    Line 228, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
+    Line 236, Column 17 : The signal "random.num" is wider than "b_temp" and the most significant bits will be dropped
+    Line 247, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
+    Line 255, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
+    Line 263, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
+    Line 271, Column 19 : The signal "random.num" is wider than "op2_temp" and the most significant bits will be dropped
+    Line 280, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 295, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 309, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 323, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
     Line 342, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
     Line 357, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
     Line 371, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
     Line 385, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 403, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 418, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 432, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 446, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 464, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 479, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 493, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 507, Column 17 : The signal "random.num" is wider than "c_temp" and the most significant bits will be dropped
+    Line 600, Column 20 : The signal "random.num" is wider than "hide_temp" and the most significant bits will be dropped
+    Line 604, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
+    Line 638, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
+    Line 672, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated

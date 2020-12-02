@@ -10,20 +10,17 @@ module au_top (
     output p2_display[8],
     output p1_display_sel[1],
     output p2_display_sel[1],
-    output a_display[1],
+    output a_display[7],
     output a_display_sel[1],
-    output b_display[1],
+    output b_display[7],
     output b_display_sel[1],
-    output c_display[1],
+    output c_display[7],
     output c_display_sel[1],
-    output d_display[1],
+    output d_display[7],
     output d_display_sel[1],
     output hp1[5],      // output reflected in HP bar
     output hp2[5]
       ) {
-  
-
-  
   var ans_input1;
   var ans_input2;                                  //value to store player inputs of awnsers
   var correct1;                                    //check if input values tally with correct awnser
@@ -43,7 +40,6 @@ module au_top (
   sig rst,alua[16],alub[16],alufn[6];                  // reset signal and relevant alu components
   sig a_temp[4],b_temp[4],c_temp[4],d_temp[4],op1_temp[2],op2_temp[2],a_actl[4],b_actl[4],c_actl[4],d_actl[4],hide_temp[2];
   alu alu;
-  
   modulo1 modulo1;
   
   .clk(clk) {
