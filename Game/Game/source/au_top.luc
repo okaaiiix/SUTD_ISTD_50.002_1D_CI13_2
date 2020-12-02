@@ -79,7 +79,6 @@ module au_top (
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
   fsm state(.clk(slowclock.value),.rst(rst)) = {
-  STATEINIT,
   STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,
     RANDA,
     RANDOP1,
@@ -88,10 +87,8 @@ module au_top (
     RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,
     CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,
     CHECKDOVER,CHECKDUNDER,
-    RANDHIDE,STATEC,STATEHP_A,STATEHP_B,STATEQN,STATEGAMEOVER,STATEGAMESTART};
+    RANDHIDE,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER,STATEGAMESTART};
 
-  
-  
   always {
 
     bc0.in = button[0];
@@ -186,9 +183,21 @@ module au_top (
 // 3 -> /
     
     case (state.q) {
-      state.STATEINIT:
-        if (submit[1] == 1 & submit[0] == 1) {state.d = state.RANDA;}
-        else state.d = state.STATEINIT;
+    
+      
+      state.STATEGAMESTART: // BEGINNING STATE
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values ={4h0,4h0,4h0,4h0};
+        
+        // add all 7 seg led for questions to be set as 1 or blink
+        // hp[9:0] = 1;
+        health_a.d = 5b11111;
+        health_b.d = 5b11111; 
+        
+        
+        if (submit[0] == 1 && submit[1] == 1) { // start game when both submit buttons are pressed 
+          state.d = state.RANDA;
+        } else state.d = state.STATEGAMESTART;
         
       // Randomise A
       state.RANDA:
@@ -900,7 +909,7 @@ module au_top (
                     state.d = state.STATEGAMEOVER;
                   }}}}}
         } else if (correct_answer != ans_input2) { 
-          state.d = state.STATEINIT;
+          state.d = state.RANDA;
         }
 
       state.STATEHP_B: // a scored
@@ -922,7 +931,7 @@ module au_top (
                     state.d = state.STATEGAMEOVER;
                   }}}}}
         } else if (correct_answer != ans_input2) { 
-          state.d = state.STATEINIT;
+          state.d = state.RANDA;
         }
         
       state.STATEGAMEOVER: // switch off player lights, switch on question lights, leave HP bar on 
@@ -932,19 +941,6 @@ module au_top (
         if (submit[0] == 1 && submit[1] == 1) {
           state.d = state.STATEGAMESTART;
         }
-        
-      state.STATEGAMESTART: // add at beginning of game--> link to KX
-        seg.values = {4h0,4h0,4h0,4h0};
-        seg2.values ={4h0,4h0,4h0,4h0};
-        
-        // add all 7 seg led for questions to be set as 1 or blink
-        // hp[9:0] = 1;
-        health_a.d = 5b11111;
-        health_b.d = 5b11111; 
-        
-        
-        if (submit[0] == 1 && submit[1] == 1) {
-          state.d = state.STATEINIT; 
       
     }
     }

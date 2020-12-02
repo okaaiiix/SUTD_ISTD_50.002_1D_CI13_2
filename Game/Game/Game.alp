@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Game" board="Alchitry Au" language="Lucid" version="3">
   <files>
-    <src>adder.luc</src>
-    <src>random.luc</src>
-    <src>question_gen.luc</src>
-    <src>score_calc.luc</src>
-    <src>seven_seg.luc</src>
     <component>pipeline.luc</component>
-    <src>modulo.v</src>
-    <src>multi_seven_seg.luc</src>
-    <src>boolean.luc</src>
-    <src>comparator.luc</src>
-    <component>counter.luc</component>
-    <component>decoder.luc</component>
-    <src top="true">au_top.luc</src>
     <src>shifter.luc</src>
-    <src>modulo1.luc</src>
-    <src>alu.luc</src>
-    <component>reset_conditioner.luc</component>
     <component>edge_detector.luc</component>
+    <src>modulo1.luc</src>
+    <src>comparator.luc</src>
+    <src>multi_seven_seg.luc</src>
+    <src>seven_seg.luc</src>
+    <component>reset_conditioner.luc</component>
     <component>button_conditioner.luc</component>
-    <constraint>ALU.xdc</constraint>
+    <src>modulo.v</src>
+    <src top="true">au_top.luc</src>
+    <component>counter.luc</component>
+    <src>adder.luc</src>
+    <component>decoder.luc</component>
+    <src>alu.luc</src>
+    <src>random.luc</src>
+    <src>boolean.luc</src>
+    <src>score_calc.luc</src>
+    <src>question_gen.luc</src>
     <constraint>custom.acf</constraint>
+    <constraint>ALU.xdc</constraint>
   </files>
 </project>
