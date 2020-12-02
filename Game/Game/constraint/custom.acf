@@ -99,3 +99,4 @@ pin opled2[0] A12;
 pin opled2[1] A9;
 pin opled2[2] A6;
 pin opled2[3] A3;
+pin opled3[0] A2;

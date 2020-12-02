@@ -1,6 +1,7 @@
 module au_top (
     input clk,              // 100MHz clock
     input rst_n,            // reset button (active low)
+    output io_led[3][8],
     output led [8],         // 8 user controllable LEDs
     input usb_rx,           // USB->Serial input
     output usb_tx,           // USB->Serial output
@@ -21,7 +22,8 @@ module au_top (
     output hp1[5],      // output reflected in HP bar
     output hp2[5],
     output opled1[4],
-    output opled2[4]
+    output opled2[4],
+    output opled3[1]
       ) {
   var health1;
   var health2;
@@ -44,6 +46,7 @@ module au_top (
   sig rst ;//alua[16],alub[16],alufn[6];                  // reset signal and relevant alu components
   var a_temp,b_temp,c_temp,d_temp,op1_temp,op2_temp,a_actl,b_actl,c_actl,d_actl,hide_temp;
   sig start_game;
+  sig up1,down1,submit1,up2,down2,submit2;
   //alu alu;
   modulo1 modulo1;
   
@@ -70,10 +73,10 @@ module au_top (
     button_conditioner bc2;
     edge_detector ed3(#RISE(1), #FALL(0));
     button_conditioner bc3;
-    edge_detector ed4(#RISE(1), #FALL(0));
-    button_conditioner bc4;
-    edge_detector ed5(#RISE(1), #FALL(0));
-    button_conditioner bc5;
+    //edge_detector ed4(#RISE(1), #FALL(0));
+    //button_conditioner bc4;
+    //edge_detector ed5(#RISE(1), #FALL(0));
+    //button_conditioner bc5;
     
     
     
@@ -89,33 +92,31 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {
-  STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,
-    RANDA,
-    RANDOP1,
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATEGAMESTART, RANDA,RANDOP1,
     RANDB0,RANDB1,RANDB2,RANDB3,
     RANDOP20,RANDOP21,RANDOP22,RANDOP23,
     RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,
     CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,
-    CHECKDOVER,CHECKDUNDER,
-    RANDHIDE,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER,STATEGAMESTART};
+    CHECKDOVER,CHECKDUNDER, RANDHIDE, STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER};
 
   always {
 
     bc0.in = button[0];
     ed0.in = bc0.out;
+    io_led[2][7]=ed0.out;
     bc1.in = button[1];
     ed1.in = bc1.out;
     bc2.in = button[2];
     ed2.in = bc2.out;
     bc3.in = button[3];
     ed3.in = bc3.out;
-    bc4.in = submit[0];
-    ed4.in = bc4.out;
-    bc5.in = submit[1];
-    ed5.in = bc5.out;
+   // bc4.in = submit[0];
+    //ed4.in = bc4.out;
+    //bc5.in = submit[1];
+    //ed5.in = bc5.out;
     
-    start_game = ed0.out;
+    
+    if (ed0.out == 1) { up1 = 1; } else { up1 = 0; }
     
     
     
@@ -135,6 +136,8 @@ module au_top (
     opled2[1] = 1;
     opled2[2] = 1;
     opled2[3] = 1;
+    opled3[0] = 1;
+    
     
     hp1[4] = 1;
     hp1[3] = 1;
@@ -230,6 +233,10 @@ module au_top (
       state.STATEGAMESTART: // BEGINNING STATE
         seg.values = {4h0,4h0,4h0,4h0};
         seg2.values ={4h0,4h0,4h0,4h0};
+        sega.values = {4h7,4h7,4h7,4h1};
+        segb.values = {4h7,4h7,4h7,4h1};
+        segc.values = {4h7,4h7,4h7,4h1};
+        segd.values = {4h7,4h7,4h7,4h1};
         
         // add all 7 seg led for questions to be set as 1 or blink
         // hp[9:0] = 1;
@@ -246,17 +253,17 @@ module au_top (
         opled2[2] = 0;
         opled2[3] = 0;
         
+        state.d = state.RANDA;
+        //if (submit[0] == 1 || submit[1] == 1) { //&& submit[1] == 1) { // start game when both submit buttons are pressed 
         
-        if (start_game == 1) { //&& submit[1] == 1) { // start game when both submit buttons are pressed 
-          state.d = state.RANDA;
-        } else state.d = state.STATEGAMESTART;
+        //} else state.d = state.STATEGAMESTART;
         
       // Randomise A
       state.RANDA:
-        a_temp = random.num;
-        if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
+        //a_temp = random.num;
+        //if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
         hp1[4]=0;
-        random.next = 1;
+        //random.next = 1;
         opled1[0] = 1;  
         opled1[1] = 0;
         opled1[2] = 0;
@@ -266,7 +273,12 @@ module au_top (
         opled2[1] = 0;
         opled2[2] = 0;
         opled2[3] = 0;
-        state.d = state.RANDOP1;
+        
+        sega.values = {4h7,4h7,4h7,4h2};
+        segb.values = {4h7,4h7,4h7,4h2};
+        segc.values = {4h7,4h7,4h7,4h2};
+        segd.values = {4h7,4h7,4h7,4h2};
+        state.d = state.RANDA;//RANDOP1;
     
       // Randomise Operator 1
       state.RANDOP1:
