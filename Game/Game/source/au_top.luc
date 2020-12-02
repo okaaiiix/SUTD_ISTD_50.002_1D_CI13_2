@@ -21,6 +21,8 @@ module au_top (
     output hp1[5],      // output reflected in HP bar
     output hp2[5]
       ) {
+  var health1;
+  var health2;
   var ans_input1;
   var ans_input2;                                  //value to store player inputs of awnsers
   var correct1;                                    //check if input values tally with correct awnser
@@ -53,8 +55,8 @@ module au_top (
     dff inp_b[16];
     dff counter[27];
     dff next_state;
-    dff health_a[5];
-    dff health_b[5];
+    //dff health_a[5];
+    //dff health_b[5];
     
     // For button, ed detects rising edges, bc conditions input.
     edge_detector ed0(#RISE(1), #FALL(0));
@@ -105,9 +107,23 @@ module au_top (
     rst = reset_cond.out;   // conditioned reset
     usb_tx = usb_rx;        // echo the serial data
     led = 8h00;             // turn LEDs off
-    hp1 = 8h00;
-    hp2 = 8h00;
+    //hp1 = 8h00;
+    //hp2 = 8h00;
     
+    hp1[4] = 1;
+    hp1[3] = 1;
+    hp1[2] = 1;
+    hp1[1] = 1;
+    hp1[0] = 1;
+    
+    hp2[4] = 1;
+    hp2[3] = 1;
+    hp2[2] = 1;
+    hp2[1] = 1;
+    hp2[0] = 1;
+    
+    health1 = 5;
+    health2 = 5;
     
     p1_display = ~seg.seg;      // connect segments to the driver
     p2_display = ~seg2.seg; 
@@ -126,13 +142,13 @@ module au_top (
     seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display for both displays
     seg2.values = {4h7,4h7,4h7,4h7};
     sega.values = {4h7,4h7,4h7,4h7};
-    segb.values = {4h7,4h7,4h7,4h7};
+    segb.values = {4h7,4h7,4h7,4h1};
     segc.values = {4h7,4h7,4h7,4h7};
     segd.values = {4h7,4h7,4h7,4h7};
 
     
-    hp1 = health_a.q;
-    hp2 = health_b.q;
+    //hp1 = health_a.q;
+    //hp2 = health_b.q;
      
     a=0;
     b=0;
@@ -191,11 +207,11 @@ module au_top (
         
         // add all 7 seg led for questions to be set as 1 or blink
         // hp[9:0] = 1;
-        health_a.d = 5b11111;
-        health_b.d = 5b11111; 
+        //health_a.d = 5b11111;
+        //health_b.d = 5b11111; 
         
         
-        if (submit[0] == 1 && submit[1] == 1) { // start game when both submit buttons are pressed 
+        if (submit[0] == 1) { //&& submit[1] == 1) { // start game when both submit buttons are pressed 
           state.d = state.RANDA;
         } else state.d = state.STATEGAMESTART;
         
@@ -203,7 +219,7 @@ module au_top (
       state.RANDA:
         a_temp = random.num;
         if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
-        
+        hp1[4]=0;
         random.next = 1;
         state.d = state.RANDOP1;
     
@@ -947,8 +963,8 @@ module au_top (
         }
         
       state.STATEHP_A: // b scored 
-        if (correct1==1) { 
-          if (health_a.q[4] == 1) {
+        if (correct2==1) { 
+        /*  if (health_a.q[4] == 1) {
             health_a.d[4] = 0;
           } else if (health_a.q[4] == 0) {
             if (health_a.q[3] == 1) {
@@ -964,12 +980,46 @@ module au_top (
                     health_a.d[0] = 0;
                     state.d = state.STATEGAMEOVER;
                   }}}}}
-        } else if (correct_answer != ans_input2) { 
+        */
+          health1 = health1 - 1;
+          if (health1 == 5) {
+            hp1[4] = 1;
+            hp1[3] = 1;
+            hp1[2] = 1;
+            hp1[1] = 1;
+            hp1[0] = 1;} else if (health1 == 4) {
+            hp1[4] = 0;
+            hp1[3] = 1;
+            hp1[2] = 1;
+            hp1[1] = 1;
+            hp1[0] = 1;} else if (health1 == 3) {
+            hp1[4] = 0;
+            hp1[3] = 0;
+            hp1[2] = 1;
+            hp1[1] = 1;
+            hp1[0] = 1;} else if (health1 == 2) {
+            hp1[4] = 0;
+            hp1[3] = 0;
+            hp1[2] = 0;
+            hp1[1] = 1;
+            hp1[0] = 1;} else if (health1 == 1){
+            hp1[4] = 0;
+            hp1[3] = 0;
+            hp1[2] = 0;
+            hp1[1] = 0;
+            hp1[0] = 1;} else {
+            hp1[4] = 0;
+            hp1[3] = 0;
+            hp1[2] = 0;
+            hp1[1] = 0;
+            hp1[0] = 0;
+            state.d = state.STATEGAMEOVER;}
+          } else if (correct_answer != ans_input2) { 
           state.d = state.RANDA;
         }
 
       state.STATEHP_B: // a scored
-        if (correct2==1) { 
+        if (correct2==1) { /*
           if (health_b.q[4] == 1) {
             health_b.d[4] = 0;
           } else if (health_b.q[4] == 0) {
@@ -985,7 +1035,40 @@ module au_top (
                   if (health_b.q[0] == 1) {
                     health_b.d[0] = 0;
                     state.d = state.STATEGAMEOVER;
-                  }}}}}
+                  }}}}} */
+          health2 = health2 - 1;
+          if (health2 == 5) {
+            hp2[4] = 1;
+            hp2[3] = 1;
+            hp2[2] = 1;
+            hp2[1] = 1;
+            hp2[0] = 1;} else if (health2 == 4) {
+            hp2[4] = 0;
+            hp2[3] = 1;
+            hp2[2] = 1;
+            hp2[1] = 1;
+            hp2[0] = 1;} else if (health2 == 3) {
+            hp2[4] = 0;
+            hp2[3] = 0;
+            hp2[2] = 1;
+            hp2[1] = 1;
+            hp2[0] = 1;} else if (health2 == 2) {
+            hp2[4] = 0;
+            hp2[3] = 0;
+            hp2[2] = 0;
+            hp2[1] = 1;
+            hp2[0] = 1;} else if (health2 == 1){
+            hp2[4] = 0;
+            hp2[3] = 0;
+            hp2[2] = 0;
+            hp2[1] = 0;
+            hp2[0] = 1;} else {
+            hp2[4] = 0;
+            hp2[3] = 0;
+            hp2[2] = 0;
+            hp2[1] = 0;
+            hp2[0] = 0;
+            state.d = state.STATEGAMEOVER;}
         } else if (correct_answer != ans_input2) { 
           state.d = state.RANDA;
         }

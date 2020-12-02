@@ -30,6 +30,10 @@ module au_top_0 (
   
   
   
+  integer health1;
+  
+  integer health2;
+  
   integer ans_input1;
   
   integer ans_input2;
@@ -102,8 +106,6 @@ module au_top_0 (
   reg [15:0] M_inp_b_d, M_inp_b_q = 1'h0;
   reg [26:0] M_counter_d, M_counter_q = 1'h0;
   reg M_next_state_d, M_next_state_q = 1'h0;
-  reg [4:0] M_health_a_d, M_health_a_q = 1'h0;
-  reg [4:0] M_health_b_d, M_health_b_q = 1'h0;
   wire [1-1:0] M_ed0_out;
   reg [1-1:0] M_ed0_in;
   edge_detector_4 ed0 (
@@ -292,8 +294,6 @@ module au_top_0 (
   
   always @* begin
     M_state_d = M_state_q;
-    M_health_b_d = M_health_b_q;
-    M_health_a_d = M_health_a_q;
     
     M_bc0_in = button[0+0-:1];
     M_ed0_in = M_bc0_out;
@@ -308,8 +308,18 @@ module au_top_0 (
     rst = M_reset_cond_out;
     usb_tx = usb_rx;
     led = 8'h00;
-    hp1 = 8'h00;
-    hp2 = 8'h00;
+    hp1[4+0-:1] = 1'h1;
+    hp1[3+0-:1] = 1'h1;
+    hp1[2+0-:1] = 1'h1;
+    hp1[1+0-:1] = 1'h1;
+    hp1[0+0-:1] = 1'h1;
+    hp2[4+0-:1] = 1'h1;
+    hp2[3+0-:1] = 1'h1;
+    hp2[2+0-:1] = 1'h1;
+    hp2[1+0-:1] = 1'h1;
+    hp2[0+0-:1] = 1'h1;
+    health1 = 3'h5;
+    health2 = 3'h5;
     p1_display = ~M_seg_seg;
     p2_display = ~M_seg2_seg;
     a_display = ~M_sega_seg;
@@ -325,11 +335,9 @@ module au_top_0 (
     M_seg_values = 16'h7777;
     M_seg2_values = 16'h7777;
     M_sega_values = 16'h7777;
-    M_segb_values = 16'h7777;
+    M_segb_values = 16'h7771;
     M_segc_values = 16'h7777;
     M_segd_values = 16'h7777;
-    hp1 = M_health_a_q;
-    hp2 = M_health_b_q;
     a = 1'h0;
     b = 1'h0;
     ans_input1 = 1'h0;
@@ -365,9 +373,7 @@ module au_top_0 (
       STATEGAMESTART_state: begin
         M_seg_values = 16'h0000;
         M_seg2_values = 16'h0000;
-        M_health_a_d = 5'h1f;
-        M_health_b_d = 5'h1f;
-        if (submit[0+0-:1] == 1'h1 && submit[1+0-:1] == 1'h1) begin
+        if (submit[0+0-:1] == 1'h1) begin
           M_state_d = RANDA_state;
         end else begin
           M_state_d = STATEGAMESTART_state;
@@ -379,6 +385,7 @@ module au_top_0 (
           a_actl = a_temp - 4'ha;
           a = a_actl;
         end
+        hp1[4+0-:1] = 1'h0;
         M_random_next = 1'h1;
         M_state_d = RANDOP1_state;
       end
@@ -1559,30 +1566,49 @@ module au_top_0 (
         end
       end
       STATEHP_A_state: begin
-        if (correct1 == 1'h1) begin
-          if (M_health_a_q[4+0-:1] == 1'h1) begin
-            M_health_a_d[4+0-:1] = 1'h0;
+        if (correct2 == 1'h1) begin
+          health1 = health1 - 1'h1;
+          if (health1 == 3'h5) begin
+            hp1[4+0-:1] = 1'h1;
+            hp1[3+0-:1] = 1'h1;
+            hp1[2+0-:1] = 1'h1;
+            hp1[1+0-:1] = 1'h1;
+            hp1[0+0-:1] = 1'h1;
           end else begin
-            if (M_health_a_q[4+0-:1] == 1'h0) begin
-              if (M_health_a_q[3+0-:1] == 1'h1) begin
-                M_health_a_d[3+0-:1] = 1'h0;
+            if (health1 == 3'h4) begin
+              hp1[4+0-:1] = 1'h0;
+              hp1[3+0-:1] = 1'h1;
+              hp1[2+0-:1] = 1'h1;
+              hp1[1+0-:1] = 1'h1;
+              hp1[0+0-:1] = 1'h1;
+            end else begin
+              if (health1 == 2'h3) begin
+                hp1[4+0-:1] = 1'h0;
+                hp1[3+0-:1] = 1'h0;
+                hp1[2+0-:1] = 1'h1;
+                hp1[1+0-:1] = 1'h1;
+                hp1[0+0-:1] = 1'h1;
               end else begin
-                if (M_health_a_q[3+0-:1] == 1'h0) begin
-                  if (M_health_a_q[2+0-:1] == 1'h1) begin
-                    M_health_a_d[2+0-:1] = 1'h0;
+                if (health1 == 2'h2) begin
+                  hp1[4+0-:1] = 1'h0;
+                  hp1[3+0-:1] = 1'h0;
+                  hp1[2+0-:1] = 1'h0;
+                  hp1[1+0-:1] = 1'h1;
+                  hp1[0+0-:1] = 1'h1;
+                end else begin
+                  if (health1 == 1'h1) begin
+                    hp1[4+0-:1] = 1'h0;
+                    hp1[3+0-:1] = 1'h0;
+                    hp1[2+0-:1] = 1'h0;
+                    hp1[1+0-:1] = 1'h0;
+                    hp1[0+0-:1] = 1'h1;
                   end else begin
-                    if (M_health_a_q[2+0-:1] == 1'h0) begin
-                      if (M_health_a_q[1+0-:1] == 1'h1) begin
-                        M_health_a_d[1+0-:1] = 1'h0;
-                      end else begin
-                        if (M_health_a_q[1+0-:1] == 1'h0) begin
-                          if (M_health_a_q[0+0-:1] == 1'h1) begin
-                            M_health_a_d[0+0-:1] = 1'h0;
-                            M_state_d = STATEGAMEOVER_state;
-                          end
-                        end
-                      end
-                    end
+                    hp1[4+0-:1] = 1'h0;
+                    hp1[3+0-:1] = 1'h0;
+                    hp1[2+0-:1] = 1'h0;
+                    hp1[1+0-:1] = 1'h0;
+                    hp1[0+0-:1] = 1'h0;
+                    M_state_d = STATEGAMEOVER_state;
                   end
                 end
               end
@@ -1596,29 +1622,48 @@ module au_top_0 (
       end
       STATEHP_B_state: begin
         if (correct2 == 1'h1) begin
-          if (M_health_b_q[4+0-:1] == 1'h1) begin
-            M_health_b_d[4+0-:1] = 1'h0;
+          health2 = health2 - 1'h1;
+          if (health2 == 3'h5) begin
+            hp2[4+0-:1] = 1'h1;
+            hp2[3+0-:1] = 1'h1;
+            hp2[2+0-:1] = 1'h1;
+            hp2[1+0-:1] = 1'h1;
+            hp2[0+0-:1] = 1'h1;
           end else begin
-            if (M_health_b_q[4+0-:1] == 1'h0) begin
-              if (M_health_b_q[3+0-:1] == 1'h1) begin
-                M_health_b_d[3+0-:1] = 1'h0;
+            if (health2 == 3'h4) begin
+              hp2[4+0-:1] = 1'h0;
+              hp2[3+0-:1] = 1'h1;
+              hp2[2+0-:1] = 1'h1;
+              hp2[1+0-:1] = 1'h1;
+              hp2[0+0-:1] = 1'h1;
+            end else begin
+              if (health2 == 2'h3) begin
+                hp2[4+0-:1] = 1'h0;
+                hp2[3+0-:1] = 1'h0;
+                hp2[2+0-:1] = 1'h1;
+                hp2[1+0-:1] = 1'h1;
+                hp2[0+0-:1] = 1'h1;
               end else begin
-                if (M_health_b_q[3+0-:1] == 1'h0) begin
-                  if (M_health_b_q[2+0-:1] == 1'h1) begin
-                    M_health_b_d[2+0-:1] = 1'h0;
+                if (health2 == 2'h2) begin
+                  hp2[4+0-:1] = 1'h0;
+                  hp2[3+0-:1] = 1'h0;
+                  hp2[2+0-:1] = 1'h0;
+                  hp2[1+0-:1] = 1'h1;
+                  hp2[0+0-:1] = 1'h1;
+                end else begin
+                  if (health2 == 1'h1) begin
+                    hp2[4+0-:1] = 1'h0;
+                    hp2[3+0-:1] = 1'h0;
+                    hp2[2+0-:1] = 1'h0;
+                    hp2[1+0-:1] = 1'h0;
+                    hp2[0+0-:1] = 1'h1;
                   end else begin
-                    if (M_health_b_q[2+0-:1] == 1'h0) begin
-                      if (M_health_b_q[1+0-:1] == 1'h1) begin
-                        M_health_b_d[1+0-:1] = 1'h0;
-                      end else begin
-                        if (M_health_b_q[1+0-:1] == 1'h0) begin
-                          if (M_health_b_q[0+0-:1] == 1'h1) begin
-                            M_health_b_d[0+0-:1] = 1'h0;
-                            M_state_d = STATEGAMEOVER_state;
-                          end
-                        end
-                      end
-                    end
+                    hp2[4+0-:1] = 1'h0;
+                    hp2[3+0-:1] = 1'h0;
+                    hp2[2+0-:1] = 1'h0;
+                    hp2[1+0-:1] = 1'h0;
+                    hp2[0+0-:1] = 1'h0;
+                    M_state_d = STATEGAMEOVER_state;
                   end
                 end
               end
@@ -1655,8 +1700,6 @@ module au_top_0 (
     M_inp_b_q <= M_inp_b_d;
     M_counter_q <= M_counter_d;
     M_next_state_q <= M_next_state_d;
-    M_health_a_q <= M_health_a_d;
-    M_health_b_q <= M_health_b_d;
   end
   
 endmodule
