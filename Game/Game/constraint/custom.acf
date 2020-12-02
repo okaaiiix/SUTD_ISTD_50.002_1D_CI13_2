@@ -80,11 +80,11 @@ pin p2_display_sel[0] B49; //?
 
 
 //hp, in bank A
-pin hp1[0] A28; // HP 1 (PLAYER A)
-pin hp1[1] A31; // HP 2 (PLAYER A)
-pin hp1[2] A34; // HP 3 (PLAYER A)
-pin hp1[3] A37; // HP 4 (PLAYER A)
-pin hp1[4] A40; // HP 5 (PLAYER A) 
+pin hp1[0] A27; // HP 1 (PLAYER A)
+pin hp1[1] A36; // HP 2 (PLAYER A)
+pin hp1[2] A39; // HP 3 (PLAYER A)
+pin hp1[3] A42; // HP 4 (PLAYER A)
+pin hp1[4] A45; // HP 5 (PLAYER A) 
 pin hp2[0] A28; // HP 1 (PLAYER B)
 pin hp2[1] A31; // HP 2 (PLAYER B)
 pin hp2[2] A34; // HP 3 (PLAYER B)
@@ -94,8 +94,8 @@ pin hp2[4] A40; // HP 5 (PLAYER B)
 pin opled1[0] A24;
 pin opled1[1] A21;
 pin opled1[2] A18;
-pin opled1[3] A18;
-pin opled2[0] A15;
-pin opled2[1] A12;
-pin opled2[2] A9;
-pin opled1[3] A18;
+pin opled1[3] A15;
+pin opled2[0] A12;
+pin opled2[1] A9;
+pin opled2[2] A6;
+pin opled2[3] A3;

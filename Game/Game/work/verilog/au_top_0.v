@@ -25,7 +25,9 @@ module au_top_0 (
     output reg [6:0] d_display,
     output reg [0:0] d_display_sel,
     output reg [4:0] hp1,
-    output reg [4:0] hp2
+    output reg [4:0] hp2,
+    output reg [3:0] opled1,
+    output reg [3:0] opled2
   );
   
   
@@ -73,6 +75,8 @@ module au_top_0 (
   integer c_actl;
   integer d_actl;
   integer hide_temp;
+  
+  reg start_game;
   
   wire [1-1:0] M_modulo1_out;
   reg [1-1:0] M_modulo1_a;
@@ -161,6 +165,34 @@ module au_top_0 (
     .clk(clk),
     .in(M_bc3_in),
     .out(M_bc3_out)
+  );
+  wire [1-1:0] M_ed4_out;
+  reg [1-1:0] M_ed4_in;
+  edge_detector_4 ed4 (
+    .clk(clk),
+    .in(M_ed4_in),
+    .out(M_ed4_out)
+  );
+  wire [1-1:0] M_bc4_out;
+  reg [1-1:0] M_bc4_in;
+  button_conditioner_5 bc4 (
+    .clk(clk),
+    .in(M_bc4_in),
+    .out(M_bc4_out)
+  );
+  wire [1-1:0] M_ed5_out;
+  reg [1-1:0] M_ed5_in;
+  edge_detector_4 ed5 (
+    .clk(clk),
+    .in(M_ed5_in),
+    .out(M_ed5_out)
+  );
+  wire [1-1:0] M_bc5_out;
+  reg [1-1:0] M_bc5_in;
+  button_conditioner_5 bc5 (
+    .clk(clk),
+    .in(M_bc5_in),
+    .out(M_bc5_out)
   );
   wire [7-1:0] M_seg_seg;
   wire [4-1:0] M_seg_sel;
@@ -303,11 +335,23 @@ module au_top_0 (
     M_ed2_in = M_bc2_out;
     M_bc3_in = button[3+0-:1];
     M_ed3_in = M_bc3_out;
-    button_press = {M_ed3_out, M_ed2_out, M_ed1_out, M_ed0_out};
+    M_bc4_in = submit[0+0-:1];
+    M_ed4_in = M_bc4_out;
+    M_bc5_in = submit[1+0-:1];
+    M_ed5_in = M_bc5_out;
+    start_game = M_ed0_out;
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out;
     usb_tx = usb_rx;
     led = 8'h00;
+    opled1[0+0-:1] = 1'h1;
+    opled1[1+0-:1] = 1'h1;
+    opled1[2+0-:1] = 1'h1;
+    opled1[3+0-:1] = 1'h1;
+    opled2[0+0-:1] = 1'h1;
+    opled2[1+0-:1] = 1'h1;
+    opled2[2+0-:1] = 1'h1;
+    opled2[3+0-:1] = 1'h1;
     hp1[4+0-:1] = 1'h1;
     hp1[3+0-:1] = 1'h1;
     hp1[2+0-:1] = 1'h1;
@@ -332,12 +376,12 @@ module au_top_0 (
     b_display_sel = 4'he;
     c_display_sel = 4'he;
     d_display_sel = 4'he;
-    M_seg_values = 16'h7777;
-    M_seg2_values = 16'h7777;
-    M_sega_values = 16'h7777;
-    M_segb_values = 16'h7771;
-    M_segc_values = 16'h7777;
-    M_segd_values = 16'h7777;
+    M_seg_values = 16'h7778;
+    M_seg2_values = 16'h7778;
+    M_sega_values = 16'h7778;
+    M_segb_values = 16'h7778;
+    M_segc_values = 16'h7778;
+    M_segd_values = 16'h7778;
     a = 1'h0;
     b = 1'h0;
     ans_input1 = 1'h0;
@@ -373,7 +417,15 @@ module au_top_0 (
       STATEGAMESTART_state: begin
         M_seg_values = 16'h0000;
         M_seg2_values = 16'h0000;
-        if (submit[0+0-:1] == 1'h1) begin
+        opled1[0+0-:1] = 1'h0;
+        opled1[1+0-:1] = 1'h0;
+        opled1[2+0-:1] = 1'h0;
+        opled1[3+0-:1] = 1'h0;
+        opled2[0+0-:1] = 1'h0;
+        opled2[1+0-:1] = 1'h0;
+        opled2[2+0-:1] = 1'h0;
+        opled2[3+0-:1] = 1'h0;
+        if (start_game == 1'h1) begin
           M_state_d = RANDA_state;
         end else begin
           M_state_d = STATEGAMESTART_state;
@@ -387,6 +439,14 @@ module au_top_0 (
         end
         hp1[4+0-:1] = 1'h0;
         M_random_next = 1'h1;
+        opled1[0+0-:1] = 1'h1;
+        opled1[1+0-:1] = 1'h0;
+        opled1[2+0-:1] = 1'h0;
+        opled1[3+0-:1] = 1'h0;
+        opled2[0+0-:1] = 1'h0;
+        opled2[1+0-:1] = 1'h0;
+        opled2[2+0-:1] = 1'h0;
+        opled2[3+0-:1] = 1'h0;
         M_state_d = RANDOP1_state;
       end
       RANDOP1_state: begin

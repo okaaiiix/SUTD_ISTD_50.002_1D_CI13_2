@@ -15,37 +15,37 @@ module seven_seg_10 (
     
     case (char)
       1'h0: begin
-        segs = 7'h3f;
+        segs = 7'h40;
       end
       1'h1: begin
         segs = 7'h06;
       end
       2'h2: begin
-        segs = 7'h5b;
+        segs = 7'h24;
       end
       2'h3: begin
-        segs = 7'h4f;
+        segs = 7'h30;
       end
       3'h4: begin
         segs = 7'h66;
       end
       3'h5: begin
-        segs = 7'h6d;
+        segs = 7'h12;
       end
       3'h6: begin
-        segs = 7'h7d;
+        segs = 7'h02;
       end
       3'h7: begin
-        segs = 7'h07;
+        segs = 7'h78;
       end
       4'h8: begin
-        segs = 7'h7f;
+        segs = 7'h00;
       end
       4'h9: begin
-        segs = 7'h67;
+        segs = 7'h18;
       end
       4'ha: begin
-        segs = 7'h77;
+        segs = 7'h3f;
       end
       4'hb: begin
         segs = 7'h7f;

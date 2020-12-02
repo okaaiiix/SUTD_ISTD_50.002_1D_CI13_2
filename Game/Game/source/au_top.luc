@@ -43,6 +43,7 @@ module au_top (
   sig button_press[6];                              //button signals after conditioning and edge detection
   sig rst ;//alua[16],alub[16],alufn[6];                  // reset signal and relevant alu components
   var a_temp,b_temp,c_temp,d_temp,op1_temp,op2_temp,a_actl,b_actl,c_actl,d_actl,hide_temp;
+  sig start_game;
   //alu alu;
   modulo1 modulo1;
   
@@ -69,6 +70,12 @@ module au_top (
     button_conditioner bc2;
     edge_detector ed3(#RISE(1), #FALL(0));
     button_conditioner bc3;
+    edge_detector ed4(#RISE(1), #FALL(0));
+    button_conditioner bc4;
+    edge_detector ed5(#RISE(1), #FALL(0));
+    button_conditioner bc5;
+    
+    
     
     .rst(rst){
       multi_seven_seg seg;
@@ -103,8 +110,15 @@ module au_top (
     ed2.in = bc2.out;
     bc3.in = button[3];
     ed3.in = bc3.out;
-    button_press = c{ed3.out, ed2.out, ed1.out, ed0.out};
-
+    bc4.in = submit[0];
+    ed4.in = bc4.out;
+    bc5.in = submit[1];
+    ed5.in = bc5.out;
+    
+    start_game = ed0.out;
+    
+    
+    
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset
     usb_tx = usb_rx;        // echo the serial data
@@ -221,9 +235,19 @@ module au_top (
         // hp[9:0] = 1;
         //health_a.d = 5b11111;
         //health_b.d = 5b11111; 
+    
+        opled1[0] = 0;
+        opled1[1] = 0;  
+        opled1[2] = 0;
+        opled1[3] = 0;
+        
+        opled2[0] = 0;
+        opled2[1] = 0;
+        opled2[2] = 0;
+        opled2[3] = 0;
         
         
-        if (submit[0] == 1) { //&& submit[1] == 1) { // start game when both submit buttons are pressed 
+        if (start_game == 1) { //&& submit[1] == 1) { // start game when both submit buttons are pressed 
           state.d = state.RANDA;
         } else state.d = state.STATEGAMESTART;
         
@@ -233,6 +257,15 @@ module au_top (
         if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
         hp1[4]=0;
         random.next = 1;
+        opled1[0] = 1;  
+        opled1[1] = 0;
+        opled1[2] = 0;
+        opled1[3] = 0;
+    
+        opled2[0] = 0;
+        opled2[1] = 0;
+        opled2[2] = 0;
+        opled2[3] = 0;
         state.d = state.RANDOP1;
     
       // Randomise Operator 1
