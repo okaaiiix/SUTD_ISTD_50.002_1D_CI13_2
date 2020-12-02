@@ -51,8 +51,9 @@ module au_top (
   modulo1 modulo1;
   
   .clk(clk) {
+  /*fsm state= {STATEGAMESTART,RANDA,RANDOP1,RANDB0,RANDB1,RANDB2,RANDB3,RANDOP20,RANDOP21,RANDOP22,RANDOP23,RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,CHECKDOVER,CHECKDUNDER, RANDHIDE, STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER};
     // The reset conditioner is used to synchronize the reset signal to the FPGA
-    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    // clock. This ensures the entire FPGA comes out of reset at the same time. */
     reset_conditioner reset_cond;
     random random;
     
@@ -92,14 +93,13 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATEGAMESTART, RANDA,RANDOP1,
-    RANDB0,RANDB1,RANDB2,RANDB3,
-    RANDOP20,RANDOP21,RANDOP22,RANDOP23,
-    RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,
-    CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,
-    CHECKDOVER,CHECKDUNDER, RANDHIDE, STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER};
-
+  fsm state(.clk(slowclock.value),.rst(rst)) = {RANDA,STATEGAMESTART,RANDOP1,RANDB0,RANDB1,RANDB2,RANDB3,RANDOP20,RANDOP21,RANDOP22,RANDOP23,RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,CHECKDOVER,CHECKDUNDER, RANDHIDE, STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER};
+  
   always {
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out;   // conditioned reset
+    usb_tx = usb_rx;        // echo the serial data
+    led = 8h00;             // turn LEDs off
 
     bc0.in = button[0];
     ed0.in = bc0.out;
@@ -120,10 +120,7 @@ module au_top (
     
     
     
-    reset_cond.in = ~rst_n; // input raw inverted reset signal
-    rst = reset_cond.out;   // conditioned reset
-    usb_tx = usb_rx;        // echo the serial data
-    led = 8h00;             // turn LEDs off
+
     //hp1 = 8h00;
     //hp2 = 8h00;
     
@@ -248,12 +245,12 @@ module au_top (
         opled1[2] = 0;
         opled1[3] = 0;
         
-        opled2[0] = 0;
-        opled2[1] = 0;
-        opled2[2] = 0;
-        opled2[3] = 0;
+        opled2[0] = 1;
+        opled2[1] = 1;
+        opled2[2] = 1;
+        opled2[3] = 1;
         
-        state.d = state.RANDA;
+        //state.d = state.RANDA;
         //if (submit[0] == 1 || submit[1] == 1) { //&& submit[1] == 1) { // start game when both submit buttons are pressed 
         
         //} else state.d = state.STATEGAMESTART;
@@ -278,7 +275,7 @@ module au_top (
         segb.values = {4h7,4h7,4h7,4h2};
         segc.values = {4h7,4h7,4h7,4h2};
         segd.values = {4h7,4h7,4h7,4h2};
-        state.d = state.RANDA;//RANDOP1;
+        state.d = state.STATEGAMESTART;//RANDOP1;
     
       // Randomise Operator 1
       state.RANDOP1:

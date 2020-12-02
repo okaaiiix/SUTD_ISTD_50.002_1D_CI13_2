@@ -244,8 +244,8 @@ module au_top_0 (
   );
   
   
-  localparam STATEGAMESTART_state = 6'd0;
-  localparam RANDA_state = 6'd1;
+  localparam RANDA_state = 6'd0;
+  localparam STATEGAMESTART_state = 6'd1;
   localparam RANDOP1_state = 6'd2;
   localparam RANDB0_state = 6'd3;
   localparam RANDB1_state = 6'd4;
@@ -303,11 +303,15 @@ module au_top_0 (
   localparam STATEHP_B_state = 6'd56;
   localparam STATEGAMEOVER_state = 6'd57;
   
-  reg [5:0] M_state_d, M_state_q = STATEGAMESTART_state;
+  reg [5:0] M_state_d, M_state_q = RANDA_state;
   
   always @* begin
     M_state_d = M_state_q;
     
+    M_reset_cond_in = ~rst_n;
+    rst = M_reset_cond_out;
+    usb_tx = usb_rx;
+    led = 8'h00;
     M_bc0_in = button[0+0-:1];
     M_ed0_in = M_bc0_out;
     io_led[16+7+0-:1] = M_ed0_out;
@@ -322,10 +326,6 @@ module au_top_0 (
     end else begin
       up1 = 1'h0;
     end
-    M_reset_cond_in = ~rst_n;
-    rst = M_reset_cond_out;
-    usb_tx = usb_rx;
-    led = 8'h00;
     opled1[0+0-:1] = 1'h1;
     opled1[1+0-:1] = 1'h1;
     opled1[2+0-:1] = 1'h1;
@@ -408,10 +408,10 @@ module au_top_0 (
         opled1[1+0-:1] = 1'h0;
         opled1[2+0-:1] = 1'h0;
         opled1[3+0-:1] = 1'h0;
-        opled2[0+0-:1] = 1'h0;
-        opled2[1+0-:1] = 1'h0;
-        opled2[2+0-:1] = 1'h0;
-        opled2[3+0-:1] = 1'h0;
+        opled2[0+0-:1] = 1'h1;
+        opled2[1+0-:1] = 1'h1;
+        opled2[2+0-:1] = 1'h1;
+        opled2[3+0-:1] = 1'h1;
         M_state_d = RANDA_state;
       end
       RANDA_state: begin
@@ -428,7 +428,7 @@ module au_top_0 (
         M_segb_values = 16'h7772;
         M_segc_values = 16'h7772;
         M_segd_values = 16'h7772;
-        M_state_d = RANDA_state;
+        M_state_d = STATEGAMESTART_state;
       end
       RANDOP1_state: begin
         M_random_next = 1'h1;
