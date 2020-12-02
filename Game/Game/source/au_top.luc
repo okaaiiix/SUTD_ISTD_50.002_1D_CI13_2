@@ -43,12 +43,14 @@ module au_top (
   sig a_temp[4],b_temp[4],c_temp[4],d_temp[4],op1_temp[2],op2_temp[2],a_actl[4],b_actl[4],c_actl[4],d_actl[4],hide_temp[2];
   alu alu;
   
+  modulo1 modulo1;
+  
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
     random random;
-    modulo modulo;
+    
     dff seed [32];                   // seed for each run
     dff inp_a[16];
     dff inp_b[16];
@@ -151,9 +153,8 @@ module au_top (
     random.next = 0;                   // don't generate new numbers
     random.rst = rst;                  // connect rst by default
     
-    modulo.a = 0;
-    modulo.b = 0;
-    modulo.rst = rst;
+    modulo1.a = 0;
+    modulo1.b = 0;
     
     a=0;
     a_temp=0;
@@ -236,9 +237,9 @@ module au_top (
         // (A/B)%1 == 0 
         random.next = 3;
         if (b_temp > 9) { b_temp = b_temp - 10;}
-        modulo.a = a_actl/b_actl;
-        modulo.b = 1;
-        if (modulo.moutput != 0) {state.d = state.RANDB3;}
+        modulo1.a = a_actl/b_actl;
+        modulo1.b = 1;
+        if (modulo1.out != 0) {state.d = state.RANDB3;}
         else  {state.d = state.RANDOP23;}
         
       // Randomise Operator 2
@@ -322,15 +323,16 @@ module au_top (
         c_temp = random.num;
         // ((B/C)%1==0
         if (c_temp > 9) { 
-          c_temp = c_temp - 10;  
-          modulo.a = b_actl/c_actl;
-          modulo.b = 1;
+          c_temp = c_temp - 10; 
+
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
           } else {
-          modulo.a = b_actl/c_actl;
-          modulo.b = 1;
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
           }
         random.next = 4;
-        if (modulo.moutput != 0) {
+        if (modulo1.out != 0) {
           state.d = state.RANDC3;
         } else {
           state.d = state.CALCD3;
@@ -384,14 +386,14 @@ module au_top (
         // ((B/C)%1==0
         if (c_temp > 9) { 
           c_temp = c_temp - 10;  
-          modulo.a = b_actl/c_actl;
-          modulo.b = 1;
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
           } else {
-          modulo.a = b_actl/c_actl;
-          modulo.b = 1;
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
           }
         random.next=4;
-        if (modulo.moutput != 0) {
+        if (modulo1.out != 0) {
           state.d = state.RANDC7;
         } else {
           state.d = state.CALCD7;
@@ -445,14 +447,14 @@ module au_top (
         // ((B/C)%1==0
         if (c_temp > 9) { 
           c_temp = c_temp - 10;  
-          modulo.a = b_actl/c_actl;
-          modulo.b = 1;
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
           } else {
-          modulo.a = b_actl/c_actl;
-          modulo.b = 1;
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
           }
         random.next = 4;
-        if (modulo.moutput != 0) {
+        if (modulo1.out != 0) {
           state.d = state.RANDCB;
         } else {
           state.d = state.CALCDB;
@@ -506,14 +508,14 @@ module au_top (
         // ((A/B/C)%1==0
         if (c_temp > 9) { 
           c_temp = c_temp - 10;  
-          modulo.a = a_actl/b_actl/c_actl;
-          modulo.b = 1;
+          modulo1.a = a_actl/b_actl/c_actl;
+          modulo1.b = 1;
           } else {
-          modulo.a = a_actl/b_actl/c_actl;
-          modulo.b = 1;
+          modulo1.a = a_actl/b_actl/c_actl;
+          modulo1.b = 1;
           }
         random.next = 4;
-        if (modulo.moutput != 0) {
+        if (modulo1.out != 0) {
           state.d = state.RANDCF;
         } else {
           state.d = state.CALCD3;
