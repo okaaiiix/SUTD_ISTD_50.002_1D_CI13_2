@@ -945,5 +945,6 @@ module au_top (
           state.d = state.STATEINIT; 
       
     }
+    }
 }
   

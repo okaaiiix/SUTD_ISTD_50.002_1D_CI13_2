@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1/au_top_0.tcl"
+  variable script "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1/au_top_0.tcl"
   variable category "vivado_synth"
 }
 
@@ -76,31 +76,31 @@ create_project -in_memory -part xc7a35tftg256-1
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.cache/wt [current_project]
-set_property parent.project_path C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.xpr [current_project]
+set_property webtalk.parent_dir C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.cache/wt [current_project]
+set_property parent.project_path C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/adder_9.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/alu_2.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/boolean_11.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/button_conditioner_6.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/comparator_12.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/counter_14.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/counter_8.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/decoder_16.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/edge_detector_5.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/multi_seven_seg_7.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/pipeline_13.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/random_4.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/reset_conditioner_3.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/seven_seg_15.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/shifter_10.v
-  C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/adder_9.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/alu_2.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/boolean_11.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/button_conditioner_6.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/comparator_12.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/counter_14.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/counter_8.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/decoder_16.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/edge_detector_5.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/multi_seven_seg_7.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/pipeline_13.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/random_4.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/reset_conditioner_3.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/seven_seg_15.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/shifter_10.v
+  C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -111,11 +111,11 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/constraint/custom.xdc
-set_property used_in_implementation false [get_files C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/constraint/custom.xdc]
+read_xdc C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/constraint/ALU.xdc
+set_property used_in_implementation false [get_files C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/constraint/ALU.xdc]
 
-read_xdc C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/constraint/ALU.xdc
-set_property used_in_implementation false [get_files C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/constraint/ALU.xdc]
+read_xdc C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/constraint/custom.xdc
+set_property used_in_implementation false [get_files C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/constraint/custom.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]
