@@ -23,8 +23,10 @@ module au_top_0 (
   reg [15:0] a;
   reg [15:0] b;
   reg [5:0] alufn;
+  reg error;
   
   wire [16-1:0] M_alu_out;
+  wire [1-1:0] M_alu_error;
   reg [16-1:0] M_alu_a;
   reg [16-1:0] M_alu_b;
   reg [6-1:0] M_alu_alufn;
@@ -32,7 +34,8 @@ module au_top_0 (
     .a(M_alu_a),
     .b(M_alu_b),
     .alufn(M_alu_alufn),
-    .out(M_alu_out)
+    .out(M_alu_out),
+    .error(M_alu_error)
   );
   
   wire [1-1:0] M_reset_cond_out;
@@ -65,12 +68,31 @@ module au_top_0 (
   );
   
   
-  localparam STATE0_state = 2'd0;
-  localparam STATEA_state = 2'd1;
-  localparam STATEB_state = 2'd2;
-  localparam STATEOUT_state = 2'd3;
+  localparam STATE0_state = 5'd0;
+  localparam STATEA_state = 5'd1;
+  localparam STATEB_state = 5'd2;
+  localparam STATEOUT_state = 5'd3;
+  localparam STATEERR_state = 5'd4;
+  localparam AUTO00A_state = 5'd5;
+  localparam AUTO00B_state = 5'd6;
+  localparam AUTO00O_state = 5'd7;
+  localparam AUTOBANDA_state = 5'd8;
+  localparam AUTOBANDB_state = 5'd9;
+  localparam AUTOBANDO_state = 5'd10;
+  localparam AUTOORA_state = 5'd11;
+  localparam AUTOORB_state = 5'd12;
+  localparam AUTOORO_state = 5'd13;
+  localparam AUTOXORA_state = 5'd14;
+  localparam AUTOXORB_state = 5'd15;
+  localparam AUTOXORO_state = 5'd16;
+  localparam AUTOCMPA_state = 5'd17;
+  localparam AUTOCMPB_state = 5'd18;
+  localparam AUTOCMPO_state = 5'd19;
+  localparam AUTOSHIFTA_state = 5'd20;
+  localparam AUTOSHIFTB_state = 5'd21;
+  localparam AUTOSHIFTO_state = 5'd22;
   
-  reg [1:0] M_state_d, M_state_q = STATE0_state;
+  reg [4:0] M_state_d, M_state_q = STATE0_state;
   
   always @* begin
     M_state_d = M_state_q;
@@ -95,10 +117,14 @@ module au_top_0 (
     case (M_state_q)
       STATE0_state: begin
         M_seg_values = 16'h2222;
-        if (io_button[0+0-:1] == 1'h0) begin
+        if (io_dip[16+0+0-:1] == 1'h1) begin
           M_state_d = STATEA_state;
         end else begin
-          M_state_d = STATE0_state;
+          if (io_dip[16+7+0-:1] == 1'h1) begin
+            M_state_d = AUTO00A_state;
+          end else begin
+            M_state_d = STATE0_state;
+          end
         end
       end
       STATEA_state: begin
@@ -108,10 +134,10 @@ module au_top_0 (
         M_inp_a_d = {io_dip[8+0+7-:8], io_dip[0+0+7-:8]};
         io_led[16+6+0-:1] = 1'h1;
         io_led[16+7+0-:1] = 1'h0;
-        if (io_button[2+0-:1] == 1'h0) begin
+        if (io_dip[16+1+0-:1] == 1'h1) begin
           M_state_d = STATEB_state;
         end else begin
-          if (io_button[4+0-:1] == 1'h0) begin
+          if (io_dip[16+0+7-:8] == 8'h00) begin
             M_state_d = STATE0_state;
           end else begin
             M_state_d = STATEA_state;
@@ -123,13 +149,12 @@ module au_top_0 (
         io_led[8+0+7-:8] = io_dip[8+7-:8];
         io_led[0+0+7-:8] = io_dip[0+7-:8];
         M_inp_b_d = {io_dip[8+0+7-:8], io_dip[0+0+7-:8]};
-        M_alu_alufn = io_dip[16+0+5-:6];
         io_led[16+6+0-:1] = 1'h0;
         io_led[16+7+0-:1] = 1'h1;
-        if (io_button[1+0-:1] == 1'h0) begin
+        if (io_dip[16+2+0-:1] == 1'h1) begin
           M_state_d = STATEOUT_state;
         end else begin
-          if (io_button[4+0-:1] == 1'h0) begin
+          if (io_dip[16+0+7-:8] == 8'h00) begin
             M_state_d = STATE0_state;
           end else begin
             M_state_d = STATEB_state;
@@ -137,7 +162,7 @@ module au_top_0 (
         end
       end
       STATEOUT_state: begin
-        M_alu_alufn = io_dip[16+0+5-:6];
+        M_alu_alufn = io_dip[0+0+5-:6];
         M_alu_a = M_inp_a_q;
         M_alu_b = M_inp_b_q;
         M_seg_values = 16'h2347;
@@ -145,14 +170,263 @@ module au_top_0 (
         io_led[0+7-:8] = M_alu_out[0+7-:8];
         io_led[16+6+0-:1] = 1'h1;
         io_led[16+7+0-:1] = 1'h1;
-        if (io_button[1+0-:1] == 1'h0) begin
-          M_state_d = STATEOUT_state;
+        error = M_alu_error;
+        if (error == 1'h1) begin
+          M_state_d = STATEERR_state;
         end else begin
+          if (io_dip[16+2+0-:1] == 1'h1) begin
+            M_state_d = STATEOUT_state;
+          end else begin
+            M_state_d = STATE0_state;
+          end
+        end
+      end
+      STATEERR_state: begin
+        M_seg_values = 16'h7566;
+        if (io_dip[16+0+7-:8] == 8'h00) begin
           M_state_d = STATE0_state;
+        end else begin
+          M_state_d = STATEERR_state;
+        end
+      end
+      AUTO00A_state: begin
+        M_seg_values = 16'h0220;
+        M_inp_a_d = 16'h0001;
+        io_led[8+7-:8] = M_inp_a_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_a_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTO00B_state;
+        end
+      end
+      AUTO00B_state: begin
+        M_seg_values = 16'h0221;
+        M_inp_b_d = 16'h0006;
+        io_led[8+7-:8] = M_inp_b_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_b_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTO00O_state;
+        end
+      end
+      AUTO00O_state: begin
+        M_seg_values = 16'h0222;
+        M_alu_a = M_inp_a_q;
+        M_alu_b = M_inp_b_q;
+        io_led[8+7-:8] = M_alu_out[8+7-:8];
+        io_led[0+7-:8] = M_alu_out[0+7-:8];
+        M_alu_alufn = 6'h00;
+        if (M_alu_out == 16'h0007) begin
+          io_led[16+0+7-:8] = 8'hff;
+        end
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOBANDA_state;
+        end
+      end
+      AUTOBANDA_state: begin
+        M_seg_values = 16'h1020;
+        M_inp_a_d = 16'h1555;
+        io_led[8+7-:8] = M_inp_a_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_a_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOBANDB_state;
+        end
+      end
+      AUTOBANDB_state: begin
+        M_seg_values = 16'h1021;
+        M_inp_b_d = 16'h2aab;
+        io_led[8+7-:8] = M_inp_b_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_b_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOBANDO_state;
+        end
+      end
+      AUTOBANDO_state: begin
+        M_seg_values = 16'h1022;
+        M_alu_a = M_inp_a_q;
+        M_alu_b = M_inp_b_q;
+        io_led[8+7-:8] = M_alu_out[8+7-:8];
+        io_led[0+7-:8] = M_alu_out[0+7-:8];
+        M_alu_alufn = 6'h18;
+        if (M_alu_out == 16'h0001) begin
+          io_led[16+0+7-:8] = 8'hff;
+        end
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOORA_state;
+        end
+      end
+      AUTOORA_state: begin
+        M_seg_values = 16'h1260;
+        M_inp_a_d = 16'h1555;
+        io_led[8+7-:8] = M_inp_a_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_a_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOORB_state;
+        end
+      end
+      AUTOORB_state: begin
+        M_seg_values = 16'h1261;
+        M_inp_b_d = 16'h2aab;
+        io_led[8+7-:8] = M_inp_b_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_b_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOORO_state;
+        end
+      end
+      AUTOORO_state: begin
+        M_seg_values = 16'h1262;
+        M_alu_a = M_inp_a_q;
+        M_alu_b = M_inp_b_q;
+        io_led[8+7-:8] = M_alu_out[8+7-:8];
+        io_led[0+7-:8] = M_alu_out[0+7-:8];
+        M_alu_alufn = 6'h1e;
+        if (M_alu_out == 16'h3fff) begin
+          io_led[16+0+7-:8] = 8'hff;
+        end
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOXORA_state;
+        end
+      end
+      AUTOXORA_state: begin
+        M_seg_values = 16'h7260;
+        M_inp_a_d = 16'h1555;
+        io_led[8+7-:8] = M_inp_a_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_a_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOXORB_state;
+        end
+      end
+      AUTOXORB_state: begin
+        M_seg_values = 16'h7261;
+        M_inp_b_d = 16'h2aab;
+        io_led[8+7-:8] = M_inp_b_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_b_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOXORO_state;
+        end
+      end
+      AUTOXORO_state: begin
+        M_seg_values = 16'h7262;
+        M_alu_a = M_inp_a_q;
+        M_alu_b = M_inp_b_q;
+        io_led[8+7-:8] = M_alu_out[8+7-:8];
+        io_led[0+7-:8] = M_alu_out[0+7-:8];
+        M_alu_alufn = 6'h16;
+        if (M_alu_out == 16'h3ffe) begin
+          io_led[16+0+7-:8] = 8'hff;
+        end
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOCMPA_state;
+        end
+      end
+      AUTOCMPA_state: begin
+        M_seg_values = 16'h2220;
+        M_inp_a_d = 16'h0001;
+        io_led[8+7-:8] = M_inp_a_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_a_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOCMPB_state;
+        end
+      end
+      AUTOCMPB_state: begin
+        M_seg_values = 16'h2221;
+        M_inp_b_d = 16'h0001;
+        io_led[8+7-:8] = M_inp_b_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_b_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOCMPO_state;
+        end
+      end
+      AUTOCMPO_state: begin
+        M_seg_values = 16'h2222;
+        M_alu_a = M_inp_a_q;
+        M_alu_b = M_inp_b_q;
+        io_led[8+7-:8] = M_alu_out[8+7-:8];
+        io_led[0+7-:8] = M_alu_out[0+7-:8];
+        M_alu_alufn = 6'h33;
+        if (M_alu_out == 16'h0001) begin
+          io_led[16+0+7-:8] = 8'hff;
+        end
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOSHIFTA_state;
+        end
+      end
+      AUTOSHIFTA_state: begin
+        M_seg_values = 16'h7920;
+        M_inp_a_d = 16'h0003;
+        io_led[8+7-:8] = M_inp_a_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_a_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOSHIFTB_state;
+        end
+      end
+      AUTOSHIFTB_state: begin
+        M_seg_values = 16'h7921;
+        M_inp_b_d = 16'h0001;
+        io_led[8+7-:8] = M_inp_b_q[8+7-:8];
+        io_led[0+7-:8] = M_inp_b_q[0+7-:8];
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOSHIFTO_state;
+        end
+      end
+      AUTOSHIFTO_state: begin
+        M_seg_values = 16'h7922;
+        M_alu_a = M_inp_a_q;
+        M_alu_b = M_inp_b_q;
+        io_led[8+7-:8] = M_alu_out[8+7-:8];
+        io_led[0+7-:8] = M_alu_out[0+7-:8];
+        M_alu_alufn = 6'h20;
+        if (M_alu_out == 16'h0006) begin
+          io_led[16+0+7-:8] = 8'hff;
+        end
+        if (io_dip[16+0+7-:8] == 8'h00) begin
+          M_state_d = STATE0_state;
+        end else begin
+          M_state_d = AUTOSHIFTO_state;
         end
       end
     endcase
   end
+  
+  always @(posedge clk) begin
+    M_inp_a_q <= M_inp_a_d;
+    M_inp_b_q <= M_inp_b_d;
+    M_counter_q <= M_counter_d;
+    M_next_state_q <= M_next_state_d;
+  end
+  
   
   always @(posedge M_slowclock_value) begin
     if (rst == 1'b1) begin
@@ -160,14 +434,6 @@ module au_top_0 (
     end else begin
       M_state_q <= M_state_d;
     end
-  end
-  
-  
-  always @(posedge clk) begin
-    M_inp_a_q <= M_inp_a_d;
-    M_inp_b_q <= M_inp_b_d;
-    M_counter_q <= M_counter_d;
-    M_next_state_q <= M_next_state_d;
   end
   
 endmodule

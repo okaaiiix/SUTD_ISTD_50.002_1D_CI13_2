@@ -17,7 +17,7 @@ proc create_report { reportName command } {
   }
 }
 namespace eval ::optrace {
-  variable script "C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/vivado/ALU/ALU.runs/impl_1/au_top_0.tcl"
+  variable script "C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU/work/vivado/ALU/ALU.runs/impl_1/au_top_0.tcl"
   variable category "vivado_impl"
 }
 
@@ -128,17 +128,17 @@ OPTRACE "create in-memory project" START { }
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir {C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/vivado/ALU/ALU.cache/wt} [current_project]
-  set_property parent.project_path {C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/vivado/ALU/ALU.xpr} [current_project]
-  set_property ip_output_repo {{C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/vivado/ALU/ALU.cache/ip}} [current_project]
+  set_property webtalk.parent_dir C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU/work/vivado/ALU/ALU.cache/wt [current_project]
+  set_property parent.project_path C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU/work/vivado/ALU/ALU.xpr [current_project]
+  set_property ip_output_repo C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU/work/vivado/ALU/ALU.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet {{C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/vivado/ALU/ALU.runs/synth_1/au_top_0.dcp}}
+  add_files -quiet C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU/work/vivado/ALU/ALU.runs/synth_1/au_top_0.dcp
 OPTRACE "read constraints: implementation" START { }
-  read_xdc {{C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/constraint/alchitry.xdc}}
-  read_xdc {{C:/Users/admin/Desktop/TestFPGA file 0211/ALU/constraint/ALU.xdc}}
-  read_xdc {{C:/Users/admin/Desktop/TestFPGA file 0211/ALU/work/constraint/custom.xdc}}
+  read_xdc C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU/constraint/ALU.xdc
+  read_xdc C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU/work/constraint/alchitry.xdc
+  read_xdc C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/ALU/work/constraint/custom.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }

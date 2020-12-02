@@ -93,7 +93,7 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {RANDA,STATEGAMESTART,RANDOP1,RANDB0,RANDB1,RANDB2,RANDB3,RANDOP20,RANDOP21,RANDOP22,RANDOP23,RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,CHECKDOVER,CHECKDUNDER, RANDHIDE, STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER};
+  fsm state(.clk(clk),.rst(rst)) = {RANDA,STATEGAMESTART,RANDOP1,RANDB0,RANDB1,RANDB2,RANDB3,RANDOP20,RANDOP21,RANDOP22,RANDOP23,RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,CHECKDOVER,CHECKDUNDER, RANDHIDE, STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER};
   
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
@@ -151,20 +151,7 @@ module au_top (
     health1 = 5;
     health2 = 5;
     
-    p1_display = ~seg.seg;      // connect segments to the driver
-    p2_display = ~seg2.seg; 
-    a_display = ~sega.seg;
-    b_display = ~segb.seg;
-    c_display = ~segc.seg;
-    d_display = ~segd.seg;
-
-    p1_display_sel = ~4h1;      // only last digit of array used
-    p2_display_sel = ~4h1;
-    a_display_sel = ~4h1;
-    b_display_sel = ~4h1;
-    c_display_sel = ~4h1;
-    d_display_sel = ~4h1;
-     
+         
     seg.values = {4h7,4h7,4h7,4h8}; //initiate seven segment display for both displays
     seg2.values = {4h7,4h7,4h7,4h8};
     sega.values = {4h7,4h7,4h7,4h8};
@@ -234,13 +221,13 @@ module au_top (
         segb.values = {4h7,4h7,4h7,4h1};
         segc.values = {4h7,4h7,4h7,4h1};
         segd.values = {4h7,4h7,4h7,4h1};
-        
+ 
         // add all 7 seg led for questions to be set as 1 or blink
         // hp[9:0] = 1;
         //health_a.d = 5b11111;
         //health_b.d = 5b11111; 
     
-        opled1[0] = 0;
+        /*opled1[0] = 0;
         opled1[1] = 0;  
         opled1[2] = 0;
         opled1[3] = 0;
@@ -248,7 +235,7 @@ module au_top (
         opled2[0] = 1;
         opled2[1] = 1;
         opled2[2] = 1;
-        opled2[3] = 1;
+        opled2[3] = 1;*/
         
         //state.d = state.RANDA;
         //if (submit[0] == 1 || submit[1] == 1) { //&& submit[1] == 1) { // start game when both submit buttons are pressed 
@@ -261,7 +248,7 @@ module au_top (
         //if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
         hp1[4]=0;
         //random.next = 1;
-        opled1[0] = 1;  
+        /*opled1[0] = 1;  
         opled1[1] = 0;
         opled1[2] = 0;
         opled1[3] = 0;
@@ -269,13 +256,15 @@ module au_top (
         opled2[0] = 0;
         opled2[1] = 0;
         opled2[2] = 0;
-        opled2[3] = 0;
+        opled2[3] = 0;*/
         
-        sega.values = {4h7,4h7,4h7,4h2};
-        segb.values = {4h7,4h7,4h7,4h2};
-        segc.values = {4h7,4h7,4h7,4h2};
-        segd.values = {4h7,4h7,4h7,4h2};
-        state.d = state.STATEGAMESTART;//RANDOP1;
+        //sega.values = {4h7,4h7,4h7,4h1};
+        //segb.values = {4h7,4h7,4h7,4h2};
+        //segc.values = {4h7,4h7,4h7,4h2};
+        //segd.values = {4h7,4h7,4h7,4h2};
+        
+        state.d = state.STATEGAMESTART;
+         //RANDOP1;
     
       // Randomise Operator 1
       state.RANDOP1:
@@ -290,7 +279,7 @@ module au_top (
         if (op1_temp == 3 && a_temp != 0) {state.d = state.RANDB3;}
         else if (op1_temp == 2) {state.d = state.RANDB2;}
         else if (op1_temp == 1) {state.d = state.RANDB1;}
-        else {op1_temp=0;state.d = state.RANDB0;}
+        else if (op1_temp == 0){state.d = state.RANDB0;}
         
       // Randomise B
       state.RANDB0:
@@ -1136,6 +1125,22 @@ module au_top (
         }
       
     }
+    p1_display = ~seg.seg;      // connect segments to the driver
+    p2_display = ~seg2.seg; 
+    a_display = ~sega.seg;
+    b_display = ~segb.seg;
+    c_display = ~segc.seg;
+    d_display = ~segd.seg;
+
+    p1_display_sel = ~4h1;      // only last digit of array used
+    p2_display_sel = ~4h1;
+    a_display_sel = ~4h1;
+    b_display_sel = ~4h1;
+    c_display_sel = ~4h1;
+    d_display_sel = ~4h1;
+
     }
+  
+  
 }
   

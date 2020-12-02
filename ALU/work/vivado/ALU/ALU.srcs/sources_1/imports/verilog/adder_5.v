@@ -21,12 +21,18 @@ module adder_5 (
   always @* begin
     s = 16'h0000;
     
-    case (alufn[0+0-:1])
-      1'h0: begin
+    case (alufn[0+1-:2])
+      2'h0: begin
         s = a + b;
       end
-      1'h1: begin
+      2'h1: begin
         s = a - b;
+      end
+      2'h2: begin
+        s = a * b;
+      end
+      2'h3: begin
+        s = a / b;
       end
       default: begin
         s = 16'h0000;

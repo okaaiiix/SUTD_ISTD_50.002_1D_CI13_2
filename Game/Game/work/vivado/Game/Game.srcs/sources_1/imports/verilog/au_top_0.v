@@ -347,18 +347,6 @@ module au_top_0 (
     hp2[0+0-:1] = 1'h1;
     health1 = 3'h5;
     health2 = 3'h5;
-    p1_display = ~M_seg_seg;
-    p2_display = ~M_seg2_seg;
-    a_display = ~M_sega_seg;
-    b_display = ~M_segb_seg;
-    c_display = ~M_segc_seg;
-    d_display = ~M_segd_seg;
-    p1_display_sel = 4'he;
-    p2_display_sel = 4'he;
-    a_display_sel = 4'he;
-    b_display_sel = 4'he;
-    c_display_sel = 4'he;
-    d_display_sel = 4'he;
     M_seg_values = 16'h7778;
     M_seg2_values = 16'h7778;
     M_sega_values = 16'h7778;
@@ -404,30 +392,9 @@ module au_top_0 (
         M_segb_values = 16'h7771;
         M_segc_values = 16'h7771;
         M_segd_values = 16'h7771;
-        opled1[0+0-:1] = 1'h0;
-        opled1[1+0-:1] = 1'h0;
-        opled1[2+0-:1] = 1'h0;
-        opled1[3+0-:1] = 1'h0;
-        opled2[0+0-:1] = 1'h1;
-        opled2[1+0-:1] = 1'h1;
-        opled2[2+0-:1] = 1'h1;
-        opled2[3+0-:1] = 1'h1;
-        M_state_d = RANDA_state;
       end
       RANDA_state: begin
         hp1[4+0-:1] = 1'h0;
-        opled1[0+0-:1] = 1'h1;
-        opled1[1+0-:1] = 1'h0;
-        opled1[2+0-:1] = 1'h0;
-        opled1[3+0-:1] = 1'h0;
-        opled2[0+0-:1] = 1'h0;
-        opled2[1+0-:1] = 1'h0;
-        opled2[2+0-:1] = 1'h0;
-        opled2[3+0-:1] = 1'h0;
-        M_sega_values = 16'h7772;
-        M_segb_values = 16'h7772;
-        M_segc_values = 16'h7772;
-        M_segd_values = 16'h7772;
         M_state_d = STATEGAMESTART_state;
       end
       RANDOP1_state: begin
@@ -448,8 +415,9 @@ module au_top_0 (
             if (op1_temp == 1'h1) begin
               M_state_d = RANDB1_state;
             end else begin
-              op1_temp = 1'h0;
-              M_state_d = RANDB0_state;
+              if (op1_temp == 1'h0) begin
+                M_state_d = RANDB0_state;
+              end
             end
           end
         end
@@ -1724,9 +1692,21 @@ module au_top_0 (
         end
       end
     endcase
+    p1_display = ~M_seg_seg;
+    p2_display = ~M_seg2_seg;
+    a_display = ~M_sega_seg;
+    b_display = ~M_segb_seg;
+    c_display = ~M_segc_seg;
+    d_display = ~M_segd_seg;
+    p1_display_sel = 4'he;
+    p2_display_sel = 4'he;
+    a_display_sel = 4'he;
+    b_display_sel = 4'he;
+    c_display_sel = 4'he;
+    d_display_sel = 4'he;
   end
   
-  always @(posedge M_slowclock_value) begin
+  always @(posedge clk) begin
     if (rst == 1'b1) begin
       M_state_q <= 1'h0;
     end else begin

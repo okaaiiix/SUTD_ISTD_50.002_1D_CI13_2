@@ -8,7 +8,8 @@ module alu_1 (
     input [15:0] a,
     input [15:0] b,
     input [5:0] alufn,
-    output reg [15:0] out
+    output reg [15:0] out,
+    output reg error
   );
   
   
@@ -65,20 +66,28 @@ module alu_1 (
     .out(M_comparator_out)
   );
   
+  reg z;
+  reg v;
+  reg n;
+  
   always @* begin
     out = 1'h0;
+    error = 1'h0;
     M_adder_a = a;
     M_adder_b = b;
     M_adder_alufn = alufn;
+    n = M_adder_n;
+    v = M_adder_v;
+    z = M_adder_z;
     M_shifter_a = a;
     M_shifter_b = b;
     M_shifter_alufn = alufn;
     M_boolean_a = a;
     M_boolean_b = b;
     M_boolean_alufn = alufn;
-    M_comparator_n = M_adder_n;
-    M_comparator_v = M_adder_v;
-    M_comparator_z = M_adder_z;
+    M_comparator_n = n;
+    M_comparator_v = v;
+    M_comparator_z = z;
     M_comparator_alufn = alufn;
     
     case (alufn[4+1-:2])
@@ -98,5 +107,8 @@ module alu_1 (
         out = 1'h0;
       end
     endcase
+    if (alufn == 6'h00 && M_adder_v == 1'h1) begin
+      error = 1'h1;
+    end
   end
 endmodule
