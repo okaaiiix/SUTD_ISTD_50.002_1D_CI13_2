@@ -2,12 +2,12 @@
 # Vivado v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Wed Dec  2 16:28:59 2020
-# Process ID: 37424
-# Current directory: C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1
+# Start of session at: Wed Dec  2 15:17:47 2020
+# Process ID: 20476
+# Current directory: C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1
 # Command line: vivado.exe -log au_top_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source au_top_0.tcl
-# Log file: C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1/au_top_0.vds
-# Journal file: C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1\vivado.jou
+# Log file: C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1/au_top_0.vds
+# Journal file: C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
 source au_top_0.tcl -notrace
 Command: synth_design -top au_top_0 -part xc7a35tftg256-1
@@ -17,14 +17,14 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t
 INFO: [Device 21-403] Loading part xc7a35tftg256-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 27476
-ERROR: [Synth 8-2576] procedural assignment to a non-register out is not permitted [C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:9]
-ERROR: [Synth 8-1031] clk is not declared [C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:13]
-ERROR: [Synth 8-1031] rst is not declared [C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:14]
-INFO: [Synth 8-2350] module modulo_1 ignored due to previous errors [C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:1]
-Failed to read verilog 'C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v'
+INFO: [Synth 8-7075] Helper process launched with PID 21748
+ERROR: [Synth 8-2576] procedural assignment to a non-register out is not permitted [C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:9]
+ERROR: [Synth 8-1031] clk is not declared [C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:13]
+ERROR: [Synth 8-1031] rst is not declared [C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:14]
+INFO: [Synth 8-2350] module modulo_1 ignored due to previous errors [C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:1]
+Failed to read verilog 'C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v'
 INFO: [Common 17-83] Releasing license: Synthesis
 7 Infos, 0 Warnings, 0 Critical Warnings and 4 Errors encountered.
 synth_design failed
 ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
-INFO: [Common 17-206] Exiting Vivado at Wed Dec  2 16:29:14 2020...
+INFO: [Common 17-206] Exiting Vivado at Wed Dec  2 15:18:01 2020...

@@ -1,4 +1,4 @@
-Warnings in file C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\source\au_top.luc:
+Warnings in file C:\Users\User\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\source\au_top.luc:
     Line 703, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
     Line 42, Column 2 : "alua" was never used
     Line 44, Column 2 : "alu" was never used
@@ -36,7 +36,7 @@ Warnings in file C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game
     Line 601, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
     Line 635, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
     Line 669, Column 37 : The value "4h17" is wider than 4 bits and it will be truncated
-Warnings in file C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\source\question_gen.luc:
+Warnings in file C:\Users\User\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\source\question_gen.luc:
     Line 478, Column 20 : The signal "random.num" is wider than "hide_temp" and the most significant bits will be dropped
     Line 75, Column 17 : The signal "random.num" is wider than "a_temp" and the most significant bits will be dropped
     Line 83, Column 19 : The signal "random.num" is wider than "op1_temp" and the most significant bits will be dropped
@@ -71,28 +71,28 @@ Starting Vivado...
   **** IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
     ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 
-source {C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\work\project.tcl}
-# set projDir "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado"
+source {C:\Users\User\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\work\project.tcl}
+# set projDir "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado"
 # set projName "Game"
 # set topName top
 # set device xc7a35tftg256-1
 # if {[file exists "$projDir/$projName"]} { file delete -force "$projDir/$projName" }
 # create_project $projName "$projDir/$projName" -part $device
 INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter.
-Current project path is 'C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game'
+Current project path is 'C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game'
 # set_property design_mode RTL [get_filesets sources_1]
-# set verilogSources [list "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/au_top_0.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/modulo_1.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/alu_2.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/reset_conditioner_3.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/random_4.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/edge_detector_5.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/button_conditioner_6.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/multi_seven_seg_7.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/counter_8.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/adder_9.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/shifter_10.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/boolean_11.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/comparator_12.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/pipeline_13.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/counter_14.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/seven_seg_15.v" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/decoder_16.v" ]
+# set verilogSources [list "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/au_top_0.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/modulo_1.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/alu_2.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/reset_conditioner_3.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/random_4.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/edge_detector_5.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/button_conditioner_6.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/multi_seven_seg_7.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/counter_8.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/adder_9.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/shifter_10.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/boolean_11.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/comparator_12.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/pipeline_13.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/counter_14.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/seven_seg_15.v" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/verilog/decoder_16.v" ]
 # import_files -fileset [get_filesets sources_1] -force -norecurse $verilogSources
-# set xdcSources [list "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/constraint/ALU.xdc" "C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/constraint/custom.xdc" ]
+# set xdcSources [list "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/constraint/custom.xdc" "C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/constraint/ALU.xdc" ]
 # read_xdc $xdcSources
 # set_property STEPS.WRITE_BITSTREAM.ARGS.BIN_FILE true [get_runs impl_1]
 # update_compile_order -fileset sources_1
 # launch_runs -runs synth_1 -jobs 8
 
-[Wed Dec  2 16:28:57 2020] Launched synth_1...
-Run output will be captured here: C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1/runme.log
+[Wed Dec  2 15:17:44 2020] Launched synth_1...
+Run output will be captured here: C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1/runme.log
 # wait_on_run synth_1
-[Wed Dec  2 16:28:57 2020] Waiting for synth_1 to finish...
+[Wed Dec  2 15:17:44 2020] Waiting for synth_1 to finish...
 
 *** Running vivado
     with args -log au_top_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source au_top_0.tcl
@@ -112,25 +112,25 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t
 INFO: [Device 21-403] Loading part xc7a35tftg256-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 27476
-ERROR: [Synth 8-2576] procedural assignment to a non-register out is not permitted [C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:9]
+INFO: [Synth 8-7075] Helper process launched with PID 21748
 ERROR: [Common 17-70] Application Exception: Failed to launch run 'impl_1' due to failures in the following run(s):
+ERROR: [Synth 8-2576] procedural assignment to a non-register out is not permitted [C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:9]
 synth_1
 These failed run(s) need to be reset prior to launching 'impl_1' again.
 
-ERROR: [Synth 8-1031] clk is not declared [C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:13]
-ERROR: [Synth 8-1031] rst is not declared [C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:14]
-INFO: [Synth 8-2350] module modulo_1 ignored due to previous errors [C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:1]
-Failed to read verilog 'C:/Users/dksat/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v'
+ERROR: [Synth 8-1031] clk is not declared [C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:13]
+ERROR: [Synth 8-1031] rst is not declared [C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:14]
+INFO: [Synth 8-2350] module modulo_1 ignored due to previous errors [C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v:1]
+Failed to read verilog 'C:/Users/User/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/modulo_1.v'
 INFO: [Common 17-83] Releasing license: Synthesis
 7 Infos, 0 Warnings, 0 Critical Warnings and 4 Errors encountered.
 synth_design failed
 ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
-INFO: [Common 17-206] Exiting Vivado at Wed Dec  2 16:29:14 2020...
-[Wed Dec  2 16:29:17 2020] synth_1 finished
+INFO: [Common 17-206] Exiting Vivado at Wed Dec  2 15:18:01 2020...
+[Wed Dec  2 15:18:04 2020] synth_1 finished
 WARNING: [Vivado 12-8222] Failed run(s) : 'synth_1'
-wait_on_run: Time (s): cpu = 00:00:00 ; elapsed = 00:00:20 . Memory (MB): peak = 1013.438 ; gain = 0.000
+wait_on_run: Time (s): cpu = 00:00:01 ; elapsed = 00:00:20 . Memory (MB): peak = 1036.137 ; gain = 0.000
 # launch_runs impl_1 -to_step write_bitstream -jobs 8
-INFO: [Common 17-206] Exiting Vivado at Wed Dec  2 16:29:17 2020...
+INFO: [Common 17-206] Exiting Vivado at Wed Dec  2 15:18:04 2020...
 
-Bin file (C:\Users\dksat\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\work\vivado\Game\Game.runs\impl_1\au_top_0.bin) could not be found! The build probably failed.
+Bin file (C:\Users\User\Documents\GitHub\SUTD_ISTD_50.002_1D_CI13_2\Game\Game\work\vivado\Game\Game.runs\impl_1\au_top_0.bin) could not be found! The build probably failed.
