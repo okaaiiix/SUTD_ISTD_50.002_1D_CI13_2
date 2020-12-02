@@ -1,5 +1,12 @@
 
 //ZOE Custom IO
+
+pin clk CLOCK;
+clock clk 100MHz;
+
+pin rst_n RESET;
+pin usb_rx USB_TX;
+pin usb_tx USB_RX;
 //players bank C
 pin button[0] C24 pulldown;  //player 1 board up button
 pin button[1] C21 pulldown;  //player 1 board down button
