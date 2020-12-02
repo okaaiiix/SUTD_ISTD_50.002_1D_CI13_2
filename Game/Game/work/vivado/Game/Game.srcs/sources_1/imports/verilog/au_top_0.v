@@ -395,6 +395,10 @@ module au_top_0 (
       end
       RANDA_state: begin
         hp1[4+0-:1] = 1'h0;
+        M_sega_values = 16'h7772;
+        M_segb_values = 16'h7772;
+        M_segc_values = 16'h7772;
+        M_segd_values = 16'h7772;
         M_state_d = STATEGAMESTART_state;
       end
       RANDOP1_state: begin
@@ -1706,7 +1710,7 @@ module au_top_0 (
     d_display_sel = 4'he;
   end
   
-  always @(posedge clk) begin
+  always @(posedge M_slowclock_value) begin
     if (rst == 1'b1) begin
       M_state_q <= 1'h0;
     end else begin
