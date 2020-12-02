@@ -1,4 +1,6 @@
 module modulo (
+    input Clock,
+    input Reset,
     input a,  
     input b,  
     output out
