@@ -599,137 +599,137 @@ module au_top (
         if (hide_temp == 0) {
           correct_answer = a_actl;
           sega.values = {4h0,4h0,4h0,4h17};
-          if (b_actl=0) {segb.values = {4h0,4h0,4h0,4h0};} 
-          else if (b_actl=1) {segb.values = {4h0,4h0,4h0,4h1};}
-          else if (b_actl=2) {segb.values = {4h0,4h0,4h0,4h2};}
-          else if (b_actl=3) {segb.values = {4h0,4h0,4h0,4h3};}
-          else if (b_actl=4) {segb.values = {4h0,4h0,4h0,4h4};}
-          else if (b_actl=5) {segb.values = {4h0,4h0,4h0,4h5};}
-          else if (b_actl=6) {segb.values = {4h0,4h0,4h0,4h6};}
-          else if (b_actl=7) {segb.values = {4h0,4h0,4h0,4h7};}
-          else if (b_actl=8) {segb.values = {4h0,4h0,4h0,4h8};}
+          if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
           else {segb.values = {4h0,4h0,4h0,4h9};}
-          if (c_actl=0) {segb.values = {4h0,4h0,4h0,4h0};} 
-          else if (c_actl=1) {segc.values = {4h0,4h0,4h0,4h1};}
-          else if (c_actl=2) {segc.values = {4h0,4h0,4h0,4h2};}
-          else if (c_actl=3) {segc.values = {4h0,4h0,4h0,4h3};}
-          else if (c_actl=4) {segc.values = {4h0,4h0,4h0,4h4};}
-          else if (c_actl=5) {segc.values = {4h0,4h0,4h0,4h5};}
-          else if (c_actl=6) {segc.values = {4h0,4h0,4h0,4h6};}
-          else if (c_actl=7) {segc.values = {4h0,4h0,4h0,4h7};}
-          else if (c_actl=8) {segc.values = {4h0,4h0,4h0,4h8};}
+          if (c_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
           else {segb.values = {4h0,4h0,4h0,4h9};}
-          if (d_actl=0) {segd.values = {4h0,4h0,4h0,4h0};} 
-          else if (d_actl=1) {segd.values = {4h0,4h0,4h0,4h1};}
-          else if (d_actl=2) {segd.values = {4h0,4h0,4h0,4h2};}
-          else if (d_actl=3) {segd.values = {4h0,4h0,4h0,4h3};}
-          else if (d_actl=4) {segd.values = {4h0,4h0,4h0,4h4};}
-          else if (d_actl=5) {segd.values = {4h0,4h0,4h0,4h5};}
-          else if (d_actl=6) {segd.values = {4h0,4h0,4h0,4h6};}
-          else if (d_actl=7) {segd.values = {4h0,4h0,4h0,4h7};}
-          else if (d_actl=8) {segd.values = {4h0,4h0,4h0,4h8};}
+          if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
           else {segd.values = {4h0,4h0,4h0,4h9};}
         }
         else if (hide_temp == 1) {
           correct_answer = b_actl;
           sega.values = {4h0,4h0,4h0,4h17};
-          if (a_actl=0) {segb.values = {4h0,4h0,4h0,4h0};} 
-          else if (a_actl=1) {sega.values = {4h0,4h0,4h0,4h1};}
-          else if (a_actl=2) {sega.values = {4h0,4h0,4h0,4h2};}
-          else if (a_actl=3) {sega.values = {4h0,4h0,4h0,4h3};}
-          else if (a_actl=4) {sega.values = {4h0,4h0,4h0,4h4};}
-          else if (a_actl=5) {sega.values = {4h0,4h0,4h0,4h5};}
-          else if (a_actl=6) {sega.values = {4h0,4h0,4h0,4h6};}
-          else if (a_actl=7) {sega.values = {4h0,4h0,4h0,4h7};}
-          else if (a_actl=8) {sega.values = {4h0,4h0,4h0,4h8};}
+          if (a_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (a_actl==1) {sega.values = {4h0,4h0,4h0,4h1};}
+          else if (a_actl==2) {sega.values = {4h0,4h0,4h0,4h2};}
+          else if (a_actl==3) {sega.values = {4h0,4h0,4h0,4h3};}
+          else if (a_actl==4) {sega.values = {4h0,4h0,4h0,4h4};}
+          else if (a_actl==5) {sega.values = {4h0,4h0,4h0,4h5};}
+          else if (a_actl==6) {sega.values = {4h0,4h0,4h0,4h6};}
+          else if (a_actl==7) {sega.values = {4h0,4h0,4h0,4h7};}
+          else if (a_actl==8) {sega.values = {4h0,4h0,4h0,4h8};}
           else {sega.values = {4h0,4h0,4h0,4h9};}
-          if (c_actl=0) {segb.values = {4h0,4h0,4h0,4h0};} 
-          else if (c_actl=1) {segc.values = {4h0,4h0,4h0,4h1};}
-          else if (c_actl=2) {segc.values = {4h0,4h0,4h0,4h2};}
-          else if (c_actl=3) {segc.values = {4h0,4h0,4h0,4h3};}
-          else if (c_actl=4) {segc.values = {4h0,4h0,4h0,4h4};}
-          else if (c_actl=5) {segc.values = {4h0,4h0,4h0,4h5};}
-          else if (c_actl=6) {segc.values = {4h0,4h0,4h0,4h6};}
-          else if (c_actl=7) {segc.values = {4h0,4h0,4h0,4h7};}
-          else if (c_actl=8) {segc.values = {4h0,4h0,4h0,4h8};}
+          if (c_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
           else {segb.values = {4h0,4h0,4h0,4h9};}
-          if (d_actl=0) {segd.values = {4h0,4h0,4h0,4h0};} 
-          else if (d_actl=1) {segd.values = {4h0,4h0,4h0,4h1};}
-          else if (d_actl=2) {segd.values = {4h0,4h0,4h0,4h2};}
-          else if (d_actl=3) {segd.values = {4h0,4h0,4h0,4h3};}
-          else if (d_actl=4) {segd.values = {4h0,4h0,4h0,4h4};}
-          else if (d_actl=5) {segd.values = {4h0,4h0,4h0,4h5};}
-          else if (d_actl=6) {segd.values = {4h0,4h0,4h0,4h6};}
-          else if (d_actl=7) {segd.values = {4h0,4h0,4h0,4h7};}
-          else if (d_actl=8) {segd.values = {4h0,4h0,4h0,4h8};}
+          if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
           else {segd.values = {4h0,4h0,4h0,4h9};}
         }
         else if (hide_temp == 2) {
           correct_answer = c_actl;
           segc.values = {4h0,4h0,4h0,4h17};
-          if (a_actl=0) {segb.values = {4h0,4h0,4h0,4h0};} 
-          else if (a_actl=1) {sega.values = {4h0,4h0,4h0,4h1};}
-          else if (a_actl=2) {sega.values = {4h0,4h0,4h0,4h2};}
-          else if (a_actl=3) {sega.values = {4h0,4h0,4h0,4h3};}
-          else if (a_actl=4) {sega.values = {4h0,4h0,4h0,4h4};}
-          else if (a_actl=5) {sega.values = {4h0,4h0,4h0,4h5};}
-          else if (a_actl=6) {sega.values = {4h0,4h0,4h0,4h6};}
-          else if (a_actl=7) {sega.values = {4h0,4h0,4h0,4h7};}
-          else if (a_actl=8) {sega.values = {4h0,4h0,4h0,4h8};}
+          if (a_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (a_actl==1) {sega.values = {4h0,4h0,4h0,4h1};}
+          else if (a_actl==2) {sega.values = {4h0,4h0,4h0,4h2};}
+          else if (a_actl==3) {sega.values = {4h0,4h0,4h0,4h3};}
+          else if (a_actl==4) {sega.values = {4h0,4h0,4h0,4h4};}
+          else if (a_actl==5) {sega.values = {4h0,4h0,4h0,4h5};}
+          else if (a_actl==6) {sega.values = {4h0,4h0,4h0,4h6};}
+          else if (a_actl==7) {sega.values = {4h0,4h0,4h0,4h7};}
+          else if (a_actl==8) {sega.values = {4h0,4h0,4h0,4h8};}
           else {sega.values = {4h0,4h0,4h0,4h9};}
-          if (b_actl=0) {segb.values = {4h0,4h0,4h0,4h0};} 
-          else if (b_actl=1) {segb.values = {4h0,4h0,4h0,4h1};}
-          else if (b_actl=2) {segb.values = {4h0,4h0,4h0,4h2};}
-          else if (b_actl=3) {segb.values = {4h0,4h0,4h0,4h3};}
-          else if (b_actl=4) {segb.values = {4h0,4h0,4h0,4h4};}
-          else if (b_actl=5) {segb.values = {4h0,4h0,4h0,4h5};}
-          else if (b_actl=6) {segb.values = {4h0,4h0,4h0,4h6};}
-          else if (b_actl=7) {segb.values = {4h0,4h0,4h0,4h7};}
-          else if (b_actl=8) {segb.values = {4h0,4h0,4h0,4h8};}
+          if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
           else {segb.values = {4h0,4h0,4h0,4h9};}
-          if (d_actl=0) {segd.values = {4h0,4h0,4h0,4h0};} 
-          else if (d_actl=1) {segd.values = {4h0,4h0,4h0,4h1};}
-          else if (d_actl=2) {segd.values = {4h0,4h0,4h0,4h2};}
-          else if (d_actl=3) {segd.values = {4h0,4h0,4h0,4h3};}
-          else if (d_actl=4) {segd.values = {4h0,4h0,4h0,4h4};}
-          else if (d_actl=5) {segd.values = {4h0,4h0,4h0,4h5};}
-          else if (d_actl=6) {segd.values = {4h0,4h0,4h0,4h6};}
-          else if (d_actl=7) {segd.values = {4h0,4h0,4h0,4h7};}
-          else if (d_actl=8) {segd.values = {4h0,4h0,4h0,4h8};}
+          if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
           else {segd.values = {4h0,4h0,4h0,4h9};}
           }
         else {
           correct_answer = d_actl;
           segd.values = {4h0,4h0,4h0,4h17};
-          if (a_actl=0) {segb.values = {4h0,4h0,4h0,4h0};} 
-          else if (a_actl=1) {sega.values = {4h0,4h0,4h0,4h1};}
-          else if (a_actl=2) {sega.values = {4h0,4h0,4h0,4h2};}
-          else if (a_actl=3) {sega.values = {4h0,4h0,4h0,4h3};}
-          else if (a_actl=4) {sega.values = {4h0,4h0,4h0,4h4};}
-          else if (a_actl=5) {sega.values = {4h0,4h0,4h0,4h5};}
-          else if (a_actl=6) {sega.values = {4h0,4h0,4h0,4h6};}
-          else if (a_actl=7) {sega.values = {4h0,4h0,4h0,4h7};}
-          else if (a_actl=8) {sega.values = {4h0,4h0,4h0,4h8};}
+          if (a_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (a_actl==1) {sega.values = {4h0,4h0,4h0,4h1};}
+          else if (a_actl==2) {sega.values = {4h0,4h0,4h0,4h2};}
+          else if (a_actl==3) {sega.values = {4h0,4h0,4h0,4h3};}
+          else if (a_actl==4) {sega.values = {4h0,4h0,4h0,4h4};}
+          else if (a_actl==5) {sega.values = {4h0,4h0,4h0,4h5};}
+          else if (a_actl==6) {sega.values = {4h0,4h0,4h0,4h6};}
+          else if (a_actl==7) {sega.values = {4h0,4h0,4h0,4h7};}
+          else if (a_actl==8) {sega.values = {4h0,4h0,4h0,4h8};}
           else {sega.values = {4h0,4h0,4h0,4h9};}
-          if (b_actl=0) {segb.values = {4h0,4h0,4h0,4h0};} 
-          else if (b_actl=1) {segb.values = {4h0,4h0,4h0,4h1};}
-          else if (b_actl=2) {segb.values = {4h0,4h0,4h0,4h2};}
-          else if (b_actl=3) {segb.values = {4h0,4h0,4h0,4h3};}
-          else if (b_actl=4) {segb.values = {4h0,4h0,4h0,4h4};}
-          else if (b_actl=5) {segb.values = {4h0,4h0,4h0,4h5};}
-          else if (b_actl=6) {segb.values = {4h0,4h0,4h0,4h6};}
-          else if (b_actl=7) {segb.values = {4h0,4h0,4h0,4h7};}
-          else if (b_actl=8) {segb.values = {4h0,4h0,4h0,4h8};}
+          if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
           else {segb.values = {4h0,4h0,4h0,4h9};}
-          if (c_actl=0) {segd.values = {4h0,4h0,4h0,4h0};} 
-          else if (c_actl=1) {segc.values = {4h0,4h0,4h0,4h1};}
-          else if (c_actl=2) {segc.values = {4h0,4h0,4h0,4h2};}
-          else if (c_actl=3) {segc.values = {4h0,4h0,4h0,4h3};}
-          else if (c_actl=4) {segc.values = {4h0,4h0,4h0,4h4};}
-          else if (c_actl=5) {segc.values = {4h0,4h0,4h0,4h5};}
-          else if (c_actl=6) {segc.values = {4h0,4h0,4h0,4h6};}
-          else if (c_actl=7) {segc.values = {4h0,4h0,4h0,4h7};}
-          else if (c_actl=8) {segc.values = {4h0,4h0,4h0,4h8};}
+          if (c_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
           else {segc.values = {4h0,4h0,4h0,4h9};}
           }
       
@@ -880,7 +880,7 @@ module au_top (
         }
         
       state.STATEHP_A: // b scored 
-        if (correct1) { 
+        if (correct1==1) { 
           if (health_a.q[4] == 1) {
             health_a.d[4] = 0;
           } else if (health_a.q[4] == 0) {
@@ -902,7 +902,7 @@ module au_top (
         }
 
       state.STATEHP_B: // a scored
-        if (correct2) { 
+        if (correct2==1) { 
           if (health_b.q[4] == 1) {
             health_b.d[4] = 0;
           } else if (health_b.q[4] == 0) {

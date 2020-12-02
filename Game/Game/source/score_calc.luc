@@ -1,4 +1,4 @@
-module score_calc (
+/*module score_calc (
     input clk,           // clock
     input rst,           // reset
     input a_out,          // answer address for player A--> SATH 
@@ -90,4 +90,4 @@ module score_calc (
       
     }
   }
-}
+}*/
