@@ -58,17 +58,17 @@ module au_top_0 (
   
   reg rst;
   
-  reg a_temp;
-  reg b_temp;
-  reg c_temp;
-  reg d_temp;
-  reg op1_temp;
-  reg op2_temp;
-  reg a_actl;
-  reg b_actl;
-  reg c_actl;
-  reg d_actl;
-  reg hide_temp;
+  integer a_temp;
+  integer b_temp;
+  integer c_temp;
+  integer d_temp;
+  integer op1_temp;
+  integer op2_temp;
+  integer a_actl;
+  integer b_actl;
+  integer c_actl;
+  integer d_actl;
+  integer hide_temp;
   
   wire [1-1:0] M_modulo1_out;
   reg [1-1:0] M_modulo1_a;
@@ -229,68 +229,66 @@ module au_top_0 (
   );
   
   
-  localparam STATEINIT_state = 6'd0;
-  localparam STATEINPUT_state = 6'd1;
-  localparam STATEP1UP_state = 6'd2;
-  localparam STATEP2UP_state = 6'd3;
-  localparam STATEP1DOWN_state = 6'd4;
-  localparam STATEP2DOWN_state = 6'd5;
-  localparam STATEP1CORRECT_state = 6'd6;
-  localparam STATEP2CORRECT_state = 6'd7;
-  localparam STATEOUTPUT_state = 6'd8;
-  localparam RANDA_state = 6'd9;
-  localparam RANDOP1_state = 6'd10;
-  localparam RANDB0_state = 6'd11;
-  localparam RANDB1_state = 6'd12;
-  localparam RANDB2_state = 6'd13;
-  localparam RANDB3_state = 6'd14;
-  localparam RANDOP20_state = 6'd15;
-  localparam RANDOP21_state = 6'd16;
-  localparam RANDOP22_state = 6'd17;
-  localparam RANDOP23_state = 6'd18;
-  localparam RANDC0_state = 6'd19;
-  localparam RANDC1_state = 6'd20;
-  localparam RANDC2_state = 6'd21;
-  localparam RANDC3_state = 6'd22;
-  localparam RANDC4_state = 6'd23;
-  localparam RANDC5_state = 6'd24;
-  localparam RANDC6_state = 6'd25;
-  localparam RANDC7_state = 6'd26;
-  localparam RANDC8_state = 6'd27;
-  localparam RANDC9_state = 6'd28;
-  localparam RANDCA_state = 6'd29;
-  localparam RANDCB_state = 6'd30;
-  localparam RANDCC_state = 6'd31;
-  localparam RANDCD_state = 6'd32;
-  localparam RANDCE_state = 6'd33;
-  localparam RANDCF_state = 6'd34;
-  localparam CALCD0_state = 6'd35;
-  localparam CALCD1_state = 6'd36;
-  localparam CALCD2_state = 6'd37;
-  localparam CALCD3_state = 6'd38;
-  localparam CALCD4_state = 6'd39;
-  localparam CALCD5_state = 6'd40;
-  localparam CALCD6_state = 6'd41;
-  localparam CALCD7_state = 6'd42;
-  localparam CALCD8_state = 6'd43;
-  localparam CALCD9_state = 6'd44;
-  localparam CALCDA_state = 6'd45;
-  localparam CALCDB_state = 6'd46;
-  localparam CALCDC_state = 6'd47;
-  localparam CALCDD_state = 6'd48;
-  localparam CALCDE_state = 6'd49;
-  localparam CALCDF_state = 6'd50;
-  localparam CHECKDOVER_state = 6'd51;
-  localparam CHECKDUNDER_state = 6'd52;
-  localparam RANDHIDE_state = 6'd53;
-  localparam STATEC_state = 6'd54;
-  localparam STATEHP_A_state = 6'd55;
-  localparam STATEHP_B_state = 6'd56;
-  localparam STATEQN_state = 6'd57;
-  localparam STATEGAMEOVER_state = 6'd58;
-  localparam STATEGAMESTART_state = 6'd59;
+  localparam STATEINPUT_state = 6'd0;
+  localparam STATEP1UP_state = 6'd1;
+  localparam STATEP2UP_state = 6'd2;
+  localparam STATEP1DOWN_state = 6'd3;
+  localparam STATEP2DOWN_state = 6'd4;
+  localparam STATEP1CORRECT_state = 6'd5;
+  localparam STATEP2CORRECT_state = 6'd6;
+  localparam STATEOUTPUT_state = 6'd7;
+  localparam RANDA_state = 6'd8;
+  localparam RANDOP1_state = 6'd9;
+  localparam RANDB0_state = 6'd10;
+  localparam RANDB1_state = 6'd11;
+  localparam RANDB2_state = 6'd12;
+  localparam RANDB3_state = 6'd13;
+  localparam RANDOP20_state = 6'd14;
+  localparam RANDOP21_state = 6'd15;
+  localparam RANDOP22_state = 6'd16;
+  localparam RANDOP23_state = 6'd17;
+  localparam RANDC0_state = 6'd18;
+  localparam RANDC1_state = 6'd19;
+  localparam RANDC2_state = 6'd20;
+  localparam RANDC3_state = 6'd21;
+  localparam RANDC4_state = 6'd22;
+  localparam RANDC5_state = 6'd23;
+  localparam RANDC6_state = 6'd24;
+  localparam RANDC7_state = 6'd25;
+  localparam RANDC8_state = 6'd26;
+  localparam RANDC9_state = 6'd27;
+  localparam RANDCA_state = 6'd28;
+  localparam RANDCB_state = 6'd29;
+  localparam RANDCC_state = 6'd30;
+  localparam RANDCD_state = 6'd31;
+  localparam RANDCE_state = 6'd32;
+  localparam RANDCF_state = 6'd33;
+  localparam CALCD0_state = 6'd34;
+  localparam CALCD1_state = 6'd35;
+  localparam CALCD2_state = 6'd36;
+  localparam CALCD3_state = 6'd37;
+  localparam CALCD4_state = 6'd38;
+  localparam CALCD5_state = 6'd39;
+  localparam CALCD6_state = 6'd40;
+  localparam CALCD7_state = 6'd41;
+  localparam CALCD8_state = 6'd42;
+  localparam CALCD9_state = 6'd43;
+  localparam CALCDA_state = 6'd44;
+  localparam CALCDB_state = 6'd45;
+  localparam CALCDC_state = 6'd46;
+  localparam CALCDD_state = 6'd47;
+  localparam CALCDE_state = 6'd48;
+  localparam CALCDF_state = 6'd49;
+  localparam CHECKDOVER_state = 6'd50;
+  localparam CHECKDUNDER_state = 6'd51;
+  localparam RANDHIDE_state = 6'd52;
+  localparam STATEC_state = 6'd53;
+  localparam STATEHP_A_state = 6'd54;
+  localparam STATEHP_B_state = 6'd55;
+  localparam STATEGAMEOVER_state = 6'd56;
+  localparam STATEGAMESTART_state = 6'd57;
   
-  reg [5:0] M_state_d, M_state_q = STATEINIT_state;
+  reg [5:0] M_state_d, M_state_q = STATEINPUT_state;
   
   always @* begin
     M_state_d = M_state_q;
@@ -364,11 +362,15 @@ module au_top_0 (
     op2_temp = 1'h0;
     
     case (M_state_q)
-      STATEINIT_state: begin
-        if (submit[1+0-:1] == 1'h1 & submit[0+0-:1] == 1'h1) begin
+      STATEGAMESTART_state: begin
+        M_seg_values = 16'h0000;
+        M_seg2_values = 16'h0000;
+        M_health_a_d = 5'h1f;
+        M_health_b_d = 5'h1f;
+        if (submit[0+0-:1] == 1'h1 && submit[1+0-:1] == 1'h1) begin
           M_state_d = RANDA_state;
         end else begin
-          M_state_d = STATEINIT_state;
+          M_state_d = STATEGAMESTART_state;
         end
       end
       RANDA_state: begin
@@ -381,9 +383,15 @@ module au_top_0 (
         M_state_d = RANDOP1_state;
       end
       RANDOP1_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         op1_temp = M_random_num;
-        M_random_next = 2'h2;
-        if (op1_temp == 2'h3) begin
+        if (op1_temp != 1'h0) begin
+          M_modulo1_a = op1_temp;
+          M_modulo1_b = 3'h4;
+          op1_temp = M_modulo1_out;
+        end
+        if (op1_temp == 2'h3 && a_temp != 1'h0) begin
           M_state_d = RANDB3_state;
         end else begin
           if (op1_temp == 2'h2) begin
@@ -392,6 +400,7 @@ module au_top_0 (
             if (op1_temp == 1'h1) begin
               M_state_d = RANDB1_state;
             end else begin
+              op1_temp = 1'h0;
               M_state_d = RANDB0_state;
             end
           end
@@ -429,23 +438,35 @@ module au_top_0 (
         M_state_d = RANDOP22_state;
       end
       RANDB3_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         b_temp = M_random_num;
-        M_random_next = 2'h3;
-        if (b_temp > 4'h9) begin
-          b_temp = b_temp - 4'ha;
-        end
-        M_modulo1_a = a_actl / b_actl;
-        M_modulo1_b = 1'h1;
-        if (M_modulo1_out != 1'h0) begin
-          M_state_d = RANDB3_state;
+        if (a_actl != 1'h0 && b_actl != 1'h0) begin
+          M_random_next = 2'h3;
+          if (b_temp > 4'h9) begin
+            b_temp = b_temp - 4'ha;
+          end
+          M_modulo1_a = a_actl / b_actl;
+          M_modulo1_b = 1'h1;
+          if (M_modulo1_out != 1'h0) begin
+            M_state_d = RANDB3_state;
+          end else begin
+            M_state_d = RANDOP23_state;
+          end
         end else begin
-          M_state_d = RANDOP23_state;
+          M_state_d = RANDB3_state;
         end
       end
       RANDOP20_state: begin
-        op2_temp = M_random_num;
         M_random_next = 1'h1;
-        if (op2_temp == 2'h3) begin
+        M_random_next = 1'h0;
+        op2_temp = M_random_num;
+        if (op2_temp != 1'h0) begin
+          M_modulo1_a = op1_temp;
+          M_modulo1_b = 3'h4;
+          op1_temp = M_modulo1_out;
+        end
+        if (op2_temp == 2'h3 && b_actl != 1'h0) begin
           M_state_d = RANDC3_state;
         end else begin
           if (op2_temp == 2'h2) begin
@@ -454,15 +475,22 @@ module au_top_0 (
             if (op2_temp == 1'h1) begin
               M_state_d = RANDC1_state;
             end else begin
+              op2_temp = 1'h0;
               M_state_d = RANDC0_state;
             end
           end
         end
       end
-      RANDOP20_state: begin
-        op2_temp = M_random_num;
+      RANDOP21_state: begin
         M_random_next = 1'h1;
-        if (op2_temp == 2'h3) begin
+        M_random_next = 1'h0;
+        op2_temp = M_random_num;
+        if (op1_temp != 1'h0) begin
+          M_modulo1_a = op1_temp;
+          M_modulo1_b = 3'h4;
+          op1_temp = M_modulo1_out;
+        end
+        if (op2_temp == 2'h3 && b_actl != 1'h0) begin
           M_state_d = RANDC7_state;
         end else begin
           if (op2_temp == 2'h2) begin
@@ -471,15 +499,22 @@ module au_top_0 (
             if (op2_temp == 1'h1) begin
               M_state_d = RANDC5_state;
             end else begin
+              op2_temp = 1'h0;
               M_state_d = RANDC4_state;
             end
           end
         end
       end
-      RANDOP20_state: begin
-        op2_temp = M_random_num;
+      RANDOP22_state: begin
         M_random_next = 1'h1;
-        if (op2_temp == 2'h3) begin
+        M_random_next = 1'h0;
+        op2_temp = M_random_num;
+        if (op1_temp != 1'h0) begin
+          M_modulo1_a = op2_temp;
+          M_modulo1_b = 3'h4;
+          op2_temp = M_modulo1_out;
+        end
+        if (op2_temp == 2'h3 && b_actl != 1'h0) begin
           M_state_d = RANDCB_state;
         end else begin
           if (op2_temp == 2'h2) begin
@@ -488,15 +523,22 @@ module au_top_0 (
             if (op2_temp == 1'h1) begin
               M_state_d = RANDC9_state;
             end else begin
+              op2_temp = 1'h0;
               M_state_d = RANDC8_state;
             end
           end
         end
       end
-      RANDOP20_state: begin
-        op2_temp = M_random_num;
+      RANDOP23_state: begin
         M_random_next = 1'h1;
-        if (op2_temp == 2'h3) begin
+        M_random_next = 1'h0;
+        op2_temp = M_random_num;
+        if (op1_temp != 1'h0) begin
+          M_modulo1_a = op2_temp;
+          M_modulo1_b = 3'h4;
+          op2_temp = M_modulo1_out;
+        end
+        if (op2_temp == 2'h3 && b_actl != 1'h0) begin
           M_state_d = RANDCF_state;
         end else begin
           if (op2_temp == 2'h2) begin
@@ -505,12 +547,15 @@ module au_top_0 (
             if (op2_temp == 1'h1) begin
               M_state_d = RANDCD_state;
             end else begin
+              op2_temp = 1'h0;
               M_state_d = RANDCC_state;
             end
           end
         end
       end
       RANDC0_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -526,7 +571,6 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
         M_state_d = CALCD0_state;
       end
       RANDC1_state: begin
@@ -545,10 +589,11 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
         M_state_d = CALCD1_state;
       end
       RANDC2_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -564,27 +609,33 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
         M_state_d = CALCD2_state;
       end
       RANDC3_state: begin
-        c_temp = M_random_num;
-        if (c_temp > 4'h9) begin
-          c_temp = c_temp - 4'ha;
-          M_modulo1_a = b_actl / c_actl;
-          M_modulo1_b = 1'h1;
+        if (b_temp != 1'h0 || c_temp != 1'h0) begin
+          M_random_next = 1'h1;
+          M_random_next = 1'h0;
+          c_temp = M_random_num;
+          if (c_temp > 4'h9) begin
+            c_temp = c_temp - 4'ha;
+            M_modulo1_a = b_actl / c_actl;
+            M_modulo1_b = 1'h1;
+          end else begin
+            M_modulo1_a = b_actl / c_actl;
+            M_modulo1_b = 1'h1;
+          end
+          if (M_modulo1_out != 1'h0) begin
+            M_state_d = RANDC3_state;
+          end else begin
+            M_state_d = CALCD3_state;
+          end
         end else begin
-          M_modulo1_a = b_actl / c_actl;
-          M_modulo1_b = 1'h1;
-        end
-        M_random_next = 3'h4;
-        if (M_modulo1_out != 1'h0) begin
           M_state_d = RANDC3_state;
-        end else begin
-          M_state_d = CALCD3_state;
         end
       end
       RANDC4_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -600,10 +651,11 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
         M_state_d = CALCD4_state;
       end
       RANDC5_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -619,10 +671,11 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
         M_state_d = CALCD5_state;
       end
       RANDC6_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -638,27 +691,34 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
         M_state_d = CALCD6_state;
       end
       RANDC7_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
-        if (c_temp > 4'h9) begin
-          c_temp = c_temp - 4'ha;
-          M_modulo1_a = b_actl / c_actl;
-          M_modulo1_b = 1'h1;
+        if (b_temp != 1'h0 && c_temp != 1'h0) begin
+          if (c_temp > 4'h9) begin
+            c_temp = c_temp - 4'ha;
+            M_modulo1_a = b_actl / c_actl;
+            M_modulo1_b = 1'h1;
+          end else begin
+            M_modulo1_a = b_actl / c_actl;
+            M_modulo1_b = 1'h1;
+          end
+          M_random_next = 3'h4;
+          if (M_modulo1_out != 1'h0) begin
+            M_state_d = RANDC7_state;
+          end else begin
+            M_state_d = CALCD7_state;
+          end
         end else begin
-          M_modulo1_a = b_actl / c_actl;
-          M_modulo1_b = 1'h1;
-        end
-        M_random_next = 3'h4;
-        if (M_modulo1_out != 1'h0) begin
           M_state_d = RANDC7_state;
-        end else begin
-          M_state_d = CALCD7_state;
         end
       end
       RANDC8_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -678,6 +738,8 @@ module au_top_0 (
         M_state_d = CALCD8_state;
       end
       RANDC9_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -697,6 +759,8 @@ module au_top_0 (
         M_state_d = CALCD9_state;
       end
       RANDCA_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -712,27 +776,31 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
         M_state_d = CALCDA_state;
       end
       RANDCB_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
-        if (c_temp > 4'h9) begin
-          c_temp = c_temp - 4'ha;
-          M_modulo1_a = b_actl / c_actl;
-          M_modulo1_b = 1'h1;
-        end else begin
-          M_modulo1_a = b_actl / c_actl;
-          M_modulo1_b = 1'h1;
-        end
-        M_random_next = 3'h4;
-        if (M_modulo1_out != 1'h0) begin
-          M_state_d = RANDCB_state;
-        end else begin
-          M_state_d = CALCDB_state;
+        if (a * b != 1'h0 && c != 1'h0) begin
+          if (c_temp > 4'h9) begin
+            c_temp = c_temp - 4'ha;
+            M_modulo1_a = b_actl / c_actl;
+            M_modulo1_b = 1'h1;
+          end else begin
+            M_modulo1_a = b_actl / c_actl;
+            M_modulo1_b = 1'h1;
+          end
+          if (M_modulo1_out != 1'h0) begin
+            M_state_d = RANDCB_state;
+          end else begin
+            M_state_d = CALCDB_state;
+          end
         end
       end
       RANDCC_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -752,6 +820,8 @@ module au_top_0 (
         M_state_d = CALCDC_state;
       end
       RANDCD_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -771,6 +841,8 @@ module au_top_0 (
         M_state_d = CALCDD_state;
       end
       RANDCE_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
         if (c_temp > 4'h9) begin
           c_temp = c_temp - 4'ha;
@@ -786,24 +858,28 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
         M_state_d = CALCDA_state;
       end
       RANDCF_state: begin
+        M_random_next = 1'h1;
+        M_random_next = 1'h0;
         c_temp = M_random_num;
-        if (c_temp > 4'h9) begin
-          c_temp = c_temp - 4'ha;
-          M_modulo1_a = a_actl / b_actl / c_actl;
-          M_modulo1_b = 1'h1;
+        if (a_actl / b_actl / c_actl != 1'h0) begin
+          if (c_temp > 4'h9) begin
+            c_temp = c_temp - 4'ha;
+            M_modulo1_a = a_actl / b_actl / c_actl;
+            M_modulo1_b = 1'h1;
+          end else begin
+            M_modulo1_a = a_actl / b_actl / c_actl;
+            M_modulo1_b = 1'h1;
+          end
+          if (M_modulo1_out != 1'h0) begin
+            M_state_d = RANDCF_state;
+          end else begin
+            M_state_d = CALCD3_state;
+          end
         end else begin
-          M_modulo1_a = a_actl / b_actl / c_actl;
-          M_modulo1_b = 1'h1;
-        end
-        M_random_next = 3'h4;
-        if (M_modulo1_out != 1'h0) begin
           M_state_d = RANDCF_state;
-        end else begin
-          M_state_d = CALCD3_state;
         end
       end
       CALCD0_state: begin
@@ -1415,10 +1491,18 @@ module au_top_0 (
           M_state_d = STATEP2DOWN_state;
         end
         if (submit[0+0-:1] == 1'h1) begin
-          
+          if (ans_input1 == correct_answer) begin
+            M_state_d = STATEP1CORRECT_state;
+          end else begin
+            M_state_d = STATEINPUT_state;
+          end
         end
         if (submit[1+0-:1] == 1'h1) begin
-          
+          if (ans_input2 == correct_answer) begin
+            M_state_d = STATEP2CORRECT_state;
+          end else begin
+            M_state_d = STATEINPUT_state;
+          end
         end
       end
       STATEP1UP_state: begin
@@ -1506,7 +1590,7 @@ module au_top_0 (
           end
         end else begin
           if (correct_answer != ans_input2) begin
-            M_state_d = STATEINIT_state;
+            M_state_d = RANDA_state;
           end
         end
       end
@@ -1542,7 +1626,7 @@ module au_top_0 (
           end
         end else begin
           if (correct_answer != ans_input2) begin
-            M_state_d = STATEINIT_state;
+            M_state_d = RANDA_state;
           end
         end
       end
@@ -1553,17 +1637,17 @@ module au_top_0 (
           M_state_d = STATEGAMESTART_state;
         end
       end
-      STATEGAMESTART_state: begin
-        M_seg_values = 16'h0000;
-        M_seg2_values = 16'h0000;
-        M_health_a_d = 5'h1f;
-        M_health_b_d = 5'h1f;
-        if (submit[0+0-:1] == 1'h1 && submit[1+0-:1] == 1'h1) begin
-          M_state_d = STATEINIT_state;
-        end
-      end
     endcase
   end
+  
+  always @(posedge M_slowclock_value) begin
+    if (rst == 1'b1) begin
+      M_state_q <= 1'h0;
+    end else begin
+      M_state_q <= M_state_d;
+    end
+  end
+  
   
   always @(posedge clk) begin
     M_seed_q <= M_seed_d;
@@ -1573,15 +1657,6 @@ module au_top_0 (
     M_next_state_q <= M_next_state_d;
     M_health_a_q <= M_health_a_d;
     M_health_b_q <= M_health_b_d;
-  end
-  
-  
-  always @(posedge M_slowclock_value) begin
-    if (rst == 1'b1) begin
-      M_state_q <= 1'h0;
-    end else begin
-      M_state_q <= M_state_d;
-    end
   end
   
 endmodule

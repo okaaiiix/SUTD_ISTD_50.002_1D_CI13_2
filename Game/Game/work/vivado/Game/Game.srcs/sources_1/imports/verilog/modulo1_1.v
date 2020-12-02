@@ -14,7 +14,7 @@ module modulo1_1 (
   
   always @* begin
     if (a == 1'h0) begin
-      out = 1'h0;
+      out = 1'h1;
     end else begin
       if (a == 1'h1) begin
         if (b == 1'h1) begin
@@ -27,56 +27,120 @@ module modulo1_1 (
           if (b == 1'h1 || b == 2'h2) begin
             out = 1'h0;
           end else begin
-            out = 1'h1;
+            out = 2'h2;
           end
         end else begin
           if (a == 2'h3) begin
             if (b == 1'h1 || b == 2'h3) begin
               out = 1'h0;
             end else begin
-              out = 1'h1;
+              if (b == 2'h2) begin
+                out = 1'h1;
+              end else begin
+                out = 2'h3;
+              end
             end
           end else begin
             if (a == 3'h4) begin
               if (b == 1'h1 || b == 2'h2 || b == 3'h4) begin
                 out = 1'h0;
               end else begin
-                out = 1'h1;
+                if (b == 2'h3) begin
+                  out = 1'h1;
+                end else begin
+                  out = 3'h4;
+                end
               end
             end else begin
               if (a == 3'h5) begin
                 if (b == 1'h1 || b == 3'h5) begin
                   out = 1'h0;
                 end else begin
-                  out = 1'h1;
+                  if (b == 2'h2 || b == 3'h4) begin
+                    out = 1'h1;
+                  end else begin
+                    if (b == 2'h3) begin
+                      out = 2'h2;
+                    end else begin
+                      out = 3'h5;
+                    end
+                  end
                 end
               end else begin
                 if (a == 3'h6) begin
                   if (b == 1'h1 || b == 2'h2 || b == 2'h3 || b == 3'h6) begin
                     out = 1'h0;
                   end else begin
-                    out = 1'h1;
+                    if (b == 3'h4) begin
+                      out = 2'h2;
+                    end else begin
+                      if (b == 3'h5) begin
+                        out = 1'h1;
+                      end else begin
+                        out = 3'h6;
+                      end
+                    end
                   end
                 end else begin
                   if (a == 3'h7) begin
                     if (b == 1'h1 || b == 3'h7) begin
                       out = 1'h0;
                     end else begin
-                      out = 1'h1;
+                      if (b == 2'h2 | b == 2'h3 | b == 3'h6) begin
+                        out = 1'h1;
+                      end else begin
+                        if (b == 3'h4) begin
+                          out = 2'h3;
+                        end else begin
+                          if (b == 3'h5) begin
+                            out = 2'h2;
+                          end else begin
+                            out = 3'h7;
+                          end
+                        end
+                      end
                     end
                   end else begin
                     if (a == 4'h8) begin
                       if (b == 1'h1 || b == 2'h2 || b == 3'h4 || b == 4'h8) begin
                         out = 1'h0;
                       end else begin
-                        out = 1'h1;
+                        if (b == 3'h7) begin
+                          out = 1'h1;
+                        end else begin
+                          if (b == 2'h3 || b == 3'h6) begin
+                            out = 2'h2;
+                          end else begin
+                            if (b == 3'h5) begin
+                              out = 2'h3;
+                            end else begin
+                              out = 4'h8;
+                            end
+                          end
+                        end
                       end
                     end else begin
                       if (a == 4'h9) begin
                         if (b == 1'h1 || b == 2'h3 || b == 4'h9) begin
                           out = 1'h0;
                         end else begin
-                          out = 1'h1;
+                          if (b == 2'h2 || b == 3'h4 || b == 4'h8) begin
+                            out = 1'h1;
+                          end else begin
+                            if (b == 3'h7) begin
+                              out = 2'h2;
+                            end else begin
+                              if (b == 3'h6) begin
+                                out = 2'h3;
+                              end else begin
+                                if (b == 3'h5) begin
+                                  out = 3'h4;
+                                end else begin
+                                  out = 4'h9;
+                                end
+                              end
+                            end
+                          end
                         end
                       end else begin
                         out = 1'h1;

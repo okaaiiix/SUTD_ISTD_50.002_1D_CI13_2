@@ -38,7 +38,7 @@ module au_top (
   
   sig button_press[6];                              //button signals after conditioning and edge detection
   sig rst ;//alua[16],alub[16],alufn[6];                  // reset signal and relevant alu components
-  sig a_temp,b_temp,c_temp,d_temp,op1_temp,op2_temp,a_actl,b_actl,c_actl,d_actl,hide_temp;
+  var a_temp,b_temp,c_temp,d_temp,op1_temp,op2_temp,a_actl,b_actl,c_actl,d_actl,hide_temp;
   //alu alu;
   modulo1 modulo1;
   
@@ -878,17 +878,17 @@ module au_top (
         }
         
         if (submit[0] == 1){
-          //if( //ans_input1 == correct_ans){
-              //state.d = STATEP1CORRECT;
-          //}
-          //else{ state.d = state.STATEINPUT}
+          if( ans_input1 == correct_answer){
+              state.d = state.STATEP1CORRECT;
+          }
+          else{ state.d = state.STATEINPUT;}
         }
         
         if (submit[1]==1){
-          //if(  //ans_input2 == correct_ans){
-              //state.d = STATEP2CORRECT;
-          //}
-          //else{ state.d = state.STATEINPUT}
+          if(  ans_input2 == correct_answer){
+              state.d = state.STATEP2CORRECT;
+          }
+          else{ state.d = state.STATEINPUT;}
         }
             
             
