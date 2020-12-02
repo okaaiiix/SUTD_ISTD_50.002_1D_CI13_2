@@ -236,7 +236,7 @@ module au_top (
         if (b_temp > 9) { b_temp = b_temp - 10;}
         modulo.a = a_actl/b_actl;
         modulo.b = 1;
-        if (modulo.out != 0) {state.d = state.RANDB3;}
+        if (modulo.moutput != 0) {state.d = state.RANDB3;}
         else  {state.d = state.RANDOP23;}
         
       // Randomise Operator 2
@@ -328,7 +328,7 @@ module au_top (
           modulo.b = 1;
           }
         random.next = 4;
-        if (modulo.out != 0) {
+        if (modulo.moutput != 0) {
           state.d = state.RANDC3;
         } else {
           state.d = state.CALCD3;
@@ -389,7 +389,7 @@ module au_top (
           modulo.b = 1;
           }
         random.next=4;
-        if (modulo.out != 0) {
+        if (modulo.moutput != 0) {
           state.d = state.RANDC7;
         } else {
           state.d = state.CALCD7;
@@ -450,7 +450,7 @@ module au_top (
           modulo.b = 1;
           }
         random.next = 4;
-        if (modulo.out != 0) {
+        if (modulo.moutput != 0) {
           state.d = state.RANDCB;
         } else {
           state.d = state.CALCDB;
@@ -511,7 +511,7 @@ module au_top (
           modulo.b = 1;
           }
         random.next = 4;
-        if (modulo.out != 0) {
+        if (modulo.moutput != 0) {
           state.d = state.RANDCF;
         } else {
           state.d = state.CALCD3;
