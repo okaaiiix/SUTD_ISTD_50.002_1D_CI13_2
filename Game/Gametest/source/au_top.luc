@@ -1,0 +1,1004 @@
+module au_top (
+    input clk,              // 100MHz clock
+    input rst_n,            // reset button (active low)
+    output led [8],         // 8 user controllable LEDs
+    input usb_rx,           // USB->Serial input
+    output usb_tx,           // USB->Serial output
+    input button[4],     ///external buttons (Player 1 up, Player 2 up, Player 1 down, Player 2 down)
+    input submit[2],     //(Player 1 submit, Player 2 submit)
+    output p1_display[8],
+    output p2_display[8],
+    output p1_display_sel[1],
+    output p2_display_sel[1],
+    output a_display[7],
+    output a_display_sel[1],
+    output b_display[7],
+    output b_display_sel[1],
+    output c_display[7],
+    output c_display_sel[1],
+    output d_display[7],
+    output d_display_sel[1],
+    output hp1[5],      // output reflected in HP bar
+    output hp2[5]
+      ) {
+  var ans_input1;
+  var ans_input2;                                  //value to store player inputs of awnsers
+  var correct1;                                    //check if input values tally with correct awnser
+  var correct2; 
+  
+  var a;
+  var op1;
+  var b;
+  var op2;
+  var c;
+  var d;
+  var hide_index;
+  var correct_answer;
+  
+  
+  sig button_press[6];                              //button signals after conditioning and edge detection
+  sig rst ;//alua[16],alub[16],alufn[6];                  // reset signal and relevant alu components
+  var a_temp,b_temp,c_temp,d_temp,op1_temp,op2_temp,a_actl,b_actl,c_actl,d_actl,hide_temp;
+  //alu alu;
+  modulo1 modulo1;
+  
+  .clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+    random random;
+    
+    dff seed [32];                   // seed for each run
+    dff inp_a[16];
+    dff inp_b[16];
+    dff counter[27];
+    dff next_state;
+    dff health_a[5];
+    dff health_b[5];
+    
+    // For button, ed detects rising edges, bc conditions input.
+    edge_detector ed0(#RISE(1), #FALL(0));
+    button_conditioner bc0;
+    edge_detector ed1(#RISE(1), #FALL(0));
+    button_conditioner bc1;
+    edge_detector ed2(#RISE(1), #FALL(0));
+    button_conditioner bc2;
+    edge_detector ed3(#RISE(1), #FALL(0));
+    button_conditioner bc3;
+    
+    .rst(rst){
+      multi_seven_seg seg;
+      multi_seven_seg seg2;
+
+      multi_seven_seg sega;
+      multi_seven_seg segb;
+      multi_seven_seg segc;
+      multi_seven_seg segd;
+    }
+  }
+
+  counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
+  fsm state(.clk(slowclock.value),.rst(rst)) = {
+  STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,
+    RANDA,
+    RANDOP1,
+    RANDB0,RANDB1,RANDB2,RANDB3,
+    RANDOP20,RANDOP21,RANDOP22,RANDOP23,
+    RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,
+    CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,
+    CHECKDOVER,CHECKDUNDER,
+    RANDHIDE,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER,STATEGAMESTART};
+
+  always {
+
+    bc0.in = button[0];
+    ed0.in = bc0.out;
+    bc1.in = button[1];
+    ed1.in = bc1.out;
+    bc2.in = button[2];
+    ed2.in = bc2.out;
+    bc3.in = button[3];
+    ed3.in = bc3.out;
+    button_press = c{ed3.out, ed2.out, ed1.out, ed0.out};
+
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out;   // conditioned reset
+    usb_tx = usb_rx;        // echo the serial data
+    led = 8h00;             // turn LEDs off
+    hp1 = 8h00;
+    hp2 = 8h00;
+    
+    
+    p1_display = ~seg.seg;      // connect segments to the driver
+    p2_display = ~seg2.seg; 
+    a_display = ~sega.seg;
+    b_display = ~segb.seg;
+    c_display = ~segc.seg;
+    d_display = ~segd.seg;
+
+    p1_display_sel = ~4h1;      // only last digit of array used
+    p2_display_sel = ~4h1;
+    a_display_sel = ~4h1;
+    b_display_sel = ~4h1;
+    c_display_sel = ~4h1;
+    d_display_sel = ~4h1;
+     
+    seg.values = {4h7,4h7,4h7,4h7}; //initiate seven segment display for both displays
+    seg2.values = {4h7,4h7,4h7,4h7};
+    sega.values = {4h7,4h7,4h7,4h7};
+    segb.values = {4h7,4h7,4h7,4h7};
+    segc.values = {4h7,4h7,4h7,4h7};
+    segd.values = {4h7,4h7,4h7,4h7};
+
+    
+    hp1 = health_a.q;
+    hp2 = health_b.q;
+     
+    a=0;
+    b=0;
+   /* alufn=0;
+    alu.a = a;                        
+    alu.b = b;
+    alu.alufn = alufn; */
+    ans_input1 = 0;
+    ans_input2 = 0;
+    correct1 = 0;
+    correct2 = 0;
+    
+    random.seed = seed.q;              // use seed.q as the seed
+    random.next = 0;                   // don't generate new numbers
+    random.rst = rst;                  // connect rst by default
+    
+    modulo1.a = 0;
+    modulo1.b = 0;
+    
+    a=0;
+    a_temp=0;
+    a_actl=0;
+    b=0;
+    b_temp=0;
+    b_actl=0;
+    c=0;
+    c_temp=0;
+    c_actl=0;
+    d=0;
+    d_temp=0;
+    d_actl=0;
+    
+    hide_index = 3; // 0 : A , 1 : B, 2 : C, 3 : D
+    hide_temp = 3;
+    correct_answer=0;
+   // error = 0;
+    
+// Operators
+    op1=0;
+    op1_temp=0;
+    //op1_actl=0;
+    op2=0;
+    op2_temp=0;
+    //op2_actl=0;
+// 0 -> +
+// 1 -> -
+// 2 -> *
+// 3 -> /
+    
+    case (state.q) {
+    
+      
+      state.STATEGAMESTART: // BEGINNING STATE
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values ={4h0,4h0,4h0,4h0};
+        
+        // add all 7 seg led for questions to be set as 1 or blink
+        // hp[9:0] = 1;
+        health_a.d = 5b11111;
+        health_b.d = 5b11111; 
+        
+        
+        if (submit[0] == 1 && submit[1] == 1) { // start game when both submit buttons are pressed 
+          state.d = state.RANDA;
+        } else state.d = state.STATEGAMESTART;
+        
+      // Randomise A
+      state.RANDA:
+        a_temp = random.num;
+        if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
+        
+        random.next = 1;
+        state.d = state.RANDOP1;
+    
+      // Randomise Operator 1
+      state.RANDOP1:
+        random.next = 1;
+        random.next = 0;
+        op1_temp = random.num;
+        if (op1_temp != 0) {
+          modulo1.a = op1_temp;
+          modulo1.b = 4;
+          op1_temp = modulo1.out;
+        }
+        if (op1_temp == 3 && a_temp != 0) {state.d = state.RANDB3;}
+        else if (op1_temp == 2) {state.d = state.RANDB2;}
+        else if (op1_temp == 1) {state.d = state.RANDB1;}
+        else {op1_temp=0;state.d = state.RANDB0;}
+        
+      // Randomise B
+      state.RANDB0:
+        b_temp = random.num;
+        // B < 10 - A
+        random.next = 3;
+        if (b_temp >= 10 - a_actl) { b_actl = b_temp - (10-a_actl); b = b_actl; }
+        state.d = state.RANDOP20;
+        
+      state.RANDB1:
+        b_temp = random.num;
+        // B > A & B < 10
+        random.next = 3;
+        if (b_temp >9) { b_temp = b_temp - 10;}
+        if (b_temp < a_actl) { b_actl = b_temp + a_actl;}
+        state.d = state.RANDOP21;
+        
+      state.RANDB2:
+        b_temp = random.num;
+        // B < 10/a
+        random.next = 3;
+        if (b_temp > 9) { b_temp = b_temp - 10;}
+        if (b_temp > (10 / a_actl)) { b_actl = b_temp - (10/a_actl);}
+        state.d = state.RANDOP22;
+        
+      state.RANDB3:
+        random.next=1;
+        random.next=0;
+        b_temp = random.num;
+        // (A/B)%1 == 0
+        if ( a_actl != 0 && b_actl != 0 ) { 
+        random.next = 3;
+        if (b_temp > 9) { b_temp = b_temp - 10;}
+        modulo1.a = a_actl/b_actl;
+        modulo1.b = 1;
+        if (modulo1.out != 0) {state.d = state.RANDB3;}
+        else  {state.d = state.RANDOP23;}} else {state.d = state.RANDB3;}
+        
+      // Randomise Operator 2
+      state.RANDOP20:
+        random.next=1;
+        random.next=0;
+        op2_temp = random.num;
+        if (op2_temp != 0) {
+          modulo1.a = op1_temp;
+          modulo1.b = 4;
+          op1_temp = modulo1.out;
+          }
+        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDC3;}
+        else if (op2_temp == 2) {state.d = state.RANDC2;}
+        else if (op2_temp == 1) {state.d = state.RANDC1;}
+        else {op2_temp=0;state.d = state.RANDC0;}
+        
+      state.RANDOP21:
+        random.next = 1;
+        random.next = 0;
+        op2_temp = random.num;
+        if (op1_temp != 0) {
+          modulo1.a = op1_temp;
+          modulo1.b = 4;
+          op1_temp = modulo1.out;
+          }
+        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDC7;}
+        else if (op2_temp == 2) {state.d = state.RANDC6;}
+        else if (op2_temp == 1) {state.d = state.RANDC5;}
+        else {op2_temp=0;state.d = state.RANDC4;}
+        
+      state.RANDOP22:
+        random.next = 1;
+        random.next = 0;
+        op2_temp = random.num;
+        if (op1_temp != 0) {
+          modulo1.a = op2_temp;
+          modulo1.b = 4;
+          op2_temp = modulo1.out;
+          }
+        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDCB;}
+        else if (op2_temp == 2) {state.d = state.RANDCA;}
+        else if (op2_temp == 1) {state.d = state.RANDC9;}
+        else {op2_temp=0;state.d = state.RANDC8;}
+      
+      state.RANDOP23:
+        random.next = 1;
+        random.next = 0;
+        op2_temp = random.num;
+        if (op1_temp != 0) {
+          modulo1.a = op2_temp;
+          modulo1.b = 4;
+          op2_temp = modulo1.out;
+          }
+        if (op2_temp == 3 && b_actl!= 0) {state.d = state.RANDCF;}
+        else if (op2_temp == 2) {state.d = state.RANDCE;}
+        else if (op2_temp == 1) {state.d = state.RANDCD;}
+        else {op2_temp=0;state.d = state.RANDCC;}
+        
+      // Randomise C
+      state.RANDC0:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < 10 - B - A
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= 10 - b_actl - a_actl) { c_actl = c_temp - ( 10 - b_actl - a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        else {
+          if (c_temp >= 10 - b_actl - a_actl) { c_actl = c_temp - ( 10 - b_actl - a_actl ); }
+          else {c_actl = c_temp;}
+        }
+        state.d = state.CALCD0;
+        
+      state.RANDC1:
+        c_temp = random.num;
+        // C < A + B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= b_actl + a_actl) { c_actl = c_temp - ( b_actl + a_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= b_actl + a_actl) { c_actl = c_temp - ( b_actl + a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        state.d = state.CALCD1;
+        
+      state.RANDC2:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < (10-A)/B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= (10-a_actl)/b_actl) { c_actl = c_temp - ( (10-a_actl)/b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= (10-a_actl)/b_actl) { c_actl = c_temp - ( (10-a_actl)/b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        state.d = state.CALCD2;
+        
+      state.RANDC3:
+        if (b_temp != 0 || c_temp != 0) {
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // ((B/C)%1==0
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10; 
+
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
+          } else {
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
+          }
+        if (modulo1.out != 0) {
+          state.d = state.RANDC3;
+        } else {
+          state.d = state.CALCD3;
+          }} else { state.d = state.RANDC3; }
+        
+      state.RANDC4:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < 10 - B + A
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= 10 - b_actl + a_actl) { c_actl = c_temp - ( 10 - b_actl + a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        else {
+          if (c_temp >= 10 - b_actl + a_actl) { c_actl = c_temp - ( 10 - b_actl + a_actl ); }
+          else {c_actl = c_temp;}
+        }
+        state.d = state.CALCD4;
+        
+      state.RANDC5:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C > A - B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp <= a_actl - b_actl) { c_actl = c_temp + ( a_actl - b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp <= a_actl - b_actl) { c_actl = c_temp + ( a_actl - b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        state.d = state.CALCD5;
+        
+      state.RANDC6:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < A/B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= (a_actl/b_actl)) { c_actl = c_temp - ( a_actl/b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= (a_actl/b_actl)) { c_actl = c_temp - ( a_actl/b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        state.d = state.CALCD6;
+        
+      state.RANDC7:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // ((B/C)%1==0
+        if (b_temp!=0 && c_temp!=0) {
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;  
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
+          } else {
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
+          }
+        random.next=4;
+        if (modulo1.out != 0) {
+          state.d = state.RANDC7;
+        } else {
+          state.d = state.CALCD7;
+          }} else {state.d = state.RANDC7;}
+        
+      state.RANDC8:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < 10 - A * B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= 10 - b_actl * a_actl) { c_actl = c_temp - ( 10 - b_actl * a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        else {
+          if (c_temp >= 10 - b_actl * a_actl) { c_actl = c_temp - ( 10 - b_actl * a_actl ); }
+          else {c_actl = c_temp;}
+        }
+        random.next = 4;
+        state.d = state.CALCD8;
+        
+      state.RANDC9:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C > A * B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp <= a_actl * b_actl) { c_actl = c_temp + ( a_actl * b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp <= a_actl * b_actl) { c_actl = c_temp + ( a_actl * b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCD9;
+        
+      state.RANDCA:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < 10/A/B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= (10/a_actl/b_actl)) { c_actl = c_temp - ( 10/a_actl/b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= (10/a_actl/b_actl)) { c_actl = c_temp - ( 10/a_actl/b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        state.d = state.CALCDA;
+        
+      state.RANDCB:
+      random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // ((B/C)%1==0
+        if (a*b!=0 && c!=0) {
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;  
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
+          } else {
+          modulo1.a = b_actl/c_actl;
+          modulo1.b = 1;
+          }
+        if (modulo1.out != 0) {
+          state.d = state.RANDCB;
+        } else {
+          state.d = state.CALCDB;
+          }}
+        
+      state.RANDCC:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < 10 - A / B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= 10 - b_actl / a_actl) { c_actl = c_temp - ( 10 - b_actl / a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        else {
+          if (c_temp >= 10 - b_actl / a_actl) { c_actl = c_temp - ( 10 - b_actl / a_actl ); }
+          else {c_actl = c_temp;}
+        }
+        random.next = 4;
+        state.d = state.CALCDC;
+        
+      state.RANDCD:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < A / B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= a_actl / b_actl) { c_actl = c_temp - ( a_actl / b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= a_actl / b_actl) { c_actl = c_temp - ( a_actl / b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCDD;
+        
+      state.RANDCE:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // C < 10*B/A
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= (10*b_actl/a_actl)) { c_actl = c_temp - ( 10*b_actl/a_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= (10*b_actl/a_actl)) { c_actl = c_temp - ( 10*b_actl/a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        state.d = state.CALCDA;
+        
+      state.RANDCF:
+        random.next=1;
+        random.next=0;
+        c_temp = random.num;
+        // ((A/B/C)%1==0
+        if (a_actl/b_actl/c_actl!=0) {
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;  
+          modulo1.a = a_actl/b_actl/c_actl;
+          modulo1.b = 1;
+          } else {
+          modulo1.a = a_actl/b_actl/c_actl;
+          modulo1.b = 1;
+          }
+        if (modulo1.out != 0) {
+          state.d = state.RANDCF;
+        } else {
+          state.d = state.CALCD3;
+          }} else {state.d = state.RANDCF;}
+        
+      // Calculate D
+      state.CALCD0:
+        d_actl = a_actl + b_actl + c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD1:
+        d_actl = a_actl + b_actl - c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD2:
+        d_actl = a_actl + b_actl * c_actl;
+        state.d = state.CHECKDOVER;
+       
+      state.CALCD3:
+        d_actl = a_actl + b_actl / c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD4:
+        d_actl = a_actl - b_actl + c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD5:
+        d_actl = a_actl - b_actl - c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD6:
+        d_actl = a_actl - b_actl * c_actl;
+        state.d = state.CHECKDOVER;
+       
+      state.CALCD7:
+        d_actl = a_actl - b_actl / c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD8:
+        d_actl = a_actl * b_actl + c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD9:
+        d_actl = a_actl * b_actl - c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCDA:
+        d_actl = a_actl * b_actl * c_actl;
+        state.d = state.CHECKDOVER;
+       
+      state.CALCDB:
+        d_actl = a_actl * b_actl / c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCDC:
+        d_actl = a_actl / b_actl + c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCDD:
+        d_actl = a_actl / b_actl - c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCDE:
+        d_actl = a_actl / b_actl * c_actl;
+        state.d = state.CHECKDOVER;
+       
+      state.CALCDF:
+        d_actl = a_actl / b_actl / c_actl;
+        state.d = state.CHECKDOVER;
+        
+      // Checker
+      state.CHECKDOVER:
+        //if (d_actl > 9) {error = 1;}
+        state.d = state.CHECKDUNDER;
+        
+      state.CHECKDUNDER:
+        //if (d_actl < 0) {error = 1;}
+        state.d = state.RANDHIDE;
+        
+      // Answer Generation
+      state.RANDHIDE:
+        hide_temp = random.num;
+        random.next = 1;
+        if (hide_temp == 0) {
+          correct_answer = a_actl;
+          sega.values = {4h0,4h0,4h0,4h17};
+          if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
+          if (c_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
+          if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
+        }
+        else if (hide_temp == 1) {
+          correct_answer = b_actl;
+          sega.values = {4h0,4h0,4h0,4h17};
+          if (a_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (a_actl==1) {sega.values = {4h0,4h0,4h0,4h1};}
+          else if (a_actl==2) {sega.values = {4h0,4h0,4h0,4h2};}
+          else if (a_actl==3) {sega.values = {4h0,4h0,4h0,4h3};}
+          else if (a_actl==4) {sega.values = {4h0,4h0,4h0,4h4};}
+          else if (a_actl==5) {sega.values = {4h0,4h0,4h0,4h5};}
+          else if (a_actl==6) {sega.values = {4h0,4h0,4h0,4h6};}
+          else if (a_actl==7) {sega.values = {4h0,4h0,4h0,4h7};}
+          else if (a_actl==8) {sega.values = {4h0,4h0,4h0,4h8};}
+          else {sega.values = {4h0,4h0,4h0,4h9};}
+          if (c_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
+          if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
+        }
+        else if (hide_temp == 2) {
+          correct_answer = c_actl;
+          segc.values = {4h0,4h0,4h0,4h17};
+          if (a_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (a_actl==1) {sega.values = {4h0,4h0,4h0,4h1};}
+          else if (a_actl==2) {sega.values = {4h0,4h0,4h0,4h2};}
+          else if (a_actl==3) {sega.values = {4h0,4h0,4h0,4h3};}
+          else if (a_actl==4) {sega.values = {4h0,4h0,4h0,4h4};}
+          else if (a_actl==5) {sega.values = {4h0,4h0,4h0,4h5};}
+          else if (a_actl==6) {sega.values = {4h0,4h0,4h0,4h6};}
+          else if (a_actl==7) {sega.values = {4h0,4h0,4h0,4h7};}
+          else if (a_actl==8) {sega.values = {4h0,4h0,4h0,4h8};}
+          else {sega.values = {4h0,4h0,4h0,4h9};}
+          if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
+          if (d_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (d_actl==1) {segd.values = {4h0,4h0,4h0,4h1};}
+          else if (d_actl==2) {segd.values = {4h0,4h0,4h0,4h2};}
+          else if (d_actl==3) {segd.values = {4h0,4h0,4h0,4h3};}
+          else if (d_actl==4) {segd.values = {4h0,4h0,4h0,4h4};}
+          else if (d_actl==5) {segd.values = {4h0,4h0,4h0,4h5};}
+          else if (d_actl==6) {segd.values = {4h0,4h0,4h0,4h6};}
+          else if (d_actl==7) {segd.values = {4h0,4h0,4h0,4h7};}
+          else if (d_actl==8) {segd.values = {4h0,4h0,4h0,4h8};}
+          else {segd.values = {4h0,4h0,4h0,4h9};}
+          }
+        else {
+          correct_answer = d_actl;
+          segd.values = {4h0,4h0,4h0,4h17};
+          if (a_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (a_actl==1) {sega.values = {4h0,4h0,4h0,4h1};}
+          else if (a_actl==2) {sega.values = {4h0,4h0,4h0,4h2};}
+          else if (a_actl==3) {sega.values = {4h0,4h0,4h0,4h3};}
+          else if (a_actl==4) {sega.values = {4h0,4h0,4h0,4h4};}
+          else if (a_actl==5) {sega.values = {4h0,4h0,4h0,4h5};}
+          else if (a_actl==6) {sega.values = {4h0,4h0,4h0,4h6};}
+          else if (a_actl==7) {sega.values = {4h0,4h0,4h0,4h7};}
+          else if (a_actl==8) {sega.values = {4h0,4h0,4h0,4h8};}
+          else {sega.values = {4h0,4h0,4h0,4h9};}
+          if (b_actl==0) {segb.values = {4h0,4h0,4h0,4h0};} 
+          else if (b_actl==1) {segb.values = {4h0,4h0,4h0,4h1};}
+          else if (b_actl==2) {segb.values = {4h0,4h0,4h0,4h2};}
+          else if (b_actl==3) {segb.values = {4h0,4h0,4h0,4h3};}
+          else if (b_actl==4) {segb.values = {4h0,4h0,4h0,4h4};}
+          else if (b_actl==5) {segb.values = {4h0,4h0,4h0,4h5};}
+          else if (b_actl==6) {segb.values = {4h0,4h0,4h0,4h6};}
+          else if (b_actl==7) {segb.values = {4h0,4h0,4h0,4h7};}
+          else if (b_actl==8) {segb.values = {4h0,4h0,4h0,4h8};}
+          else {segb.values = {4h0,4h0,4h0,4h9};}
+          if (c_actl==0) {segd.values = {4h0,4h0,4h0,4h0};} 
+          else if (c_actl==1) {segc.values = {4h0,4h0,4h0,4h1};}
+          else if (c_actl==2) {segc.values = {4h0,4h0,4h0,4h2};}
+          else if (c_actl==3) {segc.values = {4h0,4h0,4h0,4h3};}
+          else if (c_actl==4) {segc.values = {4h0,4h0,4h0,4h4};}
+          else if (c_actl==5) {segc.values = {4h0,4h0,4h0,4h5};}
+          else if (c_actl==6) {segc.values = {4h0,4h0,4h0,4h6};}
+          else if (c_actl==7) {segc.values = {4h0,4h0,4h0,4h7};}
+          else if (c_actl==8) {segc.values = {4h0,4h0,4h0,4h8};}
+          else {segc.values = {4h0,4h0,4h0,4h9};}
+          }
+      
+      state.STATEINPUT:
+        if (ans_input1 == 0){
+         seg.values = {4h0,4h0,4h0,4h0};
+        }
+        if (ans_input1 == 1){
+         seg.values = {4h1,4h1,4h1,4h1};
+        }
+        if (ans_input1 == 2){
+         seg.values = {4h2,4h2,4h2,4h2};
+        }
+        if (ans_input1 == 3){
+         seg.values = {4h3,4h3,4h3,4h3};
+        }
+        if (ans_input1 == 4){
+         seg.values = {4h4,4h4,4h4,4h4};
+        }
+        if (ans_input1 == 5){
+         seg.values = {4h5,4h5,4h5,4h5};
+        }
+        if (ans_input1 == 6){
+         seg.values = {4h6,4h6,4h6,4h6};
+        }
+        if (ans_input1 == 7){
+         seg.values = {4h6,4h6,4h6,4h6};
+        }
+        if (ans_input1 == 8){
+         seg.values = {4h6,4h6,4h6,4h6};
+        }
+        if (ans_input1 == 9){
+         seg.values = {4h6,4h6,4h6,4h6};
+        }
+        
+        if (ans_input2 == 0){
+          seg2.values = {4h0,4h0,4h0,4h0};
+        }
+        if (ans_input2 == 1){
+         seg2.values = {4h1,4h1,4h1,4h1};
+        }
+        if (ans_input2 == 2){
+         seg2.values = {4h2,4h2,4h2,4h2};
+        }
+        if (ans_input2 == 3){
+         seg2.values = {4h3,4h3,4h3,4h3};
+        }
+        if (ans_input2 == 4){
+         seg2.values = {4h4,4h4,4h4,4h4};
+        }
+        if (ans_input2 == 5){
+         seg2.values = {4h5,4h5,4h5,4h5};
+        }
+        if (ans_input2 == 6){
+         seg2.values = {4h6,4h6,4h6,4h6};
+        }
+        if (ans_input2 == 7){
+         seg2.values = {4h6,4h6,4h6,4h6};
+        }
+        if (ans_input2 == 8){
+         seg2.values = {4h6,4h6,4h6,4h6};
+        }
+        if (ans_input2 == 9){
+         seg2.values = {4h6,4h6,4h6,4h6};
+        }
+        
+        if (button[0] ==1){
+          state.d = state.STATEP1UP;
+        }
+        if (button[1] ==1){
+          state.d = state.STATEP2UP;
+        }
+        if (button[2] ==1){
+          state.d = state.STATEP1DOWN;
+        }
+        
+        if (button[3] == 1){
+          state.d = state.STATEP2DOWN;
+        }
+        
+        if (submit[0] == 1){
+          if( ans_input1 == correct_answer){
+              state.d = state.STATEP1CORRECT;
+          }
+          else{ state.d = state.STATEINPUT;}
+        }
+        
+        if (submit[1]==1){
+          if(  ans_input2 == correct_answer){
+              state.d = state.STATEP2CORRECT;
+          }
+          else{ state.d = state.STATEINPUT;}
+        }
+            
+            
+       state.STATEP1UP:
+          if (ans_input1 == 9){
+            ans_input1 = 0;
+            state.d = state.STATEINPUT;
+          }
+          else{
+          ans_input1 = ans_input1 + 1;
+          state.d = state.STATEINPUT;
+          }
+        
+      state.STATEP1DOWN:
+          if (ans_input1 ==0){
+            ans_input1 = 9;
+            state.d = state.STATEINPUT;
+          }
+          else{
+          ans_input1 = ans_input1 - 1;
+          state.d = state.STATEINPUT;
+          }
+        
+       state.STATEP2UP:
+          if (ans_input2 ==0){
+            ans_input2 = 9;
+            state.d = state.STATEINPUT;
+          }
+          else{
+          ans_input2 = ans_input1 + 1;
+          state.d = state.STATEINPUT;
+          }
+        
+       state.STATEP2DOWN:
+          if (ans_input2 ==0){
+            ans_input2 = 9;
+            state.d = state.STATEINPUT;
+          }
+          else{
+          ans_input2 = ans_input1 - 1;
+          state.d = state.STATEINPUT;
+          }
+      state.STATEP1CORRECT:
+        correct1 = 1;
+        state.d = state.STATEOUTPUT;
+        
+      state.STATEP2CORRECT:
+        correct2 = 1;
+        state.d = state.STATEOUTPUT; 
+        
+      state.STATEC: // CHECK IF INPUT ANSWER IS CORRECT 
+      if (correct_answer == ans_input1) {
+          state.d = state.STATEHP_A; // if b sent in answer, go to HP_A
+      } else if (correct_answer == ans_input2) {
+          state.d = state.STATEHP_B; // if a sent in answer, go to HP_B
+        }
+        
+      state.STATEHP_A: // b scored 
+        if (correct1==1) { 
+          if (health_a.q[4] == 1) {
+            health_a.d[4] = 0;
+          } else if (health_a.q[4] == 0) {
+            if (health_a.q[3] == 1) {
+              health_a.d[3] = 0;
+            } else if (health_a.q[3] == 0) {
+              if (health_a.q[2] == 1) { 
+                health_a.d[2] = 0;
+              } else if (health_a.q[2] == 0) {
+                if (health_a.q[1] == 1) {
+                  health_a.d[1] = 0;
+                } else if (health_a.q[1] == 0) {
+                  if (health_a.q[0] == 1) {
+                    health_a.d[0] = 0;
+                    state.d = state.STATEGAMEOVER;
+                  }}}}}
+        } else if (correct_answer != ans_input2) { 
+          state.d = state.RANDA;
+        }
+
+      state.STATEHP_B: // a scored
+        if (correct2==1) { 
+          if (health_b.q[4] == 1) {
+            health_b.d[4] = 0;
+          } else if (health_b.q[4] == 0) {
+            if (health_b.q[3] == 1) {
+              health_b.d[3] = 0;
+            } else if (health_b.q[3] == 0) {
+              if (health_b.q[2] == 1) { 
+                health_b.d[2] = 0;
+              } else if (health_b.q[2] == 0) {
+                if (health_b.q[1] == 1) {
+                  health_b.d[1] = 0;
+                } else if (health_b.q[1] == 0) {
+                  if (health_b.q[0] == 1) {
+                    health_b.d[0] = 0;
+                    state.d = state.STATEGAMEOVER;
+                  }}}}}
+        } else if (correct_answer != ans_input2) { 
+          state.d = state.RANDA;
+        }
+        
+      state.STATEGAMEOVER: // switch off player lights, switch on question lights, leave HP bar on 
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values ={4h0,4h0,4h0,4h0};
+        // add all 7 seg led for questions to be set as 1 
+        if (submit[0] == 1 && submit[1] == 1) {
+          state.d = state.STATEGAMESTART;
+        }
+      
+    }
+    }
+}
+  

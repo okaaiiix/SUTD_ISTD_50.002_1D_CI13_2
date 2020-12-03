@@ -1,0 +1,485 @@
+/*module question_gen (
+    input clk,  // clock
+    input rst,  // reset
+    output a[4],
+    output op1[2],
+    output b[4],
+    output op2[2],
+    output c[4],
+    output d[4],
+    output hide_index[2],
+    output correct_answer[4],
+    output error[1]
+  ) {
+  sig a_temp[4],b_temp[4],c_temp[4],d_temp[4],op1_temp[2],op2_temp[2],a_actl[4],b_actl[4],c_actl[4],d_actl[4],hide_temp[2];
+  
+  modulo modulo;
+  
+  .clk(clk) {
+  random random;
+  dff seed [32];                   // seed for each run
+  }
+  counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
+  fsm state(.clk(slowclock.value),.rst(rst)) = {
+    RANDA,
+    RANDOP1,
+    RANDB0,RANDB1,RANDB2,RANDB3,
+    RANDOP20,RANDOP21,RANDOP22,RANDOP23,
+    RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,
+    CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,
+    CHECKDOVER,CHECKDUNDER,
+    RANDHIDE};
+
+  always {
+    random.seed = seed.q;              // use seed.q as the seed
+    random.next = 0;                   // don't generate new numbers
+    random.rst = rst;                  // connect rst by default
+    
+    modulo.a = 0;
+    modulo.b = 0;
+    
+    a=0;
+    a_temp=0;
+    a_actl=0;
+    b=0;
+    b_temp=0;
+    b_actl=0;
+    c=0;
+    c_temp=0;
+    c_actl=0;
+    d=0;
+    d_temp=0;
+    d_actl=0;
+    
+    hide_index = 3; // 0 : A , 1 : B, 2 : C, 3 : D
+    hide_temp = 3;
+    correct_answer=0;
+    error = 0;
+    
+// Operators
+    op1=0;
+    op1_temp=0;
+    //op1_actl=0;
+    op2=0;
+    op2_temp=0;
+    //op2_actl=0;
+// 0 -> +
+// 1 -> -
+// 2 -> *
+// 3 -> /
+    
+    case (state.q) {
+    
+      // Randomise A
+      state.RANDA:
+        a_temp = random.num;
+        if (a_temp > 9) { a_actl = a_temp - 10; a = a_actl;}
+        
+        random.next = 1;
+        state.d = state.RANDOP1;
+    
+      // Randomise Operator 1
+      state.RANDOP1:
+        op1_temp = random.num;
+        random.next = 2;
+        if (op1_temp == 3) {state.d = state.RANDB3;}
+        else if (op1_temp == 2) {state.d = state.RANDB2;}
+        else if (op1_temp == 1) {state.d = state.RANDB1;}
+        else {state.d = state.RANDB0;}
+        
+      // Randomise B
+      state.RANDB0:
+        b_temp = random.num;
+        // B < 10 - A
+        random.next = 3;
+        if (b_temp >= 10 - a_actl) { b_actl = b_temp - (10-a_actl); b = b_actl; }
+        state.d = state.RANDOP20;
+        
+      state.RANDB1:
+        b_temp = random.num;
+        // B > A & B < 10
+        random.next = 3;
+        if (b_temp >9) { b_temp = b_temp - 10;}
+        if (b_temp < a_actl) { b_actl = b_temp + a_actl;}
+        state.d = state.RANDOP21;
+        
+      state.RANDB2:
+        b_temp = random.num;
+        // B < 10/a
+        random.next = 3;
+        if (b_temp > 9) { b_temp = b_temp - 10;}
+        if (b_temp > (10 / a_actl)) { b_actl = b_temp - (10/a_actl);}
+        state.d = state.RANDOP22;
+        
+      state.RANDB3:
+        b_temp = random.num;
+        // (A/B)%1 == 0 
+        random.next = 3;
+        if (b_temp > 9) { b_temp = b_temp - 10;}
+        modulo.a = a_actl/b_actl;
+        modulo.b = 1;
+        if (modulo.out != 0) {state.d = state.RANDB3;}
+        else  {state.d = state.RANDOP23;}
+        
+      // Randomise Operator 2
+      state.RANDOP20:
+        op2_temp = random.num;
+        random.next = 1;
+        if (op2_temp == 3) {state.d = state.RANDC3;}
+        else if (op2_temp == 2) {state.d = state.RANDC2;}
+        else if (op2_temp == 1) {state.d = state.RANDC1;}
+        else state.d = state.RANDC0;
+        
+      state.RANDOP20:
+        op2_temp = random.num;
+        random.next = 1;
+        if (op2_temp == 3) {state.d = state.RANDC7;}
+        else if (op2_temp == 2) {state.d = state.RANDC6;}
+        else if (op2_temp == 1) {state.d = state.RANDC5;}
+        else state.d = state.RANDC4;
+        
+      state.RANDOP20:
+        op2_temp = random.num;
+        random.next = 1;
+        if (op2_temp == 3) {state.d = state.RANDCB;}
+        else if (op2_temp == 2) {state.d = state.RANDCA;}
+        else if (op2_temp == 1) {state.d = state.RANDC9;}
+        else state.d = state.RANDC8;
+      
+      state.RANDOP20:
+        op2_temp = random.num;
+        random.next = 1;
+        if (op2_temp == 3) {state.d = state.RANDCF;}
+        else if (op2_temp == 2) {state.d = state.RANDCE;}
+        else if (op2_temp == 1) {state.d = state.RANDCD;}
+        else state.d = state.RANDCC;
+        
+      // Randomise C
+      state.RANDC0:
+        c_temp = random.num;
+        // C < 10 - B - A
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= 10 - b_actl - a_actl) { c_actl = c_temp - ( 10 - b_actl - a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        else {
+          if (c_temp >= 10 - b_actl - a_actl) { c_actl = c_temp - ( 10 - b_actl - a_actl ); }
+          else {c_actl = c_temp;}
+        }
+        random.next = 4;
+        state.d = state.CALCD0;
+        
+      state.RANDC1:
+        c_temp = random.num;
+        // C < A + B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= b_actl + a_actl) { c_actl = c_temp - ( b_actl + a_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= b_actl + a_actl) { c_actl = c_temp - ( b_actl + a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCD1;
+        
+      state.RANDC2:
+        c_temp = random.num;
+        // C < (10-A)/B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= (10-a_actl)/b_actl) { c_actl = c_temp - ( (10-a_actl)/b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= (10-a_actl)/b_actl) { c_actl = c_temp - ( (10-a_actl)/b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCD2;
+        
+      state.RANDC3:
+        c_temp = random.num;
+        // ((B/C)%1==0
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;  
+          modulo.a = b_actl/c_actl;
+          modulo.b = 1;
+          } else {
+          modulo.a = b_actl/c_actl;
+          modulo.b = 1;
+          }
+        random.next = 4;
+        if (modulo.out != 0) {
+          state.d = state.RANDC3;
+        } else {
+          state.d = state.CALCD3;
+          }
+        
+      state.RANDC4:
+        c_temp = random.num;
+        // C < 10 - B + A
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= 10 - b_actl + a_actl) { c_actl = c_temp - ( 10 - b_actl + a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        else {
+          if (c_temp >= 10 - b_actl + a_actl) { c_actl = c_temp - ( 10 - b_actl + a_actl ); }
+          else {c_actl = c_temp;}
+        }
+        random.next = 4;
+        state.d = state.CALCD4;
+        
+      state.RANDC5:
+        c_temp = random.num;
+        // C > A - B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp <= a_actl - b_actl) { c_actl = c_temp + ( a_actl - b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp <= a_actl - b_actl) { c_actl = c_temp + ( a_actl - b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCD5;
+        
+      state.RANDC6:
+        c_temp = random.num;
+        // C < A/B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= (a_actl/b_actl)) { c_actl = c_temp - ( a_actl/b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= (a_actl/b_actl)) { c_actl = c_temp - ( a_actl/b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCD6;
+        
+      state.RANDC7:
+        c_temp = random.num;
+        // ((B/C)%1==0
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;  
+          modulo.a = b_actl/c_actl;
+          modulo.b = 1;
+          } else {
+          modulo.a = b_actl/c_actl;
+          modulo.b = 1;
+          }
+        random.next=4;
+        if (modulo.out != 0) {
+          state.d = state.RANDC7;
+        } else {
+          state.d = state.CALCD7;
+          }
+        
+      state.RANDC8:
+        c_temp = random.num;
+        // C < 10 - A * B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= 10 - b_actl * a_actl) { c_actl = c_temp - ( 10 - b_actl * a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        else {
+          if (c_temp >= 10 - b_actl * a_actl) { c_actl = c_temp - ( 10 - b_actl * a_actl ); }
+          else {c_actl = c_temp;}
+        }
+        random.next = 4;
+        state.d = state.CALCD8;
+        
+      state.RANDC9:
+        c_temp = random.num;
+        // C > A * B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp <= a_actl * b_actl) { c_actl = c_temp + ( a_actl * b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp <= a_actl * b_actl) { c_actl = c_temp + ( a_actl * b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCD9;
+        
+      state.RANDCA:
+        c_temp = random.num;
+        // C < 10/A/B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= (10/a_actl/b_actl)) { c_actl = c_temp - ( 10/a_actl/b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= (10/a_actl/b_actl)) { c_actl = c_temp - ( 10/a_actl/b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCDA;
+        
+      state.RANDCB:
+        c_temp = random.num;
+        // ((B/C)%1==0
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;  
+          modulo.a = b_actl/c_actl;
+          modulo.b = 1;
+          } else {
+          modulo.a = b_actl/c_actl;
+          modulo.b = 1;
+          }
+        random.next = 4;
+        if (modulo.out != 0) {
+          state.d = state.RANDCB;
+        } else {
+          state.d = state.CALCDB;
+          }
+        
+      state.RANDCC:
+        c_temp = random.num;
+        // C < 10 - A / B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= 10 - b_actl / a_actl) { c_actl = c_temp - ( 10 - b_actl / a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        else {
+          if (c_temp >= 10 - b_actl / a_actl) { c_actl = c_temp - ( 10 - b_actl / a_actl ); }
+          else {c_actl = c_temp;}
+        }
+        random.next = 4;
+        state.d = state.CALCDC;
+        
+      state.RANDCD:
+        c_temp = random.num;
+        // C < A / B
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= a_actl / b_actl) { c_actl = c_temp - ( a_actl / b_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= a_actl / b_actl) { c_actl = c_temp - ( a_actl / b_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCDD;
+        
+      state.RANDCE:
+        c_temp = random.num;
+        // C < 10*B/A
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;
+          if (c_temp >= (10*b_actl/a_actl)) { c_actl = c_temp - ( 10*b_actl/a_actl ); }
+          else {c_actl = c_temp;}
+          } else {
+          if (c_temp >= (10*b_actl/a_actl)) { c_actl = c_temp - ( 10*b_actl/a_actl ); }
+          else {c_actl = c_temp;}
+          }
+        random.next = 4;
+        state.d = state.CALCDA;
+        
+      state.RANDCE:
+        c_temp = random.num;
+        // ((A/B/C)%1==0
+        if (c_temp > 9) { 
+          c_temp = c_temp - 10;  
+          modulo.a = a_actl/b_actl/c_actl;
+          modulo.b = 1;
+          } else {
+          modulo.a = a_actl/b_actl/c_actl;
+          modulo.b = 1;
+          }
+        random.next = 4;
+        if (modulo.out != 0) {
+          state.d = state.RANDC3;
+        } else {
+          state.d = state.CALCD3;
+          }
+        
+      // Calculate D
+      state.CALCD0:
+        d_actl = a_actl + b_actl + c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD1:
+        d_actl = a_actl + b_actl - c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD2:
+        d_actl = a_actl + b_actl * c_actl;
+        state.d = state.CHECKDOVER;
+       
+      state.CALCD3:
+        d_actl = a_actl + b_actl / c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD4:
+        d_actl = a_actl - b_actl + c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD5:
+        d_actl = a_actl - b_actl - c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD6:
+        d_actl = a_actl - b_actl * c_actl;
+        state.d = state.CHECKDOVER;
+       
+      state.CALCD7:
+        d_actl = a_actl - b_actl / c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD8:
+        d_actl = a_actl * b_actl + c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCD9:
+        d_actl = a_actl * b_actl - c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCDA:
+        d_actl = a_actl * b_actl * c_actl;
+        state.d = state.CHECKDOVER;
+       
+      state.CALCDB:
+        d_actl = a_actl * b_actl / c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCDC:
+        d_actl = a_actl / b_actl + c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCDD:
+        d_actl = a_actl / b_actl - c_actl;
+        state.d = state.CHECKDOVER;
+        
+      state.CALCDE:
+        d_actl = a_actl / b_actl * c_actl;
+        state.d = state.CHECKDOVER;
+       
+      state.CALCDF:
+        d_actl = a_actl / b_actl / c_actl;
+        state.d = state.CHECKDOVER;
+        
+      // Checker
+      state.CHECKDOVER:
+        if (d_actl > 9) {error = 1;}
+        state.d = state.CHECKDUNDER;
+        
+      state.CHECKDUNDER:
+        if (d_actl < 0) {error = 1;}
+        state.d = state.RANDHIDE;
+        
+      // Answer Generation
+      state.RANDHIDE:
+        hide_temp = random.num;
+        random.next = 1;
+        if (hide_temp == 0) {correct_answer = a_actl;}
+        else if (hide_temp == 1) {correct_answer = b_actl;}
+        else if (hide_temp == 2) {correct_answer = c_actl;}
+        else {correct_answer = d_actl;}
+}
+*/
