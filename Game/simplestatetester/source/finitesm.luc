@@ -1,59 +1,62 @@
 module finitesm (
     input clk,  // clock
     input rst,  // reset
-    input nextstate,
-    output player1hp0,
-    output player1hp1,
-    output player1hp2,
-    output player1hp3,
-    
-    output player2hp0,
-    output player2hp1,
-    output player2hp2,
-    output player2hp3
+    input coin[2], // 01 = 50c, 10 = 100c, 11 = 10c
+    output dispense,
+    output change[2],
+    output display,
+    output test
   ) {
+  
+  .clk(clk){
+    .rst(rst){
+    fsm cm={NOCOIN, COIN};
+    }
+  }
 
-  counter slowclock(#SIZE(1), #DIV(45), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATE1}; //Q2DISPLAY,Q2CONTROLS,Q3DISPLAY,Q3CONTROLS,Q4DISPLAY,Q4CONTROLS,Q5DISPLAY,Q5CONTROLS,HPDECREASE2A,HPDECREASE2B,HPDECREASE3A,HPDECREASE3B,HPDECREASE4A,HPDECREASE5A,HPDECREASE5B,PLAYERCONTROLS,};
-  
-  
   always {
-        player1hp0 = 0;
-        player1hp1 = 0;
-        player1hp2 = 0;
-        player1hp3 = 0;
+    dispense = 0;
+    change = 0;
+    display = 0;
+    test = cm.q;
     
-        player2hp0 = 0;
-        player2hp1 = 0;
-        player2hp2 = 0;
-        player2hp3 = 0;
-    
-      case (state.q) {
-    
-      
-      state.STATE0:
-        player1hp0 = 0;
-        player1hp1 = 0;
-        player1hp2 = 0;
-        player1hp3 = 1;
-    
-        player2hp0 = 0;
-        player2hp1 = 0;
-        player2hp2 = 0;
-        player2hp3 = 1;
-        
-        if (nextstate == 1) { state.d = state.STATE1;} else {state.d = state.STATE0;}
-        
-      state.STATE1:
-        player1hp0 = 0;
-        player1hp1 = 0;
-        player1hp2 = 1;
-        player1hp3 = 0;
-    
-        player2hp0 = 0;
-        player2hp1 = 0;
-        player2hp2 = 1;
-        player2hp3 = 0;
-}
+    case (cm.q){
+      cm.NOCOIN: 
+        if (coin == b10){
+          cm.d = cm.NOCOIN;
+          dispense = 1;
+          change = 0;
+          display = 0;
+        } else if (coin == b01){
+          cm.d = cm.COIN;
+          dispense = 0;
+          change = 0;
+          display = 1;
+        } else{
+          cm.d = cm.NOCOIN;
+          dispense = 0;
+          change = coin;
+          display = 0;
+        }
+      cm.COIN:
+        //cm.d = cm.q;
+       if (coin == b01){
+          cm.d = cm.NOCOIN;
+          dispense = 1;
+          change = 0;
+          display = 0;
+          
+        } else if (coin == b10){
+          cm.d = cm.NOCOIN;
+          dispense = 1;
+          change = b01;
+          display = 0;
+        } else{
+          cm.d = cm.COIN;
+          dispense = 0;
+          change = coin;
+          display = 1;
+        }
+    }
   }
 }
