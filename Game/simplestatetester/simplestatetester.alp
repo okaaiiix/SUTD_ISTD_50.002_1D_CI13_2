@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="simplestatetester" board="Alchitry Au" language="Lucid" version="3">
   <files>
-    <src>adder.luc</src>
-    <src>question_gen.luc</src>
+    <src>alu.luc</src>
     <component>pipeline.luc</component>
+    <src>finitesm.luc</src>
     <src>score_calc.luc</src>
     <component>counter.luc</component>
-    <src>modulo1.luc</src>
+    <src>seven_seg.luc</src>
     <src>random.luc</src>
     <component>decoder.luc</component>
-    <src>multi_seven_seg.luc</src>
-    <src>shifter.luc</src>
-    <src>comparator.luc</src>
     <src top="true">au_top.luc</src>
-    <src>seven_seg.luc</src>
-    <component>reset_conditioner.luc</component>
-    <src>alu.luc</src>
-    <src>boolean.luc</src>
+    <src>modulo1.luc</src>
+    <src>multi_seven_seg.luc</src>
+    <src>comparator.luc</src>
+    <src>question_gen.luc</src>
     <src>modulo.v</src>
+    <src>boolean.luc</src>
+    <component>reset_conditioner.luc</component>
     <component>edge_detector.luc</component>
+    <src>shifter.luc</src>
     <component>button_conditioner.luc</component>
+    <src>adder.luc</src>
     <constraint>ALU.xdc</constraint>
     <constraint>custom.acf</constraint>
   </files>

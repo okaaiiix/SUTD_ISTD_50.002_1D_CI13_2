@@ -37,6 +37,7 @@ module au_top (
   var c;
   var d;
   var correct_answer;
+  var nextstate;
   
   
   sig button_press[6];                              //button signals after conditioning and edge detection
@@ -44,6 +45,7 @@ module au_top (
   
   sig up1,down1,submit1,up2,down2,submit2;
   //alu alu;
+  
   
   
   .clk(clk) {
@@ -76,6 +78,7 @@ module au_top (
     
     
     .rst(rst){
+      finitesm finitesm;
       multi_seven_seg seg;
       multi_seven_seg seg2;
 
@@ -86,9 +89,7 @@ module au_top (
     }
   }
 
-  counter slowclock(#SIZE(1), #DIV(45), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATE1}; //Q2DISPLAY,Q2CONTROLS,Q3DISPLAY,Q3CONTROLS,Q4DISPLAY,Q4CONTROLS,Q5DISPLAY,Q5CONTROLS,HPDECREASE2A,HPDECREASE2B,HPDECREASE3A,HPDECREASE3B,HPDECREASE4A,HPDECREASE5A,HPDECREASE5B,PLAYERCONTROLS,};
-  
+
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset
@@ -128,15 +129,15 @@ module au_top (
     
     
    
-    opled1[0] = 1;
-    opled1[1] = 1;
-    opled1[2] = 1;
-    opled1[3] = 1;
+    opled1[0] = finitesm.player1hp0;
+    opled1[1] = finitesm.player1hp1;
+    opled1[2] = finitesm.player1hp2;
+    opled1[3] = finitesm.player1hp3;
     
-    opled2[0] = 1;
-    opled2[1] = 1;
-    opled2[2] = 1;
-    opled2[3] = 1;
+    opled2[0] = finitesm.player2hp0;
+    opled2[1] = finitesm.player2hp1;
+    opled2[2] = finitesm.player2hp2;
+    opled2[3] = finitesm.player2hp3;
     opled3[0] = 1;
     
     
@@ -155,6 +156,10 @@ module au_top (
     health1 = 5;
     health2 = 5;
     
+    if (ed0.out == 1) {nextstate=1;} else {nextstate=1;}
+    
+    finitesm.nextstate = nextstate;
+    
          
     seg.values = {4h7,4h7,4h7,4h10}; //initiate seven segment display for both displays
     seg2.values = {4h7,4h7,4h7,4h10};
@@ -170,34 +175,5 @@ module au_top (
     correct1 = 0;
     correct2 = 0;
     
-    case (state.q) {
-    
-      
-      state.STATE0:
-        opled1[0] = 0;
-        opled1[1] = 0;
-        opled1[2] = 0;
-        opled1[3] = 1;
-    
-        opled2[0] = 0;
-        opled2[1] = 0;
-        opled2[2] = 0;
-        opled2[3] = 1;
-        
-        opled3[0] = 1;
-        if (ed0.out == 1) { state.d = state.STATE1;}
-        
-      state.STATE1:
-        opled1[0] = 0;
-        opled1[1] = 0;
-        opled1[2] = 1;
-        opled1[3] = 0;
-    
-        opled2[0] = 0;
-        opled2[1] = 0;
-        opled2[2] = 1;
-        opled2[3] = 0;
-        
-        opled3[0] = 1;
 }
   
