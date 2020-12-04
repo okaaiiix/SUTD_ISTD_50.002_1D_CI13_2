@@ -1,0 +1,57 @@
+module alu (
+    input a[16],
+    input b[16],
+    input alufn[6],
+    output out[16],
+    output error
+
+  ) {
+  adder adder;
+  shifter shifter;
+  boolean boolean;
+  comparator comparator;
+  
+  sig z,v,n;
+ 
+  
+  always {    
+    out = 0;
+    error = 0;
+    adder.a = a;
+    adder.b=b;
+    adder.alufn=alufn;
+    n=adder.n;
+    v=adder.v;
+    z=adder.z;
+    shifter.a = a;
+    shifter.b=b;
+    shifter.alufn=alufn;
+    boolean.a = a;
+    boolean.b=b;
+    boolean.alufn=alufn;
+    comparator.n=n;
+    comparator.v=v;
+    comparator.z=z;
+    comparator.alufn=alufn;
+    case(alufn[5:4]) {
+    //write output values of each unit
+      2b00:  
+        out = adder.out;              
+      2b01:  
+        out = boolean.out;       
+      2b10:  
+        out = shifter.out;  
+      2b11:  
+        out = comparator.out;   
+
+      default: out = 0;  
+    }
+
+    if (alufn == 6b000000 && adder.v == 1) { 
+      error = 1;
+      
+    }  
+  }
+  
+  
+}

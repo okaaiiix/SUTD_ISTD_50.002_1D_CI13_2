@@ -1,0 +1,109 @@
+
+//ZOE Custom IO
+
+pin clk CLOCK;
+clock clk 100MHz;
+
+pin rst_n RESET;
+pin usb_rx USB_TX;
+pin usb_tx USB_RX;
+//players bank C
+pin button[0] C24 pulldown;  //player 1 board up button
+pin button[1] C21 pulldown;  //player 1 board down button
+
+pin submit[0] C18 pulldown;  //player 1 submit io_button
+
+
+pin button[2] C15 pulldown;  //player 2 board up button
+pin button[3] C12 pulldown;  //player 2 board down button
+
+pin submit[1] C9 pulldown;  //player 2 submit button
+ 
+
+
+
+
+pin p1_display[0] C17; //7 segment of player 1 board pins
+pin p1_display[1] C14;
+pin p1_display[2] C5;
+pin p1_display[3] C8;
+pin p1_display[4] C11;
+pin p1_display[5] C20;
+pin p1_display[6] C23;
+pin p1_display[7] C2;
+
+pin p2_display[0] C33;  //7 segment of player 2 board pins
+pin p2_display[1] C36;
+pin p2_display[2] C45;
+pin p2_display[3] C42;
+pin p2_display[4] C39;
+pin p2_display[5] C30;
+pin p2_display[6] C27;
+pin p2_display[7] C48;
+
+//done
+
+//a_display, Bank B here
+pin a_display[0] B33;
+pin a_display[1] B36;
+pin a_display[2] B45;
+pin a_display[3] B42;
+pin a_display[4] B39;
+pin a_display[5] B30;
+pin a_display[6] B27;
+
+//b_display, Bank B here
+
+pin b_display[0] B34;
+pin b_display[1] B37;
+pin b_display[2] B46;
+pin b_display[3] B43;
+pin b_display[4] B40;
+pin b_display[5] B31;
+pin b_display[6] B28;
+
+//c_display, Bank B here
+
+pin c_display[0] B18;
+pin c_display[1] B15;
+pin c_display[2] B6;
+pin c_display[3] B9;
+pin c_display[4] B12;
+pin c_display[5] B21;
+pin c_display[6] B24;
+
+
+//d_display, Bank B here
+pin d_display[0] B23;
+pin d_display[1] B17;
+pin d_display[2] B8;
+pin d_display[3] B11;
+pin d_display[4] B14;
+pin d_display[5] B20;
+pin d_display[6] B5;
+
+pin p1_display_sel[0] B48; //?
+pin p2_display_sel[0] B49; //?
+
+
+//hp, in bank A
+pin hp1[0] A27; // HP 1 (PLAYER A)
+pin hp1[1] A36; // HP 2 (PLAYER A)
+pin hp1[2] A39; // HP 3 (PLAYER A)
+pin hp1[3] A42; // HP 4 (PLAYER A)
+pin hp1[4] A45; // HP 5 (PLAYER A) 
+pin hp2[0] A28; // HP 1 (PLAYER B)
+pin hp2[1] A31; // HP 2 (PLAYER B)
+pin hp2[2] A34; // HP 3 (PLAYER B)
+pin hp2[3] A37; // HP 4 (PLAYER B)
+pin hp2[4] A40; // HP 5 (PLAYER B)
+
+pin opled1[0] A24;
+pin opled1[1] A21;
+pin opled1[2] A18;
+pin opled1[3] A15;
+pin opled2[0] A12;
+pin opled2[1] A9;
+pin opled2[2] A6;
+pin opled2[3] A3;
+pin opled3[0] A2;

@@ -1,0 +1,203 @@
+module au_top (
+    input clk,              // 100MHz clock
+    input rst_n,            // reset button (active low)
+    output io_led[3][8],
+    output led [8],         // 8 user controllable LEDs
+    input usb_rx,           // USB->Serial input
+    output usb_tx,           // USB->Serial output
+    input button[4],     ///external buttons (Player 1 up, Player 2 up, Player 1 down, Player 2 down)
+    input submit[2],     //(Player 1 submit, Player 2 submit)
+    output p1_display[8],
+    output p2_display[8],
+    output p1_display_sel[1],
+    output p2_display_sel[1],
+    output a_display[7],
+    output a_display_sel[1],
+    output b_display[7],
+    output b_display_sel[1],
+    output c_display[7], 
+    output c_display_sel[1],
+    output d_display[7],
+    output d_display_sel[1],
+    output hp1[5],      // output reflected in HP bar
+    output hp2[5],
+    output opled1[4],
+    output opled2[4],
+    output opled3[1]
+      ) {
+  var health1;
+  var health2;
+  var ans_input1;
+  var ans_input2;                                  //value to store player inputs of awnsers
+  var correct1;                                    //check if input values tally with correct awnser
+  var correct2; 
+  
+  var a;
+  var b;
+  var c;
+  var d;
+  var correct_answer;
+  
+  
+  sig button_press[6];                              //button signals after conditioning and edge detection
+  sig rst ;//alua[16],alub[16],alufn[6];                  // reset signal and relevant alu components
+  
+  sig up1,down1,submit1,up2,down2,submit2;
+  //alu alu;
+  
+  
+  .clk(clk) {
+
+    reset_conditioner reset_cond;
+    
+    
+    dff seed [32];                   // seed for each run
+    dff inp_a[16];
+    dff inp_b[16];
+    dff counter[27];
+    dff next_state;
+    //dff health_a[5];
+    //dff health_b[5];
+    
+    // For button, ed detects rising edges, bc conditions input.
+    edge_detector ed0(#RISE(1), #FALL(0));
+    button_conditioner bc0;
+    edge_detector ed1(#RISE(1), #FALL(0));
+    button_conditioner bc1;
+    edge_detector ed2(#RISE(1), #FALL(0));
+    button_conditioner bc2;
+    edge_detector ed3(#RISE(1), #FALL(0));
+    button_conditioner bc3;
+    edge_detector ed4(#RISE(1), #FALL(0));
+    button_conditioner bc4;
+    edge_detector ed5(#RISE(1), #FALL(0));
+    button_conditioner bc5;
+    
+    
+    
+    .rst(rst){
+      multi_seven_seg seg;
+      multi_seven_seg seg2;
+
+      multi_seven_seg sega;
+      multi_seven_seg segb;
+      multi_seven_seg segc;
+      multi_seven_seg segd;
+    }
+  }
+
+  counter slowclock(#SIZE(1), #DIV(45), .clk(clk), .rst(rst));
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATE0,STATE1}; //Q2DISPLAY,Q2CONTROLS,Q3DISPLAY,Q3CONTROLS,Q4DISPLAY,Q4CONTROLS,Q5DISPLAY,Q5CONTROLS,HPDECREASE2A,HPDECREASE2B,HPDECREASE3A,HPDECREASE3B,HPDECREASE4A,HPDECREASE5A,HPDECREASE5B,PLAYERCONTROLS,};
+  
+  always {
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out;   // conditioned reset
+    usb_tx = usb_rx;        // echo the serial data
+    led = 8h00;             // turn LEDs off
+    
+    
+    p1_display = ~seg.seg;      // connect segments to the driver
+    p2_display = ~seg2.seg; 
+    a_display = ~sega.seg;
+    b_display = ~segb.seg;
+    c_display = ~segc.seg;
+    d_display = ~segd.seg;
+
+    p1_display_sel = ~4h1;      // only last digit of array used
+    p2_display_sel = ~4h1;
+    a_display_sel = ~4h1;
+    b_display_sel = ~4h1;
+    c_display_sel = ~4h1;
+    d_display_sel = ~4h1;
+
+    bc0.in = button[0];
+    ed0.in = bc0.out;
+    io_led[2][7]=ed0.out;
+    bc1.in = button[1];
+    ed1.in = bc1.out;
+    bc2.in = button[2];
+    ed2.in = bc2.out;
+    bc3.in = button[3];
+    ed3.in = bc3.out;
+    bc4.in = submit[0];
+    ed4.in = bc4.out;
+    bc5.in = submit[1];
+    ed5.in = bc5.out;
+    
+    
+    
+    
+   
+    opled1[0] = 1;
+    opled1[1] = 1;
+    opled1[2] = 1;
+    opled1[3] = 1;
+    
+    opled2[0] = 1;
+    opled2[1] = 1;
+    opled2[2] = 1;
+    opled2[3] = 1;
+    opled3[0] = 1;
+    
+    
+    hp1[4] = 0;
+    hp1[3] = 0;
+    hp1[2] = 0;
+    hp1[1] = 0;
+    hp1[0] = 0;
+    
+    hp2[4] = 0;
+    hp2[3] = 0;
+    hp2[2] = 0;
+    hp2[1] = 0;
+    hp2[0] = 0;
+    
+    health1 = 5;
+    health2 = 5;
+    
+         
+    seg.values = {4h7,4h7,4h7,4h10}; //initiate seven segment display for both displays
+    seg2.values = {4h7,4h7,4h7,4h10};
+    sega.values = {4h7,4h7,4h7,4h10};
+    segb.values = {4h7,4h7,4h7,4h10};
+    segc.values = {4h7,4h7,4h7,4h10};
+    segd.values = {4h7,4h7,4h7,4h10};
+    a=0;
+    b=0;
+  
+    ans_input1 = 0;
+    ans_input2 = 0;
+    correct1 = 0;
+    correct2 = 0;
+    
+    case (state.q) {
+    
+      
+      state.STATE0:
+        opled1[0] = 0;
+        opled1[1] = 0;
+        opled1[2] = 0;
+        opled1[3] = 1;
+    
+        opled2[0] = 0;
+        opled2[1] = 0;
+        opled2[2] = 0;
+        opled2[3] = 1;
+        
+        opled3[0] = 1;
+        if (ed0.out == 1) { state.d = state.STATE1;}
+        
+      state.STATE1:
+        opled1[0] = 0;
+        opled1[1] = 0;
+        opled1[2] = 1;
+        opled1[3] = 0;
+    
+        opled2[0] = 0;
+        opled2[1] = 0;
+        opled2[2] = 1;
+        opled2[3] = 0;
+        
+        opled3[0] = 1;
+}
+  

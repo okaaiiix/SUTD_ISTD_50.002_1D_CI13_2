@@ -1,0 +1,93 @@
+/*module score_calc (
+    input clk,           // clock
+    input rst,           // reset
+    input a_out,          // answer address for player A--> SATH 
+    input b_out,          // answer address for player B--> SATH
+    input overall_output, // overall answer chosen--> SATH    
+    input correct,       // player answer address --> link to KX 
+    
+    input p1_display[7:0],
+    input p2_display[7:0]
+  ) {
+
+  // initializing state have to have HP bar full 
+  // hp[9:0] = 1;
+  
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATEC,STATEHP_A,STATEHP_B,STATEQN,STATEGAMEOVER,STATEGAMESTART}
+  
+  always {
+  
+    case (state.q) {
+      state.STATEC: // CHECK IF INPUT ANSWER IS CORRECT 
+      if (overall_output == b_out) {
+          state.d = STATEHP_A; // if b sent in answer, go to HP_A
+      } else if (overall_output == a_out) {
+          state.d = STATEHP_B; // if a sent in answer, go to HP_B
+        }
+        
+      state.STATEHP_A: // b scored 
+        if (overall_output == correct) { 
+          if (hp[4] == 1) {
+            hp[4] = 0;
+          } else if (hp[4] == 0) {
+            if (hp[3] == 1) {
+              hp[3] = 0;
+            } else if (hp[3] == 0) {
+              if (hp[2] == 1) { 
+                hp[2] = 0;
+              } else if (hp[2] == 0) {
+                if (hp[1] == 1) {
+                  hp[1] = 0;
+                } else if (hp[1] == 0) {
+                  if (hp[0] == 1) {
+                    hp[0] = 0;
+                    state.d = STATEGAMEOVER;
+                  }}}}}
+        } else if (overall_output != correct) { 
+          state.d = STATEQN;
+        }
+
+      state.STATEHP_B: // a scored
+        if (overall_output == correct) { 
+          if (hp[9] == 1) {
+            hp[9] = 0;
+          } else if (hp[9] == 0) {
+            if (hp[8] == 1) {
+              hp[8] = 0;
+            } else if (hp[8] == 0) {
+              if (hp[7] == 1) { 
+                hp[7] = 0;
+              } else if (hp[7] == 0) {
+                if (hp[6] == 1) {
+                  hp[6] = 0;
+                } else if (hp[6] == 0) {
+                  if (hp[5] == 1) {
+                    hp[5] = 0;
+                    state.d = STATEGAMEOVER;
+                  }}}}}
+        } else if (overall_output != correct) { 
+          state.d = STATEQN;
+        }
+        
+      state.STATEGAMEOVER: // switch off player lights, switch on question lights, leave HP bar on 
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values = {4h0,4h0,4h0,4h0};
+        // add all 7 seg led for questions to be set as 1 
+        if (submit[0] == 1 && submit[1] == 1) {
+          state.d = state.STATEGAMESTART;
+        }
+        
+      state.STATEGAMESTART: // add at beginning of game--> link to KX
+        seg.values = {4h0,4h0,4h0,4h0};
+        seg2.values = {4h0,4h0,4h0,4h0};
+        
+        // add all 7 seg led for questions to be set as 1 or blink
+        hp[9:0] = 1;
+        
+        if (submit[0] == 1 && submit[1] == 1) {
+          state.d = STATEQN;
+        }
+      
+    }
+  }
+}*/
