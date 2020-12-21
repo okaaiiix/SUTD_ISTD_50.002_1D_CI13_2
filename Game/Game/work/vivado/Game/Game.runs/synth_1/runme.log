@@ -17,13 +17,13 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t
 INFO: [Device 21-403] Loading part xc7a35tftg256-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 7796
+INFO: [Synth 8-7075] Helper process launched with PID 4408
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1024.367 ; gain = 0.000
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1025.137 ; gain = 0.000
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'au_top_0' [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:7]
-	Parameter RANDA_state bound to: 6'b000000 
-	Parameter STATEGAMESTART_state bound to: 6'b000001 
+	Parameter STATEGAMESTART_state bound to: 6'b000000 
+	Parameter RANDA_state bound to: 6'b000001 
 	Parameter RANDOP1_state bound to: 6'b000010 
 	Parameter RANDB0_state bound to: 6'b000011 
 	Parameter RANDB1_state bound to: 6'b000100 
@@ -129,46 +129,45 @@ INFO: [Synth 8-6157] synthesizing module 'counter_7' [C:/Users/admin/Documents/G
 	Parameter UP bound to: 1'b1 
 	Parameter MAX_VALUE bound to: 27'b011111111111111111111111111 
 INFO: [Synth 8-6155] done synthesizing module 'counter_7' (11#1) [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/counter_7.v:14]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:455]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:620]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:626]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:702]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:708]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:787]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:787]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:793]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:793]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:827]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:833]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:848]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:854]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:869]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:875]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:887]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:887]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:918]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:934]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:950]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:954]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:958]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:962]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:966]
-WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:966]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:555]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:936]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:942]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1166]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1172]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1396]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1396]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1402]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1402]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1510]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1516]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1567]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1573]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1624]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1630]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1679]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:1679]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:2021]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:2185]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:2226]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:2267]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:2308]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:2349]
+WARNING: [Synth 8-4179] divide by zero is illegal [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:2349]
 INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:387]
 INFO: [Synth 8-6155] done synthesizing module 'au_top_0' (12#1) [C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.srcs/sources_1/imports/verilog/au_top_0.v:7]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1024.367 ; gain = 0.000
+Finished RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 1025.137 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 1024.367 ; gain = 0.000
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1025.137 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 1024.367 ; gain = 0.000
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1025.137 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.025 . Memory (MB): peak = 1024.367 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.043 . Memory (MB): peak = 1025.137 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -183,64 +182,63 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/au_top_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1040.098 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1051.602 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.015 . Memory (MB): peak = 1040.098 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.013 . Memory (MB): peak = 1051.602 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1040.098 ; gain = 15.730
+Finished Constraint Validation : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 1051.602 ; gain = 26.465
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tftg256-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1040.098 ; gain = 15.730
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 1051.602 ; gain = 26.465
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1040.098 ; gain = 15.730
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 1051.602 ; gain = 26.465
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'M_state_q_reg' in module 'au_top_0'
----------------------------------------------------------------------------------------------------
-                   State |                     New Encoding |                Previous Encoding 
----------------------------------------------------------------------------------------------------
-             RANDA_state |                                0 |                           000000
-    STATEGAMESTART_state |                                1 |                           000001
----------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'M_state_q_reg' using encoding 'sequential' in module 'au_top_0'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 1040.098 ; gain = 15.730
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:21 ; elapsed = 00:00:21 . Memory (MB): peak = 1051.602 ; gain = 26.465
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-223] decloning instance 'seg' (multi_seven_seg_6) to 'seg2'
-INFO: [Synth 8-223] decloning instance 'segb' (multi_seven_seg_6) to 'segd'
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input   18 Bit       Adders := 4     
+	   2 Input   32 Bit       Adders := 2     
+	   2 Input   18 Bit       Adders := 5     
 +---XORs : 
 	   2 Input     32 Bit         XORs := 2     
 	   4 Input     32 Bit         XORs := 1     
 +---Registers : 
 	               32 Bit    Registers := 5     
-	               18 Bit    Registers := 4     
+	               18 Bit    Registers := 5     
 	                4 Bit    Registers := 1     
 	                2 Bit    Registers := 4     
 	                1 Bit    Registers := 4     
 +---Muxes : 
-	   2 Input   32 Bit        Muxes := 2     
-	   2 Input   18 Bit        Muxes := 4     
-	   2 Input   15 Bit        Muxes := 7     
+	   2 Input   32 Bit        Muxes := 6     
+	   2 Input   18 Bit        Muxes := 5     
+	   2 Input   15 Bit        Muxes := 9     
 	   4 Input   15 Bit        Muxes := 1     
-	   4 Input    4 Bit        Muxes := 4     
+	  10 Input   15 Bit        Muxes := 2     
+	  58 Input   15 Bit        Muxes := 5     
+	  73 Input    6 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 7     
+	   2 Input    4 Bit        Muxes := 3     
+	  58 Input    4 Bit        Muxes := 2     
 	   2 Input    1 Bit        Muxes := 4     
-	   4 Input    1 Bit        Muxes := 1     
+	   4 Input    1 Bit        Muxes := 2     
 	   6 Input    1 Bit        Muxes := 1     
+	  58 Input    1 Bit        Muxes := 4     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -257,25 +255,25 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1040.098 ; gain = 15.730
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:29 . Memory (MB): peak = 1051.602 ; gain = 26.465
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:34 ; elapsed = 00:00:36 . Memory (MB): peak = 1040.098 ; gain = 15.730
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 1051.602 ; gain = 26.465
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1041.004 ; gain = 16.637
+Finished Timing Optimization : Time (s): cpu = 00:00:41 ; elapsed = 00:00:42 . Memory (MB): peak = 1086.750 ; gain = 61.613
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:35 ; elapsed = 00:00:37 . Memory (MB): peak = 1041.516 ; gain = 17.148
+Finished Technology Mapping : Time (s): cpu = 00:00:42 ; elapsed = 00:00:42 . Memory (MB): peak = 1096.094 ; gain = 70.957
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -293,37 +291,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:40 ; elapsed = 00:00:42 . Memory (MB): peak = 1048.301 ; gain = 23.934
+Finished IO Insertion : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1096.094 ; gain = 70.957
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:40 ; elapsed = 00:00:42 . Memory (MB): peak = 1048.301 ; gain = 23.934
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1096.094 ; gain = 70.957
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:40 ; elapsed = 00:00:42 . Memory (MB): peak = 1048.301 ; gain = 23.934
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1096.094 ; gain = 70.957
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:40 ; elapsed = 00:00:42 . Memory (MB): peak = 1048.301 ; gain = 23.934
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1096.094 ; gain = 70.957
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:40 ; elapsed = 00:00:42 . Memory (MB): peak = 1048.301 ; gain = 23.934
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1096.094 ; gain = 70.957
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:40 ; elapsed = 00:00:42 . Memory (MB): peak = 1048.301 ; gain = 23.934
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1096.094 ; gain = 70.957
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -340,38 +338,39 @@ Report Cell Usage:
 |      |Cell   |Count |
 +------+-------+------+
 |1     |BUFG   |     1|
-|2     |CARRY4 |    32|
-|3     |LUT1   |     9|
-|4     |LUT3   |    11|
-|5     |LUT4   |    17|
-|6     |LUT5   |    70|
-|7     |LUT6   |     7|
-|8     |FDRE   |   123|
-|9     |FDSE   |     4|
-|10    |IBUF   |     4|
-|11    |OBUF   |    79|
-|12    |OBUFT  |    23|
+|2     |CARRY4 |    53|
+|3     |LUT1   |    70|
+|4     |LUT2   |   104|
+|5     |LUT3   |    21|
+|6     |LUT4   |    40|
+|7     |LUT5   |    45|
+|8     |LUT6   |   105|
+|9     |FDRE   |   221|
+|10    |FDSE   |    57|
+|11    |IBUF   |     9|
+|12    |OBUF   |    79|
+|13    |OBUFT  |    23|
 +------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:40 ; elapsed = 00:00:42 . Memory (MB): peak = 1048.301 ; gain = 23.934
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1096.094 ; gain = 70.957
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:27 ; elapsed = 00:00:38 . Memory (MB): peak = 1048.301 ; gain = 8.203
-Synthesis Optimization Complete : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 1048.301 ; gain = 23.934
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:33 ; elapsed = 00:00:44 . Memory (MB): peak = 1096.094 ; gain = 44.492
+Synthesis Optimization Complete : Time (s): cpu = 00:00:47 ; elapsed = 00:00:48 . Memory (MB): peak = 1096.094 ; gain = 70.957
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 1056.828 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 32 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.016 . Memory (MB): peak = 1096.094 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 53 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1062.703 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1096.094 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
 INFO: [Common 17-83] Releasing license: Synthesis
-46 Infos, 29 Warnings, 0 Critical Warnings and 0 Errors encountered.
+44 Infos, 28 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:48 ; elapsed = 00:00:53 . Memory (MB): peak = 1062.703 ; gain = 38.336
+synth_design: Time (s): cpu = 00:00:55 ; elapsed = 00:00:59 . Memory (MB): peak = 1096.094 ; gain = 70.957
 INFO: [Common 17-1381] The checkpoint 'C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1/au_top_0.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file au_top_0_utilization_synth.rpt -pb au_top_0_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Thu Dec  3 05:31:50 2020...
+INFO: [Common 17-206] Exiting Vivado at Thu Dec  3 07:23:23 2020...

@@ -244,8 +244,8 @@ module au_top_0 (
   );
   
   
-  localparam RANDA_state = 6'd0;
-  localparam STATEGAMESTART_state = 6'd1;
+  localparam STATEGAMESTART_state = 6'd0;
+  localparam RANDA_state = 6'd1;
   localparam RANDOP1_state = 6'd2;
   localparam RANDB0_state = 6'd3;
   localparam RANDB1_state = 6'd4;
@@ -303,7 +303,7 @@ module au_top_0 (
   localparam STATEHP_B_state = 6'd56;
   localparam STATEGAMEOVER_state = 6'd57;
   
-  reg [5:0] M_state_d, M_state_q = RANDA_state;
+  reg [5:0] M_state_d, M_state_q = STATEGAMESTART_state;
   
   always @* begin
     M_state_d = M_state_q;
@@ -347,12 +347,12 @@ module au_top_0 (
     hp2[0+0-:1] = 1'h1;
     health1 = 3'h5;
     health2 = 3'h5;
-    M_seg_values = 16'h7778;
-    M_seg2_values = 16'h7778;
-    M_sega_values = 16'h7778;
-    M_segb_values = 16'h7778;
-    M_segc_values = 16'h7778;
-    M_segd_values = 16'h7778;
+    M_seg_values = 16'h7770;
+    M_seg2_values = 16'h7770;
+    M_sega_values = 16'h7770;
+    M_segb_values = 16'h7770;
+    M_segc_values = 16'h7770;
+    M_segd_values = 16'h7770;
     a = 1'h0;
     b = 1'h0;
     ans_input1 = 1'h0;
@@ -389,17 +389,64 @@ module au_top_0 (
         M_seg_values = 16'h0000;
         M_seg2_values = 16'h0000;
         M_sega_values = 16'h7771;
-        M_segb_values = 16'h7771;
-        M_segc_values = 16'h7771;
-        M_segd_values = 16'h7771;
+        M_segb_values = 16'h7772;
+        M_segc_values = 16'h7773;
+        M_segd_values = 16'h7770;
+        opled1[0+0-:1] = 1'h0;
+        opled1[1+0-:1] = 1'h1;
+        opled1[2+0-:1] = 1'h0;
+        opled1[3+0-:1] = 1'h0;
+        opled2[0+0-:1] = 1'h0;
+        opled2[1+0-:1] = 1'h0;
+        opled2[2+0-:1] = 1'h0;
+        opled2[3+0-:1] = 1'h1;
       end
       RANDA_state: begin
+        a_temp = M_random_num;
         hp1[4+0-:1] = 1'h0;
+        M_random_next = 1'h1;
+        if (a_actl == 1'h0) begin
+          M_sega_values = 16'h0000;
+        end else begin
+          if (a_actl == 1'h1) begin
+            M_sega_values = 16'h0001;
+          end else begin
+            if (a_actl == 2'h2) begin
+              M_sega_values = 16'h0002;
+            end else begin
+              if (a_actl == 2'h3) begin
+                M_sega_values = 16'h0003;
+              end else begin
+                if (a_actl == 3'h4) begin
+                  M_sega_values = 16'h0004;
+                end else begin
+                  if (a_actl == 3'h5) begin
+                    M_sega_values = 16'h0005;
+                  end else begin
+                    if (a_actl == 3'h6) begin
+                      M_sega_values = 16'h0006;
+                    end else begin
+                      if (a_actl == 3'h7) begin
+                        M_sega_values = 16'h0007;
+                      end else begin
+                        if (a_actl == 4'h8) begin
+                          M_sega_values = 16'h0008;
+                        end else begin
+                          M_sega_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_sega_values = 16'h7772;
         M_segb_values = 16'h7772;
         M_segc_values = 16'h7772;
         M_segd_values = 16'h7772;
-        M_state_d = STATEGAMESTART_state;
+        M_state_d = RANDOP1_state;
       end
       RANDOP1_state: begin
         M_random_next = 1'h1;
@@ -411,15 +458,31 @@ module au_top_0 (
           op1_temp = M_modulo1_out;
         end
         if (op1_temp == 2'h3 && a_temp != 1'h0) begin
+          opled1[0+0-:1] = 1'h1;
+          opled1[1+0-:1] = 1'h0;
+          opled1[2+0-:1] = 1'h0;
+          opled1[3+0-:1] = 1'h0;
           M_state_d = RANDB3_state;
         end else begin
           if (op1_temp == 2'h2) begin
+            opled1[0+0-:1] = 1'h0;
+            opled1[1+0-:1] = 1'h1;
+            opled1[2+0-:1] = 1'h0;
+            opled1[3+0-:1] = 1'h0;
             M_state_d = RANDB2_state;
           end else begin
             if (op1_temp == 1'h1) begin
+              opled1[0+0-:1] = 1'h0;
+              opled1[1+0-:1] = 1'h0;
+              opled1[2+0-:1] = 1'h1;
+              opled1[3+0-:1] = 1'h0;
               M_state_d = RANDB1_state;
             end else begin
               if (op1_temp == 1'h0) begin
+                opled1[0+0-:1] = 1'h0;
+                opled1[1+0-:1] = 1'h0;
+                opled1[2+0-:1] = 1'h0;
+                opled1[3+0-:1] = 1'h1;
                 M_state_d = RANDB0_state;
               end
             end
@@ -444,6 +507,43 @@ module au_top_0 (
         if (b_temp < a_actl) begin
           b_actl = b_temp + a_actl;
         end
+        if (b_actl == 1'h0) begin
+          M_segb_values = 16'h0000;
+        end else begin
+          if (b_actl == 1'h1) begin
+            M_segb_values = 16'h0001;
+          end else begin
+            if (b_actl == 2'h2) begin
+              M_segb_values = 16'h0002;
+            end else begin
+              if (b_actl == 2'h3) begin
+                M_segb_values = 16'h0003;
+              end else begin
+                if (b_actl == 3'h4) begin
+                  M_segb_values = 16'h0004;
+                end else begin
+                  if (b_actl == 3'h5) begin
+                    M_segb_values = 16'h0005;
+                  end else begin
+                    if (b_actl == 3'h6) begin
+                      M_segb_values = 16'h0006;
+                    end else begin
+                      if (b_actl == 3'h7) begin
+                        M_segb_values = 16'h0007;
+                      end else begin
+                        if (b_actl == 4'h8) begin
+                          M_segb_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = RANDOP21_state;
       end
       RANDB2_state: begin
@@ -454,6 +554,43 @@ module au_top_0 (
         end
         if (b_temp > (4'ha / a_actl)) begin
           b_actl = b_temp - (4'ha / a_actl);
+        end
+        if (b_actl == 1'h0) begin
+          M_segb_values = 16'h0000;
+        end else begin
+          if (b_actl == 1'h1) begin
+            M_segb_values = 16'h0001;
+          end else begin
+            if (b_actl == 2'h2) begin
+              M_segb_values = 16'h0002;
+            end else begin
+              if (b_actl == 2'h3) begin
+                M_segb_values = 16'h0003;
+              end else begin
+                if (b_actl == 3'h4) begin
+                  M_segb_values = 16'h0004;
+                end else begin
+                  if (b_actl == 3'h5) begin
+                    M_segb_values = 16'h0005;
+                  end else begin
+                    if (b_actl == 3'h6) begin
+                      M_segb_values = 16'h0006;
+                    end else begin
+                      if (b_actl == 3'h7) begin
+                        M_segb_values = 16'h0007;
+                      end else begin
+                        if (b_actl == 4'h8) begin
+                          M_segb_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
         end
         M_state_d = RANDOP22_state;
       end
@@ -468,6 +605,43 @@ module au_top_0 (
           end
           M_modulo1_a = a_actl / b_actl;
           M_modulo1_b = 1'h1;
+          if (b_actl == 1'h0) begin
+            M_segb_values = 16'h0000;
+          end else begin
+            if (b_actl == 1'h1) begin
+              M_segb_values = 16'h0001;
+            end else begin
+              if (b_actl == 2'h2) begin
+                M_segb_values = 16'h0002;
+              end else begin
+                if (b_actl == 2'h3) begin
+                  M_segb_values = 16'h0003;
+                end else begin
+                  if (b_actl == 3'h4) begin
+                    M_segb_values = 16'h0004;
+                  end else begin
+                    if (b_actl == 3'h5) begin
+                      M_segb_values = 16'h0005;
+                    end else begin
+                      if (b_actl == 3'h6) begin
+                        M_segb_values = 16'h0006;
+                      end else begin
+                        if (b_actl == 3'h7) begin
+                          M_segb_values = 16'h0007;
+                        end else begin
+                          if (b_actl == 4'h8) begin
+                            M_segb_values = 16'h0008;
+                          end else begin
+                            M_segb_values = 16'h0009;
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
           if (M_modulo1_out != 1'h0) begin
             M_state_d = RANDB3_state;
           end else begin
@@ -486,17 +660,34 @@ module au_top_0 (
           M_modulo1_b = 3'h4;
           op1_temp = M_modulo1_out;
         end
-        if (op2_temp == 2'h3 && b_actl != 1'h0) begin
+        if (op2_temp == 2'h3 && a_temp != 1'h0) begin
+          opled2[0+0-:1] = 1'h1;
+          opled2[1+0-:1] = 1'h0;
+          opled2[2+0-:1] = 1'h0;
+          opled2[3+0-:1] = 1'h0;
           M_state_d = RANDC3_state;
         end else begin
           if (op2_temp == 2'h2) begin
+            opled2[0+0-:1] = 1'h0;
+            opled2[1+0-:1] = 1'h1;
+            opled2[2+0-:1] = 1'h0;
+            opled2[3+0-:1] = 1'h0;
             M_state_d = RANDC2_state;
           end else begin
             if (op2_temp == 1'h1) begin
+              opled2[0+0-:1] = 1'h0;
+              opled2[1+0-:1] = 1'h0;
+              opled2[2+0-:1] = 1'h1;
+              opled2[3+0-:1] = 1'h0;
               M_state_d = RANDC1_state;
             end else begin
-              op2_temp = 1'h0;
-              M_state_d = RANDC0_state;
+              if (op2_temp == 1'h0) begin
+                opled2[0+0-:1] = 1'h0;
+                opled2[1+0-:1] = 1'h0;
+                opled2[2+0-:1] = 1'h0;
+                opled2[3+0-:1] = 1'h1;
+                M_state_d = RANDC0_state;
+              end
             end
           end
         end
@@ -510,17 +701,34 @@ module au_top_0 (
           M_modulo1_b = 3'h4;
           op1_temp = M_modulo1_out;
         end
-        if (op2_temp == 2'h3 && b_actl != 1'h0) begin
+        if (op2_temp == 2'h3 && a_temp != 1'h0) begin
+          opled2[0+0-:1] = 1'h1;
+          opled2[1+0-:1] = 1'h0;
+          opled2[2+0-:1] = 1'h0;
+          opled2[3+0-:1] = 1'h0;
           M_state_d = RANDC7_state;
         end else begin
           if (op2_temp == 2'h2) begin
+            opled2[0+0-:1] = 1'h0;
+            opled2[1+0-:1] = 1'h1;
+            opled2[2+0-:1] = 1'h0;
+            opled2[3+0-:1] = 1'h0;
             M_state_d = RANDC6_state;
           end else begin
             if (op2_temp == 1'h1) begin
+              opled2[0+0-:1] = 1'h0;
+              opled2[1+0-:1] = 1'h0;
+              opled2[2+0-:1] = 1'h1;
+              opled2[3+0-:1] = 1'h0;
               M_state_d = RANDC5_state;
             end else begin
-              op2_temp = 1'h0;
-              M_state_d = RANDC4_state;
+              if (op2_temp == 1'h0) begin
+                opled2[0+0-:1] = 1'h0;
+                opled2[1+0-:1] = 1'h0;
+                opled2[2+0-:1] = 1'h0;
+                opled2[3+0-:1] = 1'h1;
+                M_state_d = RANDC4_state;
+              end
             end
           end
         end
@@ -534,17 +742,34 @@ module au_top_0 (
           M_modulo1_b = 3'h4;
           op2_temp = M_modulo1_out;
         end
-        if (op2_temp == 2'h3 && b_actl != 1'h0) begin
+        if (op2_temp == 2'h3 && a_temp != 1'h0) begin
+          opled2[0+0-:1] = 1'h1;
+          opled2[1+0-:1] = 1'h0;
+          opled2[2+0-:1] = 1'h0;
+          opled2[3+0-:1] = 1'h0;
           M_state_d = RANDCB_state;
         end else begin
           if (op2_temp == 2'h2) begin
+            opled2[0+0-:1] = 1'h0;
+            opled2[1+0-:1] = 1'h1;
+            opled2[2+0-:1] = 1'h0;
+            opled2[3+0-:1] = 1'h0;
             M_state_d = RANDCA_state;
           end else begin
             if (op2_temp == 1'h1) begin
+              opled2[0+0-:1] = 1'h0;
+              opled2[1+0-:1] = 1'h0;
+              opled2[2+0-:1] = 1'h1;
+              opled2[3+0-:1] = 1'h0;
               M_state_d = RANDC9_state;
             end else begin
-              op2_temp = 1'h0;
-              M_state_d = RANDC8_state;
+              if (op2_temp == 1'h0) begin
+                opled2[0+0-:1] = 1'h0;
+                opled2[1+0-:1] = 1'h0;
+                opled2[2+0-:1] = 1'h0;
+                opled2[3+0-:1] = 1'h1;
+                M_state_d = RANDC8_state;
+              end
             end
           end
         end
@@ -558,17 +783,34 @@ module au_top_0 (
           M_modulo1_b = 3'h4;
           op2_temp = M_modulo1_out;
         end
-        if (op2_temp == 2'h3 && b_actl != 1'h0) begin
+        if (op2_temp == 2'h3 && a_temp != 1'h0) begin
+          opled2[0+0-:1] = 1'h1;
+          opled2[1+0-:1] = 1'h0;
+          opled2[2+0-:1] = 1'h0;
+          opled2[3+0-:1] = 1'h0;
           M_state_d = RANDCF_state;
         end else begin
           if (op2_temp == 2'h2) begin
+            opled2[0+0-:1] = 1'h0;
+            opled2[1+0-:1] = 1'h1;
+            opled2[2+0-:1] = 1'h0;
+            opled2[3+0-:1] = 1'h0;
             M_state_d = RANDCE_state;
           end else begin
             if (op2_temp == 1'h1) begin
+              opled2[0+0-:1] = 1'h0;
+              opled2[1+0-:1] = 1'h0;
+              opled2[2+0-:1] = 1'h1;
+              opled2[3+0-:1] = 1'h0;
               M_state_d = RANDCD_state;
             end else begin
-              op2_temp = 1'h0;
-              M_state_d = RANDCC_state;
+              if (op2_temp == 1'h0) begin
+                opled2[0+0-:1] = 1'h0;
+                opled2[1+0-:1] = 1'h0;
+                opled2[2+0-:1] = 1'h0;
+                opled2[3+0-:1] = 1'h1;
+                M_state_d = RANDCC_state;
+              end
             end
           end
         end
@@ -591,6 +833,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCD0_state;
       end
       RANDC1_state: begin
@@ -607,6 +886,43 @@ module au_top_0 (
             c_actl = c_temp - (b_actl + a_actl);
           end else begin
             c_actl = c_temp;
+          end
+        end
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
           end
         end
         M_state_d = CALCD1_state;
@@ -629,6 +945,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCD2_state;
       end
       RANDC3_state: begin
@@ -643,6 +996,43 @@ module au_top_0 (
           end else begin
             M_modulo1_a = b_actl / c_actl;
             M_modulo1_b = 1'h1;
+          end
+          if (c_actl == 1'h0) begin
+            M_segc_values = 16'h0000;
+          end else begin
+            if (c_actl == 1'h1) begin
+              M_segc_values = 16'h0001;
+            end else begin
+              if (c_actl == 2'h2) begin
+                M_segc_values = 16'h0002;
+              end else begin
+                if (c_actl == 2'h3) begin
+                  M_segc_values = 16'h0003;
+                end else begin
+                  if (c_actl == 3'h4) begin
+                    M_segc_values = 16'h0004;
+                  end else begin
+                    if (c_actl == 3'h5) begin
+                      M_segc_values = 16'h0005;
+                    end else begin
+                      if (c_actl == 3'h6) begin
+                        M_segc_values = 16'h0006;
+                      end else begin
+                        if (c_actl == 3'h7) begin
+                          M_segc_values = 16'h0007;
+                        end else begin
+                          if (c_actl == 4'h8) begin
+                            M_segc_values = 16'h0008;
+                          end else begin
+                            M_segb_values = 16'h0009;
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
           end
           if (M_modulo1_out != 1'h0) begin
             M_state_d = RANDC3_state;
@@ -671,6 +1061,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCD4_state;
       end
       RANDC5_state: begin
@@ -689,6 +1116,43 @@ module au_top_0 (
             c_actl = c_temp + (a_actl - b_actl);
           end else begin
             c_actl = c_temp;
+          end
+        end
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
           end
         end
         M_state_d = CALCD5_state;
@@ -711,6 +1175,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCD6_state;
       end
       RANDC7_state: begin
@@ -726,7 +1227,43 @@ module au_top_0 (
             M_modulo1_a = b_actl / c_actl;
             M_modulo1_b = 1'h1;
           end
-          M_random_next = 3'h4;
+          if (c_actl == 1'h0) begin
+            M_segc_values = 16'h0000;
+          end else begin
+            if (c_actl == 1'h1) begin
+              M_segc_values = 16'h0001;
+            end else begin
+              if (c_actl == 2'h2) begin
+                M_segc_values = 16'h0002;
+              end else begin
+                if (c_actl == 2'h3) begin
+                  M_segc_values = 16'h0003;
+                end else begin
+                  if (c_actl == 3'h4) begin
+                    M_segc_values = 16'h0004;
+                  end else begin
+                    if (c_actl == 3'h5) begin
+                      M_segc_values = 16'h0005;
+                    end else begin
+                      if (c_actl == 3'h6) begin
+                        M_segc_values = 16'h0006;
+                      end else begin
+                        if (c_actl == 3'h7) begin
+                          M_segc_values = 16'h0007;
+                        end else begin
+                          if (c_actl == 4'h8) begin
+                            M_segc_values = 16'h0008;
+                          end else begin
+                            M_segb_values = 16'h0009;
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
           if (M_modulo1_out != 1'h0) begin
             M_state_d = RANDC7_state;
           end else begin
@@ -754,7 +1291,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCD8_state;
       end
       RANDC9_state: begin
@@ -775,7 +1348,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCD9_state;
       end
       RANDCA_state: begin
@@ -796,6 +1405,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCDA_state;
       end
       RANDCB_state: begin
@@ -810,6 +1456,43 @@ module au_top_0 (
           end else begin
             M_modulo1_a = b_actl / c_actl;
             M_modulo1_b = 1'h1;
+          end
+          if (c_actl == 1'h0) begin
+            M_segc_values = 16'h0000;
+          end else begin
+            if (c_actl == 1'h1) begin
+              M_segc_values = 16'h0001;
+            end else begin
+              if (c_actl == 2'h2) begin
+                M_segc_values = 16'h0002;
+              end else begin
+                if (c_actl == 2'h3) begin
+                  M_segc_values = 16'h0003;
+                end else begin
+                  if (c_actl == 3'h4) begin
+                    M_segc_values = 16'h0004;
+                  end else begin
+                    if (c_actl == 3'h5) begin
+                      M_segc_values = 16'h0005;
+                    end else begin
+                      if (c_actl == 3'h6) begin
+                        M_segc_values = 16'h0006;
+                      end else begin
+                        if (c_actl == 3'h7) begin
+                          M_segc_values = 16'h0007;
+                        end else begin
+                          if (c_actl == 4'h8) begin
+                            M_segc_values = 16'h0008;
+                          end else begin
+                            M_segb_values = 16'h0009;
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
           end
           if (M_modulo1_out != 1'h0) begin
             M_state_d = RANDCB_state;
@@ -836,7 +1519,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCDC_state;
       end
       RANDCD_state: begin
@@ -857,7 +1576,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
-        M_random_next = 3'h4;
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCDD_state;
       end
       RANDCE_state: begin
@@ -878,6 +1633,43 @@ module au_top_0 (
             c_actl = c_temp;
           end
         end
+        if (c_actl == 1'h0) begin
+          M_segc_values = 16'h0000;
+        end else begin
+          if (c_actl == 1'h1) begin
+            M_segc_values = 16'h0001;
+          end else begin
+            if (c_actl == 2'h2) begin
+              M_segc_values = 16'h0002;
+            end else begin
+              if (c_actl == 2'h3) begin
+                M_segc_values = 16'h0003;
+              end else begin
+                if (c_actl == 3'h4) begin
+                  M_segc_values = 16'h0004;
+                end else begin
+                  if (c_actl == 3'h5) begin
+                    M_segc_values = 16'h0005;
+                  end else begin
+                    if (c_actl == 3'h6) begin
+                      M_segc_values = 16'h0006;
+                    end else begin
+                      if (c_actl == 3'h7) begin
+                        M_segc_values = 16'h0007;
+                      end else begin
+                        if (c_actl == 4'h8) begin
+                          M_segc_values = 16'h0008;
+                        end else begin
+                          M_segb_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CALCDA_state;
       end
       RANDCF_state: begin
@@ -893,6 +1685,43 @@ module au_top_0 (
             M_modulo1_a = a_actl / b_actl / c_actl;
             M_modulo1_b = 1'h1;
           end
+          if (c_actl == 1'h0) begin
+            M_segc_values = 16'h0000;
+          end else begin
+            if (c_actl == 1'h1) begin
+              M_segc_values = 16'h0001;
+            end else begin
+              if (c_actl == 2'h2) begin
+                M_segc_values = 16'h0002;
+              end else begin
+                if (c_actl == 2'h3) begin
+                  M_segc_values = 16'h0003;
+                end else begin
+                  if (c_actl == 3'h4) begin
+                    M_segc_values = 16'h0004;
+                  end else begin
+                    if (c_actl == 3'h5) begin
+                      M_segc_values = 16'h0005;
+                    end else begin
+                      if (c_actl == 3'h6) begin
+                        M_segc_values = 16'h0006;
+                      end else begin
+                        if (c_actl == 3'h7) begin
+                          M_segc_values = 16'h0007;
+                        end else begin
+                          if (c_actl == 4'h8) begin
+                            M_segc_values = 16'h0008;
+                          end else begin
+                            M_segb_values = 16'h0009;
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
           if (M_modulo1_out != 1'h0) begin
             M_state_d = RANDCF_state;
           end else begin
@@ -904,70 +1733,661 @@ module au_top_0 (
       end
       CALCD0_state: begin
         d_actl = a_actl + b_actl + c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD1_state: begin
         d_actl = a_actl + b_actl - c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD2_state: begin
         d_actl = a_actl + b_actl * c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD3_state: begin
-        d_actl = a_actl + b_actl / c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD4_state: begin
         d_actl = a_actl - b_actl + c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD5_state: begin
         d_actl = a_actl - b_actl - c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD6_state: begin
         d_actl = a_actl - b_actl * c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD7_state: begin
         d_actl = a_actl - b_actl / c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD8_state: begin
         d_actl = a_actl * b_actl + c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCD9_state: begin
         d_actl = a_actl * b_actl - c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCDA_state: begin
         d_actl = a_actl * b_actl * c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCDB_state: begin
         d_actl = a_actl * b_actl / c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCDC_state: begin
         d_actl = a_actl / b_actl + c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCDD_state: begin
         d_actl = a_actl / b_actl - c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCDE_state: begin
         d_actl = a_actl / b_actl * c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CALCDF_state: begin
         d_actl = a_actl / b_actl / c_actl;
+        if (d_actl == 1'h0) begin
+          M_segd_values = 16'h0000;
+        end else begin
+          if (d_actl == 1'h1) begin
+            M_segd_values = 16'h0001;
+          end else begin
+            if (d_actl == 2'h2) begin
+              M_segd_values = 16'h0002;
+            end else begin
+              if (d_actl == 2'h3) begin
+                M_segd_values = 16'h0003;
+              end else begin
+                if (d_actl == 3'h4) begin
+                  M_segd_values = 16'h0004;
+                end else begin
+                  if (d_actl == 3'h5) begin
+                    M_segd_values = 16'h0005;
+                  end else begin
+                    if (d_actl == 3'h6) begin
+                      M_segd_values = 16'h0006;
+                    end else begin
+                      if (d_actl == 3'h7) begin
+                        M_segd_values = 16'h0007;
+                      end else begin
+                        if (d_actl == 4'h8) begin
+                          M_segd_values = 16'h0008;
+                        end else begin
+                          M_segd_values = 16'h0009;
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
         M_state_d = CHECKDOVER_state;
       end
       CHECKDOVER_state: begin
-        M_state_d = CHECKDUNDER_state;
+        M_state_d = CHECKDOVER_state;
       end
       CHECKDUNDER_state: begin
         M_state_d = RANDHIDE_state;
@@ -1094,7 +2514,7 @@ module au_top_0 (
             correct_answer = b_actl;
             M_sega_values = 16'h0007;
             if (a_actl == 1'h0) begin
-              M_segb_values = 16'h0000;
+              M_sega_values = 16'h0000;
             end else begin
               if (a_actl == 1'h1) begin
                 M_sega_values = 16'h0001;
@@ -1131,7 +2551,7 @@ module au_top_0 (
               end
             end
             if (c_actl == 1'h0) begin
-              M_segb_values = 16'h0000;
+              M_segc_values = 16'h0000;
             end else begin
               if (c_actl == 1'h1) begin
                 M_segc_values = 16'h0001;
@@ -1710,21 +3130,21 @@ module au_top_0 (
     d_display_sel = 4'he;
   end
   
-  always @(posedge M_slowclock_value) begin
-    if (rst == 1'b1) begin
-      M_state_q <= 1'h0;
-    end else begin
-      M_state_q <= M_state_d;
-    end
-  end
-  
-  
   always @(posedge clk) begin
     M_seed_q <= M_seed_d;
     M_inp_a_q <= M_inp_a_d;
     M_inp_b_q <= M_inp_b_d;
     M_counter_q <= M_counter_d;
     M_next_state_q <= M_next_state_d;
+  end
+  
+  
+  always @(posedge M_slowclock_value) begin
+    if (rst == 1'b1) begin
+      M_state_q <= 1'h0;
+    end else begin
+      M_state_q <= M_state_d;
+    end
   end
   
 endmodule

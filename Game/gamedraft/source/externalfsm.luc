@@ -1,0 +1,311 @@
+module externalfsm (
+    input clk,  // clock
+    input rst,  // reset
+    input buttonsignal[3],
+    output lightshit
+  ) {
+  
+  counter slowclock(#SIZE(1), #DIV(45), .clk(clk), .rst(rst));
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATEGAMESTART,Q1DISPLAY,/*Q1CONTROLS*/HPDECREASE1A,HPDECREASE1B,GAMEOVER}; //Q2DISPLAY,Q2CONTROLS,Q3DISPLAY,Q3CONTROLS,Q4DISPLAY,Q4CONTROLS,Q5DISPLAY,Q5CONTROLS,HPDECREASE2A,HPDECREASE2B,HPDECREASE3A,HPDECREASE3B,HPDECREASE4A,HPDECREASE5A,HPDECREASE5B,PLAYERCONTROLS,};
+
+
+  always {
+    //if (buttonsignal == 1) {lightshit=1;} else {lightshit=0;}
+    
+    lightshit = 0;
+    case (state.q) {
+      
+      state.STATEGAMESTART: // BEGINNING STATE
+      
+        lightshit = 0;
+        
+        
+        
+        
+        if(buttonsignal == b001){
+        state.d = state.Q1DISPLAY;
+        }
+        
+        
+      
+        
+      state.Q1DISPLAY:
+      
+        lightshit = 1;
+        
+        //choose question
+        
+        state.d = state.Q1DISPLAY;
+        
+    /*    
+      state.Q1CONTROLS:
+      
+        seg.values = {4h7,4h7,4h7,4h10}; 
+        seg2.values = {4h7,4h7,4h7,4h10};
+        sega.values = {4h7,4h7,4h7,4h17};
+        segb.values = {4h7,4h7,4h7,4h17};
+        segc.values = {4h7,4h7,4h7,4h17};
+        segd.values = {4h7,4h7,4h7,4h17};
+        
+        
+        opled1[0] = 1;
+        opled1[1] = 0;
+        opled1[2] = 0;
+        opled1[3] = 0;
+    
+        opled2[0] = 0;
+        opled2[1] = 1;
+        opled2[2] = 0;
+        opled2[3] = 0;
+        opled3[0] = 0;
+        
+        ans_input1=0;
+        ans_input2=0;
+        
+        //player 1 up button
+        if(ed0.out ==1 ){
+          ans_input1=ans_input1+1;
+          
+          if (ans_input1 == 0){
+           seg.values = {4h0,4h0,4h0,4h0};
+          }
+          if (ans_input1 == 1){
+           seg.values = {4h1,4h1,4h1,4h1};
+          }
+          if (ans_input1 == 2){
+           seg.values = {4h2,4h2,4h2,4h2};
+          }
+          if (ans_input1 == 3){
+           seg.values = {4h3,4h3,4h3,4h3};
+          }
+          if (ans_input1 == 4){
+           seg.values = {4h4,4h4,4h4,4h4};
+          }
+          if (ans_input1 == 5){
+           seg.values = {4h5,4h5,4h5,4h5};
+          }
+          if (ans_input1 == 6){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input1 == 7){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input1 == 8){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input1 == 9){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+        }
+        //player 1 down button
+        
+        if(ed2.out ==1 ){
+          ans_input1=ans_input1-1;
+          
+          if (ans_input1 == 0){
+           seg.values = {4h0,4h0,4h0,4h0};
+          }
+          if (ans_input1 == 1){
+           seg.values = {4h1,4h1,4h1,4h1};
+          }
+          if (ans_input1 == 2){
+           seg.values = {4h2,4h2,4h2,4h2};
+          }
+          if (ans_input1 == 3){
+           seg.values = {4h3,4h3,4h3,4h3};
+          }
+          if (ans_input1 == 4){
+           seg.values = {4h4,4h4,4h4,4h4};
+          }
+          if (ans_input1 == 5){
+           seg.values = {4h5,4h5,4h5,4h5};
+          }
+          if (ans_input1 == 6){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input1 == 7){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input1 == 8){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input1 == 9){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+        }
+        
+        //player 2 up button 
+        if(ed1.out ==1 ){
+        
+          ans_input2=ans_input2+1;
+        
+          if (ans_input2 == 0){
+            seg2.values = {4h0,4h0,4h0,4h0};
+          }
+          if (ans_input2 == 1){
+           seg2.values = {4h1,4h1,4h1,4h1};
+          }
+          if (ans_input2 == 2){
+           seg2.values = {4h2,4h2,4h2,4h2};
+          }
+          if (ans_input2 == 3){
+           seg2.values = {4h3,4h3,4h3,4h3};
+          }
+          if (ans_input2 == 4){
+           seg2.values = {4h4,4h4,4h4,4h4};
+          }
+          if (ans_input2 == 5){
+           seg2.values = {4h5,4h5,4h5,4h5};
+          }
+          if (ans_input2 == 6){
+           seg2.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input2 == 7){
+           seg2.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input2 == 8){
+           seg2.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input2 == 9){
+           seg2.values = {4h6,4h6,4h6,4h6};
+          }
+        }
+        
+        //player 2 down button 
+        if(ed3.out ==1 ){
+          ans_input2=ans_input2-1;
+          
+          if (ans_input2 == 0){
+           seg2.values = {4h0,4h0,4h0,4h0};
+          }
+          if (ans_input2 == 1){
+           seg2.values = {4h1,4h1,4h1,4h1};
+          }
+          if (ans_input2 == 2){
+           seg2.values = {4h2,4h2,4h2,4h2};
+          }
+          if (ans_input2 == 3){
+           seg2.values = {4h3,4h3,4h3,4h3};
+          }
+          if (ans_input2 == 4){
+           seg2.values = {4h4,4h4,4h4,4h4};
+          }
+          if (ans_input2 == 5){
+           seg.values = {4h5,4h5,4h5,4h5};
+          }
+          if (ans_input2 == 6){
+           seg2.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input2 == 7){
+           seg2.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input2 == 8){
+           seg.values = {4h6,4h6,4h6,4h6};
+          }
+          if (ans_input2 == 9){
+           seg2.values = {4h6,4h6,4h6,4h6};
+          }
+        }
+        
+        if(ed4.out==1){
+          if(correct_answer == ans_input1){
+          state.d = state.HPDECREASE1B;
+          }
+          else{
+          state.d = state.HPDECREASE1A;
+            }
+          }
+        
+        if(ed5.out==1){
+          if(correct_answer == ans_input2){
+          state.d = state.HPDECREASE1A;
+          }
+          else{
+          state.d = state.HPDECREASE1B;
+            }
+          } */
+        
+      /*  
+      state.HPDECREASE1A:
+      
+       seg.values = {4h7,4h7,4h7,4h10}; 
+       sega.values = {4h7,4h7,4h7,4h10};
+       segb.values = {4h7,4h7,4h7,4h10};
+       segc.values = {4h7,4h7,4h7,4h10};
+       segd.values = {4h7,4h7,4h7,4h10};
+        
+        
+       hp1[4] = 0;
+       hp1[3] = 0;
+       hp1[2] = 0;
+       hp1[1] = 1;
+       hp1[0] = 1;
+    
+       hp2[4] = 1;
+       hp2[3] = 1;
+       hp2[2] = 1;
+       hp2[1] = 1;
+       hp2[0] = 1;
+        
+       state.d = state.GAMEOVER;
+        
+      state.HPDECREASE1B:
+       seg.values = {4h7,4h7,4h7,4h10}; 
+       sega.values = {4h7,4h7,4h7,4h10};
+       segb.values = {4h7,4h7,4h7,4h10};
+       segc.values = {4h7,4h7,4h7,4h10};
+       segd.values = {4h7,4h7,4h7,4h10};
+        
+        
+       hp1[4] = 1;
+       hp1[3] = 1;
+       hp1[2] = 1;
+       hp1[1] = 1;
+       hp1[0] = 1;
+    
+       hp2[4] = 0;
+       hp2[3] = 0;
+       hp2[2] = 0;
+       hp2[1] = 1;
+       hp2[0] = 1;
+        
+       state.d = state.GAMEOVER;
+        
+        
+        
+      state.GAMEOVER:
+      
+       seg.values = {4h7,4h7,4h7,4h5}; 
+       sega.values = {4h7,4h7,4h7,4h5};
+       segb.values = {4h7,4h7,4h7,4h5};
+       segc.values = {4h7,4h7,4h7,4h5};
+       segd.values = {4h7,4h7,4h7,4h5};
+        
+       
+       opled1[0] = 1;
+       opled1[1] = 1;
+       opled1[2] = 1;
+       opled1[3] = 1;
+    
+       opled2[0] = 1;
+       opled2[1] = 1;
+       opled2[2] = 1;
+       opled2[3] = 1;
+       opled3[0] = 1;
+        
+       hp1[4] = 0;
+       hp1[3] = 0;
+       hp1[2] = 0;
+       hp1[1] = 0;
+       hp1[0] = 0;
+    
+       hp2[4] = 0;
+       hp2[3] = 0;
+       hp2[2] = 0;
+       hp2[1] = 0;
+       hp2[0] = 0;
+        
+       state.d = state.STATEGAMESTART;
+    }*/
+  }
+}

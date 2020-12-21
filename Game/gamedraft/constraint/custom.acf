@@ -8,16 +8,16 @@ pin rst_n RESET;
 pin usb_rx USB_TX;
 pin usb_tx USB_RX;
 //players bank C
-pin button[0] C24 pulldown;  //player 1 board up button
-pin button[1] C21 pulldown;  //player 1 board down button
+pin button1[0] C24 pulldown;  //player 1 board up button
+pin button1[1] C21 pulldown;  //player 1 board down button
 
-pin submit[0] C18 pulldown;  //player 1 submit io_button
+pin button1[2] C18 pulldown;  //player 1 submit io_button
 
 
-pin button[2] C15 pulldown;  //player 2 board up button
-pin button[3] C12 pulldown;  //player 2 board down button
+pin button2[0] C15 pulldown;  //player 2 board up button
+pin button2[1] C12 pulldown;  //player 2 board down button
 
-pin submit[1] C9 pulldown;  //player 2 submit button
+pin button2[2] C9 pulldown;  //player 2 submit button
  
 
 

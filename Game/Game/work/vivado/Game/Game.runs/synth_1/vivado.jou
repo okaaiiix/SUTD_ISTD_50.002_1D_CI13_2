@@ -2,8 +2,8 @@
 # Vivado v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Thu Dec  3 05:30:51 2020
-# Process ID: 8012
+# Start of session at: Thu Dec  3 07:22:19 2020
+# Process ID: 3616
 # Current directory: C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1
 # Command line: vivado.exe -log au_top_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source au_top_0.tcl
 # Log file: C:/Users/admin/Documents/GitHub/SUTD_ISTD_50.002_1D_CI13_2/Game/Game/work/vivado/Game/Game.runs/synth_1/au_top_0.vds

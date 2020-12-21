@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
-| Date         : Thu Dec  3 05:33:19 2020
+| Date         : Thu Dec  3 07:24:50 2020
 | Host         : DESKTOP-3M4I0EQ running 64-bit major release  (build 9200)
 | Command      : report_methodology -file au_top_0_methodology_drc_routed.rpt -pb au_top_0_methodology_drc_routed.pb -rpx au_top_0_methodology_drc_routed.rpx
 | Design       : au_top_0
@@ -23,24 +23,44 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 75
+             Violations found: 87
 +-----------+------------------+-------------------------------+------------+
 | Rule      | Severity         | Description                   | Violations |
 +-----------+------------------+-------------------------------+------------+
-| TIMING-17 | Critical Warning | Non-clocked sequential cell   | 2          |
-| TIMING-18 | Warning          | Missing input or output delay | 73         |
+| TIMING-17 | Critical Warning | Non-clocked sequential cell   | 6          |
+| TIMING-18 | Warning          | Missing input or output delay | 81         |
 +-----------+------------------+-------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
 TIMING-17#1 Critical Warning
 Non-clocked sequential cell  
-The clock pin FSM_sequential_M_state_q_reg/C is not reached by a timing clock
+The clock pin M_state_q_reg[0]/C is not reached by a timing clock
 Related violations: <none>
 
 TIMING-17#2 Critical Warning
 Non-clocked sequential cell  
-The clock pin FSM_sequential_M_state_q_reg_lopt_replica/C is not reached by a timing clock
+The clock pin M_state_q_reg[1]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#3 Critical Warning
+Non-clocked sequential cell  
+The clock pin M_state_q_reg[2]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#4 Critical Warning
+Non-clocked sequential cell  
+The clock pin M_state_q_reg[3]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#5 Critical Warning
+Non-clocked sequential cell  
+The clock pin M_state_q_reg[4]/C is not reached by a timing clock
+Related violations: <none>
+
+TIMING-17#6 Critical Warning
+Non-clocked sequential cell  
+The clock pin M_state_q_reg[5]/C is not reached by a timing clock
 Related violations: <none>
 
 TIMING-18#1 Warning
@@ -330,80 +350,120 @@ Related violations: <none>
 
 TIMING-18#58 Warning
 Missing input or output delay  
-An output delay is missing on p1_display[0] relative to clock(s) clk_0
+An output delay is missing on opled1[0] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#59 Warning
 Missing input or output delay  
-An output delay is missing on p1_display[1] relative to clock(s) clk_0
+An output delay is missing on opled1[1] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#60 Warning
 Missing input or output delay  
-An output delay is missing on p1_display[2] relative to clock(s) clk_0
+An output delay is missing on opled1[2] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#61 Warning
 Missing input or output delay  
-An output delay is missing on p1_display[3] relative to clock(s) clk_0
+An output delay is missing on opled1[3] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#62 Warning
 Missing input or output delay  
-An output delay is missing on p1_display[4] relative to clock(s) clk_0
+An output delay is missing on opled2[0] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#63 Warning
 Missing input or output delay  
-An output delay is missing on p1_display[5] relative to clock(s) clk_0
+An output delay is missing on opled2[1] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#64 Warning
 Missing input or output delay  
-An output delay is missing on p1_display[6] relative to clock(s) clk_0
+An output delay is missing on opled2[2] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#65 Warning
 Missing input or output delay  
-An output delay is missing on p1_display[7] relative to clock(s) clk_0
+An output delay is missing on opled2[3] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#66 Warning
 Missing input or output delay  
-An output delay is missing on p2_display[0] relative to clock(s) clk_0
+An output delay is missing on p1_display[0] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#67 Warning
 Missing input or output delay  
-An output delay is missing on p2_display[1] relative to clock(s) clk_0
+An output delay is missing on p1_display[1] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#68 Warning
 Missing input or output delay  
-An output delay is missing on p2_display[2] relative to clock(s) clk_0
+An output delay is missing on p1_display[2] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#69 Warning
 Missing input or output delay  
-An output delay is missing on p2_display[3] relative to clock(s) clk_0
+An output delay is missing on p1_display[3] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#70 Warning
 Missing input or output delay  
-An output delay is missing on p2_display[4] relative to clock(s) clk_0
+An output delay is missing on p1_display[4] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#71 Warning
 Missing input or output delay  
-An output delay is missing on p2_display[5] relative to clock(s) clk_0
+An output delay is missing on p1_display[5] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#72 Warning
 Missing input or output delay  
-An output delay is missing on p2_display[6] relative to clock(s) clk_0
+An output delay is missing on p1_display[6] relative to clock(s) clk_0
 Related violations: <none>
 
 TIMING-18#73 Warning
+Missing input or output delay  
+An output delay is missing on p1_display[7] relative to clock(s) clk_0
+Related violations: <none>
+
+TIMING-18#74 Warning
+Missing input or output delay  
+An output delay is missing on p2_display[0] relative to clock(s) clk_0
+Related violations: <none>
+
+TIMING-18#75 Warning
+Missing input or output delay  
+An output delay is missing on p2_display[1] relative to clock(s) clk_0
+Related violations: <none>
+
+TIMING-18#76 Warning
+Missing input or output delay  
+An output delay is missing on p2_display[2] relative to clock(s) clk_0
+Related violations: <none>
+
+TIMING-18#77 Warning
+Missing input or output delay  
+An output delay is missing on p2_display[3] relative to clock(s) clk_0
+Related violations: <none>
+
+TIMING-18#78 Warning
+Missing input or output delay  
+An output delay is missing on p2_display[4] relative to clock(s) clk_0
+Related violations: <none>
+
+TIMING-18#79 Warning
+Missing input or output delay  
+An output delay is missing on p2_display[5] relative to clock(s) clk_0
+Related violations: <none>
+
+TIMING-18#80 Warning
+Missing input or output delay  
+An output delay is missing on p2_display[6] relative to clock(s) clk_0
+Related violations: <none>
+
+TIMING-18#81 Warning
 Missing input or output delay  
 An output delay is missing on p2_display[7] relative to clock(s) clk_0
 Related violations: <none>

@@ -93,7 +93,7 @@ module au_top (
   }
 
   counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
-  fsm state(.clk(slowclock.value),.rst(rst)) = {RANDA,STATEGAMESTART,RANDOP1,RANDB0,RANDB1,RANDB2,RANDB3,RANDOP20,RANDOP21,RANDOP22,RANDOP23,RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,CHECKDOVER,CHECKDUNDER, RANDHIDE, STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER};
+  fsm state(.clk(slowclock.value),.rst(rst)) = {STATEGAMESTART,RANDA,RANDOP1,RANDB0,RANDB1,RANDB2,RANDB3,RANDOP20,RANDOP21,RANDOP22,RANDOP23,RANDC0,RANDC1,RANDC2,RANDC3,RANDC4,RANDC5,RANDC6,RANDC7,RANDC8,RANDC9,RANDCA,RANDCB,RANDCC,RANDCD,RANDCE,RANDCF,CALCD0,CALCD1,CALCD2,CALCD3,CALCD4,CALCD5,CALCD6,CALCD7,CALCD8,CALCD9,CALCDA,CALCDB,CALCDC,CALCDD,CALCDE,CALCDF,CHECKDOVER,CHECKDUNDER, RANDHIDE, STATEINPUT,STATEP1UP,STATEP2UP, STATEP1DOWN, STATEP2DOWN, STATEP1CORRECT,STATEP2CORRECT,STATEOUTPUT,STATEC,STATEHP_A,STATEHP_B,STATEGAMEOVER};
   
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
@@ -152,12 +152,12 @@ module au_top (
     health2 = 5;
     
          
-    seg.values = {4h7,4h7,4h7,4h8}; //initiate seven segment display for both displays
-    seg2.values = {4h7,4h7,4h7,4h8};
-    sega.values = {4h7,4h7,4h7,4h8};
-    segb.values = {4h7,4h7,4h7,4h8};
-    segc.values = {4h7,4h7,4h7,4h8};
-    segd.values = {4h7,4h7,4h7,4h8};
+    seg.values = {4h7,4h7,4h7,4h10}; //initiate seven segment display for both displays
+    seg2.values = {4h7,4h7,4h7,4h10};
+    sega.values = {4h7,4h7,4h7,4h10};
+    segb.values = {4h7,4h7,4h7,4h10};
+    segc.values = {4h7,4h7,4h7,4h10};
+    segd.values = {4h7,4h7,4h7,4h10};
 
     
     //hp1 = health_a.q;
@@ -218,29 +218,29 @@ module au_top (
         seg.values = {4h0,4h0,4h0,4h0};
         seg2.values ={4h0,4h0,4h0,4h0};
         sega.values = {4h7,4h7,4h7,4h1};
-        segb.values = {4h7,4h7,4h7,4h1};
-        segc.values = {4h7,4h7,4h7,4h1};
-        segd.values = {4h7,4h7,4h7,4h1};
+        segb.values = {4h7,4h7,4h7,4h2};
+        segc.values = {4h7,4h7,4h7,4h3};
+        segd.values = {4h7,4h7,4h7,4h10};
  
         // add all 7 seg led for questions to be set as 1 or blink
         // hp[9:0] = 1;
         //health_a.d = 5b11111;
         //health_b.d = 5b11111; 
     
-        /*opled1[0] = 0;
-        opled1[1] = 0;  
+        opled1[0] = 0;
+        opled1[1] = 1;  
         opled1[2] = 0;
         opled1[3] = 0;
         
-        opled2[0] = 1;
-        opled2[1] = 1;
-        opled2[2] = 1;
-        opled2[3] = 1;*/
+        opled2[0] = 0;
+        opled2[1] = 0;
+        opled2[2] = 0;
+        opled2[3] = 1;
         
         //state.d = state.RANDA;
         //if (submit[0] == 1 || submit[1] == 1) { //&& submit[1] == 1) { // start game when both submit buttons are pressed 
         
-        //} else state.d = state.STATEGAMESTART;
+        //state.d = state.RANDA;
         
       // Randomise A
       state.RANDA:
@@ -274,7 +274,7 @@ module au_top (
         segc.values = {4h7,4h7,4h7,4h2};
         segd.values = {4h7,4h7,4h7,4h2};
         
-        state.d = state.STATEGAMESTART;
+        state.d = state.RANDOP1;
          //RANDOP1;
     
       // Randomise Operator 1
